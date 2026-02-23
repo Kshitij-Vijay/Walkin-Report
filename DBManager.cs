@@ -8,7 +8,7 @@ namespace Walkin_Report
     public class DBManager
     {
         private readonly string connStr =
-            "server=localhost;user=root;database=walkin;password=minu_me0w;";
+            "server=localhost;user=root;database=walkin;password=*1+1J_Zero00;";
 
         public bool test_connection()
         {
@@ -107,7 +107,7 @@ namespace Walkin_Report
             List<Walkin> walkins = new List<Walkin>();
 
             string query = @"SELECT id, name, area, pin, phone, source, team,
-                            status, categor, products, store, remarks
+                            status, categor, products, store, remarks, created_at
                      FROM walkins";
 
             using (MySqlConnection conn = new MySqlConnection(connStr))
@@ -132,8 +132,10 @@ namespace Walkin_Report
                                 reader["categor"]?.ToString(),
                                 reader["products"]?.ToString(),
                                 reader.GetString("store"),
-                                reader["remarks"]?.ToString()
+                                reader["remarks"]?.ToString(),
+                                reader.GetDateTime("created_at") // ✅ FIX
                             );
+                            walkin.Id = reader.GetInt32("id");
 
                             walkins.Add(walkin);
                         }
@@ -152,9 +154,10 @@ namespace Walkin_Report
         {
             string query = @"
         INSERT INTO walkins
-        (name, area, pin, phone, source, team, status, categor, products, store, remarks)
+        (name, area, pin, phone, source, team, status, categor, products, store, remarks, created_at)
         VALUES
-        (@name, @area, @pin, @phone, @source, @team, @status, @categor, @products, @store, @remarks);    ";
+        (@name, @area, @pin, @phone, @source, @team, @status, @categor, @products, @store, @remarks, @created_at);
+    ";
 
             using (MySqlConnection conn = new MySqlConnection(connStr))
             using (MySqlCommand cmd = new MySqlCommand(query, conn))
@@ -170,6 +173,9 @@ namespace Walkin_Report
                 cmd.Parameters.AddWithValue("@products", w.Products);
                 cmd.Parameters.AddWithValue("@store", w.Store);
                 cmd.Parameters.AddWithValue("@remarks", w.Remarks);
+
+                cmd.Parameters.Add("@created_at", MySqlDbType.DateTime)
+                              .Value = w.CreatedAt;   // ✅ BEST PRACTICE
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
@@ -235,6 +241,47 @@ namespace Walkin_Report
             }
 
             return staffList;
+        }
+
+        public void UpdateWalkin(Walkin w)
+        {
+            string query = @"
+        UPDATE walkins SET
+            name = @name,
+            area = @area,
+            pin = @pin,
+            phone = @phone,
+            source = @source,
+            team = @team,
+            status = @status,
+            categor = @categor,
+            products = @products,
+            store = @store,
+            remarks = @remarks,
+            created_at = @created_at
+        WHERE id = @id;
+    ";
+
+            using (MySqlConnection conn = new MySqlConnection(connStr))
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", w.Id);
+                cmd.Parameters.AddWithValue("@name", w.Name);
+                cmd.Parameters.AddWithValue("@area", w.Area);
+                cmd.Parameters.AddWithValue("@pin", w.Pin);
+                cmd.Parameters.AddWithValue("@phone", w.Phone);
+                cmd.Parameters.AddWithValue("@source", w.Source);
+                cmd.Parameters.AddWithValue("@team", w.Team);
+                cmd.Parameters.AddWithValue("@status", w.Status);
+                cmd.Parameters.AddWithValue("@categor", w.Category);
+                cmd.Parameters.AddWithValue("@products", w.Products);
+                cmd.Parameters.AddWithValue("@store", w.Store);
+                cmd.Parameters.AddWithValue("@remarks", w.Remarks);
+                cmd.Parameters.AddWithValue("@created_at", w.CreatedAt);
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
         }
     }
 }

@@ -16,6 +16,7 @@ namespace Walkin_Report
         List<Store> stores = new List<Store>();
         List<Status> statuses = new List<Status>();
         List<Walkin> walkins = new List<Walkin>();
+        List<Walkin> all_walkins = new List<Walkin>();
         Walkin selectedWalkin;
         public Summary()
         {
@@ -102,7 +103,8 @@ namespace Walkin_Report
             }
 
             walkins = db.GetAllWalkins();
-            add_data(walkins);
+            all_walkins = walkins;
+            add_data();
 
         }
 
@@ -111,14 +113,16 @@ namespace Walkin_Report
             Button btn = sender as Button;
             string selectedStore = btn.Tag.ToString().Trim();
             Console.WriteLine(selectedStore);
-            List<Walkin> filtered = walkins
+            List<Walkin> filtered = all_walkins
                 .Where(w =>
                     !string.IsNullOrWhiteSpace(w.Store) &&
                     w.Store.Trim().Equals(selectedStore, StringComparison.OrdinalIgnoreCase)
                 )
                 .ToList();
 
-            add_data(filtered);
+
+            walkins = filtered;
+            add_data();
         }
 
 
@@ -128,12 +132,13 @@ namespace Walkin_Report
             Button btn = sender as Button;
             string selectedStatus = btn.Tag.ToString();
 
-            List<Walkin> filtered = walkins
+            List<Walkin> filtered = all_walkins
                 .Where(w => !string.IsNullOrEmpty(w.Status) &&
                             w.Status.Equals(selectedStatus, StringComparison.OrdinalIgnoreCase))
                 .ToList();
 
-            add_data(filtered);
+            walkins = filtered;
+            add_data();
         }
 
 
@@ -145,6 +150,7 @@ namespace Walkin_Report
 
             data_table.Columns.Add("store", "STORE");
             data_table.Columns.Add("name", "NAME");
+            data_table.Columns.Add("date", "DATE");
             data_table.Columns.Add("area", "AREA");
             data_table.Columns.Add("pin", "PIN");
             data_table.Columns.Add("phone", "PHONE");
@@ -153,6 +159,8 @@ namespace Walkin_Report
             data_table.Columns.Add("status", "STATUS");
             data_table.Columns.Add("category", "CATEGORY");
             data_table.Columns.Add("products", "PRODUCTS");
+            data_table.Columns.Add("remarks", "REMARKS");
+
 
             data_table.AllowUserToAddRows = false;
             data_table.ReadOnly = true;
@@ -160,7 +168,7 @@ namespace Walkin_Report
         }
 
 
-        private void add_data(List<Walkin> walkins)
+        private void add_data()
         {
             data_table.Rows.Clear();
 
@@ -169,6 +177,7 @@ namespace Walkin_Report
                 data_table.Rows.Add(
                     w.Store,
                     w.Name,
+                    w.CreatedAt.ToString(),
                     w.Area,
                     w.Pin,
                     w.Phone,
@@ -176,7 +185,8 @@ namespace Walkin_Report
                     w.Team,
                     w.Status,
                     w.Category,
-                    w.Products
+                    w.Products,
+                    w.Remarks
                 );
             }
 
@@ -187,29 +197,21 @@ namespace Walkin_Report
             Add_walk adw = new Add_walk();
             adw.ShowDialog();
             walkins = db.GetAllWalkins();
-            add_data(walkins);
+            all_walkins = walkins;
+            add_data();
         }
 
         private void data_table_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return; // ignore header clicks
 
-            DataGridViewRow row = data_table.Rows[e.RowIndex];
+            Walkin w = walkins[e.RowIndex];
 
-            selectedWalkin = new Walkin(
-    row.Cells["name"].Value?.ToString(),
-    row.Cells["area"].Value?.ToString(),
-    row.Cells["pin"].Value?.ToString(),
-    row.Cells["phone"].Value?.ToString(),
-    row.Cells["source"].Value?.ToString(),
-    row.Cells["team"].Value?.ToString(),
-    row.Cells["status"].Value?.ToString(),
-    row.Cells["category"].Value?.ToString(),
-    row.Cells["products"].Value?.ToString(),
-    row.Cells["store"].Value?.ToString(),
-    "" // remarks (not in grid)
-);
-
+            edit_walkin edw = new edit_walkin(w);
+            edw.ShowDialog();
+            walkins = db.GetAllWalkins();
+            all_walkins = walkins;
+            add_data();
         }
 
         private void edit_btn_Click(object sender, EventArgs e)

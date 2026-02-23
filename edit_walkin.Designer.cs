@@ -50,31 +50,35 @@
             name_text = new TextBox();
             label2 = new Label();
             label1 = new Label();
+            dateTimePicker1 = new DateTimePicker();
             SuspendLayout();
             // 
             // team_box
             // 
             team_box.FormattingEnabled = true;
-            team_box.Location = new Point(332, 266);
+            team_box.Location = new Point(379, 355);
+            team_box.Margin = new Padding(3, 4, 3, 4);
             team_box.Name = "team_box";
-            team_box.Size = new Size(67, 23);
+            team_box.Size = new Size(76, 28);
             team_box.TabIndex = 45;
             // 
             // status_combo
             // 
             status_combo.FormattingEnabled = true;
-            status_combo.Location = new Point(252, 266);
+            status_combo.Location = new Point(288, 355);
+            status_combo.Margin = new Padding(3, 4, 3, 4);
             status_combo.Name = "status_combo";
-            status_combo.Size = new Size(72, 23);
+            status_combo.Size = new Size(82, 28);
             status_combo.TabIndex = 44;
             // 
             // button1
             // 
             button1.DialogResult = DialogResult.Cancel;
             button1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(261, 317);
+            button1.Location = new Point(298, 423);
+            button1.Margin = new Padding(3, 4, 3, 4);
             button1.Name = "button1";
-            button1.Size = new Size(105, 39);
+            button1.Size = new Size(120, 52);
             button1.TabIndex = 43;
             button1.Text = "Cancel";
             button1.UseVisualStyleBackColor = true;
@@ -83,146 +87,157 @@
             // 
             OK_btn.DialogResult = DialogResult.OK;
             OK_btn.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            OK_btn.Location = new Point(372, 317);
+            OK_btn.Location = new Point(425, 423);
+            OK_btn.Margin = new Padding(3, 4, 3, 4);
             OK_btn.Name = "OK_btn";
-            OK_btn.Size = new Size(105, 39);
+            OK_btn.Size = new Size(120, 52);
             OK_btn.TabIndex = 42;
             OK_btn.Text = "OK";
             OK_btn.UseVisualStyleBackColor = true;
+            OK_btn.Click += OK_btn_Click;
             // 
             // store_combo
             // 
             store_combo.FormattingEnabled = true;
-            store_combo.Location = new Point(405, 266);
+            store_combo.Location = new Point(463, 355);
+            store_combo.Margin = new Padding(3, 4, 3, 4);
             store_combo.Name = "store_combo";
-            store_combo.Size = new Size(72, 23);
+            store_combo.Size = new Size(82, 28);
             store_combo.TabIndex = 41;
             // 
             // remarks_text
             // 
-            remarks_text.Location = new Point(79, 266);
+            remarks_text.Location = new Point(90, 355);
+            remarks_text.Margin = new Padding(3, 4, 3, 4);
             remarks_text.Name = "remarks_text";
-            remarks_text.Size = new Size(145, 23);
+            remarks_text.Size = new Size(165, 27);
             remarks_text.TabIndex = 40;
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(12, 269);
+            label9.Location = new Point(14, 359);
             label9.Name = "label9";
-            label9.Size = new Size(61, 15);
+            label9.Size = new Size(76, 20);
             label9.TabIndex = 39;
             label9.Text = "Remarks : ";
             // 
             // Products_text
             // 
-            Products_text.Location = new Point(332, 212);
+            Products_text.Location = new Point(379, 283);
+            Products_text.Margin = new Padding(3, 4, 3, 4);
             Products_text.Name = "Products_text";
-            Products_text.Size = new Size(145, 23);
+            Products_text.Size = new Size(165, 27);
             Products_text.TabIndex = 38;
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(265, 215);
+            label8.Location = new Point(303, 287);
             label8.Name = "label8";
-            label8.Size = new Size(63, 15);
+            label8.Size = new Size(77, 20);
             label8.TabIndex = 37;
             label8.Text = "Products : ";
             // 
             // category_text
             // 
-            category_text.Location = new Point(79, 212);
+            category_text.Location = new Point(90, 283);
+            category_text.Margin = new Padding(3, 4, 3, 4);
             category_text.Name = "category_text";
-            category_text.Size = new Size(145, 23);
+            category_text.Size = new Size(165, 27);
             category_text.TabIndex = 36;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(12, 215);
+            label7.Location = new Point(14, 287);
             label7.Name = "label7";
-            label7.Size = new Size(64, 15);
+            label7.Size = new Size(80, 20);
             label7.TabIndex = 35;
             label7.Text = "Category : ";
             // 
             // Source_text
             // 
-            Source_text.Location = new Point(332, 165);
+            Source_text.Location = new Point(379, 220);
+            Source_text.Margin = new Padding(3, 4, 3, 4);
             Source_text.Name = "Source_text";
-            Source_text.Size = new Size(145, 23);
+            Source_text.Size = new Size(165, 27);
             Source_text.TabIndex = 34;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(265, 168);
+            label6.Location = new Point(303, 224);
             label6.Name = "label6";
-            label6.Size = new Size(52, 15);
+            label6.Size = new Size(65, 20);
             label6.TabIndex = 33;
             label6.Text = "Source : ";
             // 
             // phone_text
             // 
-            phone_text.Location = new Point(79, 165);
+            phone_text.Location = new Point(90, 220);
+            phone_text.Margin = new Padding(3, 4, 3, 4);
             phone_text.Name = "phone_text";
-            phone_text.Size = new Size(145, 23);
+            phone_text.Size = new Size(165, 27);
             phone_text.TabIndex = 32;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(12, 168);
+            label5.Location = new Point(14, 224);
             label5.Name = "label5";
-            label5.Size = new Size(50, 15);
+            label5.Size = new Size(61, 20);
             label5.TabIndex = 31;
             label5.Text = "Phone : ";
             // 
             // pin_text
             // 
-            pin_text.Location = new Point(332, 120);
+            pin_text.Location = new Point(379, 160);
+            pin_text.Margin = new Padding(3, 4, 3, 4);
             pin_text.Name = "pin_text";
-            pin_text.Size = new Size(145, 23);
+            pin_text.Size = new Size(165, 27);
             pin_text.TabIndex = 30;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(265, 123);
+            label4.Location = new Point(303, 164);
             label4.Name = "label4";
-            label4.Size = new Size(33, 15);
+            label4.Size = new Size(40, 20);
             label4.TabIndex = 29;
             label4.Text = "Pin : ";
             // 
             // area_text
             // 
-            area_text.Location = new Point(79, 120);
+            area_text.Location = new Point(90, 160);
+            area_text.Margin = new Padding(3, 4, 3, 4);
             area_text.Name = "area_text";
-            area_text.Size = new Size(145, 23);
+            area_text.Size = new Size(165, 27);
             area_text.TabIndex = 28;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(12, 123);
+            label3.Location = new Point(14, 164);
             label3.Name = "label3";
-            label3.Size = new Size(31, 15);
+            label3.Size = new Size(40, 20);
             label3.TabIndex = 27;
             label3.Text = "Area";
             // 
             // name_text
             // 
-            name_text.Location = new Point(79, 78);
+            name_text.Location = new Point(90, 104);
+            name_text.Margin = new Padding(3, 4, 3, 4);
             name_text.Name = "name_text";
-            name_text.Size = new Size(145, 23);
+            name_text.Size = new Size(165, 27);
             name_text.TabIndex = 26;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(12, 81);
+            label2.Location = new Point(14, 108);
             label2.Name = "label2";
-            label2.Size = new Size(48, 15);
+            label2.Size = new Size(60, 20);
             label2.TabIndex = 25;
             label2.Text = "Name : ";
             // 
@@ -230,17 +245,25 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 21.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(12, 9);
+            label1.Location = new Point(14, 12);
             label1.Name = "label1";
-            label1.Size = new Size(171, 40);
+            label1.Size = new Size(221, 50);
             label1.TabIndex = 24;
             label1.Text = "Edit Walkin";
             // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(294, 104);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(250, 27);
+            dateTimePicker1.TabIndex = 46;
+            // 
             // edit_walkin
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(490, 377);
+            ClientSize = new Size(560, 503);
+            Controls.Add(dateTimePicker1);
             Controls.Add(team_box);
             Controls.Add(status_combo);
             Controls.Add(button1);
@@ -263,6 +286,7 @@
             Controls.Add(name_text);
             Controls.Add(label2);
             Controls.Add(label1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "edit_walkin";
             Text = "Edit";
             Load += edit_walkin_Load;
@@ -294,5 +318,6 @@
         private TextBox name_text;
         private Label label2;
         private Label label1;
+        private DateTimePicker dateTimePicker1;
     }
 }

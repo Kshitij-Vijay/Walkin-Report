@@ -13,10 +13,12 @@ namespace Walkin_Report
     public partial class edit_walkin : Form
     {
         Walkin selectedWalkin;
+        int id;
         public edit_walkin(Walkin selectedWalkin)
         {
             InitializeComponent();
             this.selectedWalkin = selectedWalkin;
+            this.id = selectedWalkin.Id;
         }
 
         private void edit_walkin_Load(object sender, EventArgs e)
@@ -33,6 +35,36 @@ namespace Walkin_Report
             Products_text.Text = w.Products ?? "";
             store_combo.Text = w.Store ?? "";
             remarks_text.Text = w.Remarks ?? "";
+            dateTimePicker1.Text = w.CreatedAt.ToString() ?? "";
+        }
+
+        private void OK_btn_Click(object sender, EventArgs e)
+        {
+            Walkin updated = new Walkin(
+                name_text.Text,
+                area_text.Text,
+                pin_text.Text,
+                phone_text.Text,
+                Source_text.Text,
+                team_box.Text,
+                status_combo.Text,
+                category_text.Text,
+                Products_text.Text,
+                store_combo.Text,
+                remarks_text.Text,
+                dateTimePicker1.Value
+            );
+
+            // VERY IMPORTANT
+            updated.Id = this.id;
+
+            DBManager db = new DBManager();
+            db.UpdateWalkin(updated);
+
+            MessageBox.Show("Walk-in updated successfully");
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

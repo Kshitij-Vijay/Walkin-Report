@@ -25,6 +25,7 @@ namespace Walkin_Report
 
         private void OK_btn_Click(object sender, EventArgs e)
         {
+            DateTime selectedDateTime = dateTimePicker1.Value;
             Walkin walkin = new Walkin(
                 name_text.Text,
                 area_text.Text,
@@ -36,7 +37,8 @@ namespace Walkin_Report
                 category_text.Text,
                 Products_text.Text,
                 store_combo.Text,
-                remarks_text.Text
+                remarks_text.Text,
+                selectedDateTime
             );
 
             DBManager db = new DBManager();
