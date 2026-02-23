@@ -278,5 +278,9 @@ namespace Walkin_Report
             }
         }
 
+        private void settings_btn_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

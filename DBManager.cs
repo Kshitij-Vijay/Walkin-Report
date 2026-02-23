@@ -48,12 +48,19 @@ namespace Walkin_Report
                     {
                         while (reader.Read())
                         {
-                            Store store = new Store(
-                                reader.GetInt32("id"),
-                                reader.GetString("sym"),
-                                reader.GetString("name")
-                            );
+                            int id = reader.IsDBNull(reader.GetOrdinal("id"))
+                                ? 0
+                                : reader.GetInt32("id");
 
+                            string sym = reader.IsDBNull(reader.GetOrdinal("sym"))
+                                ? string.Empty
+                                : reader.GetString("sym");
+
+                            string name = reader.IsDBNull(reader.GetOrdinal("name"))
+                                ? string.Empty
+                                : reader.GetString("name");
+
+                            Store store = new Store(id, sym, name);
                             stores.Add(store);
                         }
                     }
@@ -84,11 +91,15 @@ namespace Walkin_Report
                     {
                         while (reader.Read())
                         {
-                            Status status = new Status(
-                                reader.GetInt32("id"),
-                                reader.GetString("status")
-                            );
+                            int id = reader.IsDBNull(reader.GetOrdinal("id"))
+                                ? 0
+                                : reader.GetInt32("id");
 
+                            string statusText = reader.IsDBNull(reader.GetOrdinal("status"))
+                                ? string.Empty
+                                : reader.GetString("status");
+
+                            Status status = new Status(id, statusText);
                             statuses.Add(status);
                         }
                     }
@@ -190,23 +201,38 @@ namespace Walkin_Report
             string query = "SELECT id, name, sym FROM categor";
 
             using (MySqlConnection conn = new MySqlConnection(connStr))
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
-                conn.Open();
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                try
                 {
-                    while (reader.Read())
-                    {
-                        Category c = new Category
-                        {
-                            Id = reader.GetInt32("id"),
-                            Name = reader.GetString("name"),
-                            Sym = reader.GetString("sym")
-                        };
+                    conn.Open();
 
-                        categories.Add(c);
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Category c = new Category
+                            {
+                                Id = reader.IsDBNull(reader.GetOrdinal("id"))
+                                    ? 0
+                                    : reader.GetInt32("id"),
+
+                                Name = reader.IsDBNull(reader.GetOrdinal("name"))
+                                    ? string.Empty
+                                    : reader.GetString("name"),
+
+                                Sym = reader.IsDBNull(reader.GetOrdinal("sym"))
+                                    ? string.Empty
+                                    : reader.GetString("sym")
+                            };
+
+                            categories.Add(c);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
 
@@ -220,23 +246,38 @@ namespace Walkin_Report
             string query = "SELECT id, name, sym FROM staff";
 
             using (MySqlConnection conn = new MySqlConnection(connStr))
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
             {
-                conn.Open();
-
-                using (MySqlCommand cmd = new MySqlCommand(query, conn))
-                using (MySqlDataReader reader = cmd.ExecuteReader())
+                try
                 {
-                    while (reader.Read())
-                    {
-                        Staff s = new Staff
-                        {
-                            Id = reader.GetInt32("id"),
-                            Name = reader.GetString("name"),
-                            Sym = reader.GetString("sym")
-                        };
+                    conn.Open();
 
-                        staffList.Add(s);
+                    using (MySqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            Staff s = new Staff
+                            {
+                                Id = reader.IsDBNull(reader.GetOrdinal("id"))
+                                    ? 0
+                                    : reader.GetInt32("id"),
+
+                                Name = reader.IsDBNull(reader.GetOrdinal("name"))
+                                    ? string.Empty
+                                    : reader.GetString("name"),
+
+                                Sym = reader.IsDBNull(reader.GetOrdinal("sym"))
+                                    ? string.Empty
+                                    : reader.GetString("sym")
+                            };
+
+                            staffList.Add(s);
+                        }
                     }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
                 }
             }
 
@@ -282,6 +323,33 @@ namespace Walkin_Report
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
+        }
+
+        public List<string> GetWalkinColumns()
+        {
+            List<string> columns = new List<string>();
+
+            string query = @"
+        SELECT COLUMN_NAME
+        FROM INFORMATION_SCHEMA.COLUMNS
+        WHERE TABLE_SCHEMA = DATABASE()
+          AND TABLE_NAME = 'walkins';
+    ";
+
+            using (MySqlConnection conn = new MySqlConnection(connStr))
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                conn.Open();
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        columns.Add(reader.GetString("COLUMN_NAME"));
+                    }
+                }
+            }
+
+            return columns;
         }
     }
 }

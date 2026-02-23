@@ -31,8 +31,8 @@
             status_group_box = new GroupBox();
             store_group_box = new GroupBox();
             data_table = new DataGridView();
-            textBox1 = new TextBox();
             Add_Walkin = new Button();
+            search_btn = new Button();
             ((System.ComponentModel.ISupportInitialize)data_table).BeginInit();
             SuspendLayout();
             // 
@@ -69,14 +69,6 @@
             data_table.TabIndex = 2;
             data_table.CellClick += data_table_CellClick;
             // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(931, 27);
-            textBox1.Margin = new Padding(3, 4, 3, 4);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(250, 27);
-            textBox1.TabIndex = 3;
-            // 
             // Add_Walkin
             // 
             Add_Walkin.Location = new Point(1098, 65);
@@ -88,13 +80,24 @@
             Add_Walkin.UseVisualStyleBackColor = true;
             Add_Walkin.Click += Add_Walkin_Click;
             // 
+            // search_btn
+            // 
+            search_btn.Location = new Point(1009, 65);
+            search_btn.Margin = new Padding(3, 4, 3, 4);
+            search_btn.Name = "search_btn";
+            search_btn.Size = new Size(83, 55);
+            search_btn.TabIndex = 5;
+            search_btn.Text = "Search";
+            search_btn.UseVisualStyleBackColor = true;
+            search_btn.Click += search_btn_Click;
+            // 
             // Summary
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1195, 741);
+            Controls.Add(search_btn);
             Controls.Add(Add_Walkin);
-            Controls.Add(textBox1);
             Controls.Add(data_table);
             Controls.Add(store_group_box);
             Controls.Add(status_group_box);
@@ -104,7 +107,6 @@
             Load += Summary_Load;
             ((System.ComponentModel.ISupportInitialize)data_table).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
@@ -112,7 +114,7 @@
         private GroupBox status_group_box;
         private GroupBox store_group_box;
         private DataGridView data_table;
-        private TextBox textBox1;
         private Button Add_Walkin;
+        private Button search_btn;
     }
 }

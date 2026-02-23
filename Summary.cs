@@ -216,7 +216,7 @@ namespace Walkin_Report
 
         private void edit_btn_Click(object sender, EventArgs e)
         {
-            if(selectedWalkin != null)
+            if (selectedWalkin != null)
             {
                 edit_walkin edw = new edit_walkin(selectedWalkin);
             }
@@ -224,6 +224,12 @@ namespace Walkin_Report
             {
                 MessageBox.Show("Select a Walkin");
             }
+        }
+
+        private void search_btn_Click(object sender, EventArgs e)
+        {
+            Search s = new Search(walkins);
+            s.ShowDialog();
         }
     }
 }
