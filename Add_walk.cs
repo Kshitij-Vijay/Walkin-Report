@@ -15,7 +15,9 @@ namespace Walkin_Report
         DBManager db = new DBManager();
         public Add_walk()
         {
-            InitializeComponent();
+            InitializeComponent(); 
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -93,6 +95,12 @@ namespace Walkin_Report
                 status_combo.SelectedIndex = 0; // optional default
         }
 
-
+        private void pin_text_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // block input
+            }
+        }
     }
 }

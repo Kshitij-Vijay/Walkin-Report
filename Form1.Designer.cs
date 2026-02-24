@@ -56,7 +56,7 @@
             button1.Name = "button1";
             button1.Size = new Size(250, 69);
             button1.TabIndex = 0;
-            button1.Text = "Start";
+            button1.Text = "Table";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
@@ -208,6 +208,8 @@
             Controls.Add(button2);
             Controls.Add(button1);
             Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "Form1";
             Text = "Walk In Report";
             Load += Form1_Load;

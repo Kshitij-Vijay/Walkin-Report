@@ -19,6 +19,8 @@ namespace Walkin_Report
             InitializeComponent();
             connect_lbl.Text = "FALSE";
             connect_lbl.ForeColor = Color.Red;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -59,7 +61,6 @@ namespace Walkin_Report
             stores = db.GetAllStores();
             categories = db.GetAllCategories();
             walkins = db.GetAllWalkins();
-            MessageBox.Show(walkins.Count.ToString() + " walkins loaded.");
             //DateTime fromDate = from_date.Value.Date;
             //DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
             //walkins = walkins

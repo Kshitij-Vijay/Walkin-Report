@@ -18,7 +18,9 @@ namespace Walkin_Report
         {
             InitializeComponent();
             this.selectedWalkin = selectedWalkin;
-            this.id = selectedWalkin.Id;
+            this.id = selectedWalkin.Id; 
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
         }
 
         private void edit_walkin_Load(object sender, EventArgs e)
@@ -65,6 +67,14 @@ namespace Walkin_Report
 
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void pin_text_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // block input
+            }
         }
     }
 }

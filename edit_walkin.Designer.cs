@@ -56,29 +56,29 @@
             // team_box
             // 
             team_box.FormattingEnabled = true;
-            team_box.Location = new Point(379, 355);
-            team_box.Margin = new Padding(3, 4, 3, 4);
+            team_box.Location = new Point(474, 444);
+            team_box.Margin = new Padding(4, 5, 4, 5);
             team_box.Name = "team_box";
-            team_box.Size = new Size(76, 28);
+            team_box.Size = new Size(94, 33);
             team_box.TabIndex = 45;
             // 
             // status_combo
             // 
             status_combo.FormattingEnabled = true;
-            status_combo.Location = new Point(288, 355);
-            status_combo.Margin = new Padding(3, 4, 3, 4);
+            status_combo.Location = new Point(360, 444);
+            status_combo.Margin = new Padding(4, 5, 4, 5);
             status_combo.Name = "status_combo";
-            status_combo.Size = new Size(82, 28);
+            status_combo.Size = new Size(102, 33);
             status_combo.TabIndex = 44;
             // 
             // button1
             // 
             button1.DialogResult = DialogResult.Cancel;
             button1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(298, 423);
-            button1.Margin = new Padding(3, 4, 3, 4);
+            button1.Location = new Point(372, 529);
+            button1.Margin = new Padding(4, 5, 4, 5);
             button1.Name = "button1";
-            button1.Size = new Size(120, 52);
+            button1.Size = new Size(150, 65);
             button1.TabIndex = 43;
             button1.Text = "Cancel";
             button1.UseVisualStyleBackColor = true;
@@ -87,10 +87,10 @@
             // 
             OK_btn.DialogResult = DialogResult.OK;
             OK_btn.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            OK_btn.Location = new Point(425, 423);
-            OK_btn.Margin = new Padding(3, 4, 3, 4);
+            OK_btn.Location = new Point(531, 529);
+            OK_btn.Margin = new Padding(4, 5, 4, 5);
             OK_btn.Name = "OK_btn";
-            OK_btn.Size = new Size(120, 52);
+            OK_btn.Size = new Size(150, 65);
             OK_btn.TabIndex = 42;
             OK_btn.Text = "OK";
             OK_btn.UseVisualStyleBackColor = true;
@@ -99,145 +99,154 @@
             // store_combo
             // 
             store_combo.FormattingEnabled = true;
-            store_combo.Location = new Point(463, 355);
-            store_combo.Margin = new Padding(3, 4, 3, 4);
+            store_combo.Location = new Point(579, 444);
+            store_combo.Margin = new Padding(4, 5, 4, 5);
             store_combo.Name = "store_combo";
-            store_combo.Size = new Size(82, 28);
+            store_combo.Size = new Size(102, 33);
             store_combo.TabIndex = 41;
             // 
             // remarks_text
             // 
-            remarks_text.Location = new Point(90, 355);
-            remarks_text.Margin = new Padding(3, 4, 3, 4);
+            remarks_text.Location = new Point(112, 444);
+            remarks_text.Margin = new Padding(4, 5, 4, 5);
             remarks_text.Name = "remarks_text";
-            remarks_text.Size = new Size(165, 27);
+            remarks_text.Size = new Size(205, 31);
             remarks_text.TabIndex = 40;
             // 
             // label9
             // 
             label9.AutoSize = true;
-            label9.Location = new Point(14, 359);
+            label9.Location = new Point(18, 449);
+            label9.Margin = new Padding(4, 0, 4, 0);
             label9.Name = "label9";
-            label9.Size = new Size(76, 20);
+            label9.Size = new Size(93, 25);
             label9.TabIndex = 39;
             label9.Text = "Remarks : ";
             // 
             // Products_text
             // 
-            Products_text.Location = new Point(379, 283);
-            Products_text.Margin = new Padding(3, 4, 3, 4);
+            Products_text.Location = new Point(474, 354);
+            Products_text.Margin = new Padding(4, 5, 4, 5);
             Products_text.Name = "Products_text";
-            Products_text.Size = new Size(165, 27);
+            Products_text.Size = new Size(205, 31);
             Products_text.TabIndex = 38;
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(303, 287);
+            label8.Location = new Point(379, 359);
+            label8.Margin = new Padding(4, 0, 4, 0);
             label8.Name = "label8";
-            label8.Size = new Size(77, 20);
+            label8.Size = new Size(96, 25);
             label8.TabIndex = 37;
             label8.Text = "Products : ";
             // 
             // category_text
             // 
-            category_text.Location = new Point(90, 283);
-            category_text.Margin = new Padding(3, 4, 3, 4);
+            category_text.Location = new Point(112, 354);
+            category_text.Margin = new Padding(4, 5, 4, 5);
             category_text.Name = "category_text";
-            category_text.Size = new Size(165, 27);
+            category_text.Size = new Size(205, 31);
             category_text.TabIndex = 36;
             // 
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(14, 287);
+            label7.Location = new Point(18, 359);
+            label7.Margin = new Padding(4, 0, 4, 0);
             label7.Name = "label7";
-            label7.Size = new Size(80, 20);
+            label7.Size = new Size(98, 25);
             label7.TabIndex = 35;
             label7.Text = "Category : ";
             // 
             // Source_text
             // 
-            Source_text.Location = new Point(379, 220);
-            Source_text.Margin = new Padding(3, 4, 3, 4);
+            Source_text.Location = new Point(474, 275);
+            Source_text.Margin = new Padding(4, 5, 4, 5);
             Source_text.Name = "Source_text";
-            Source_text.Size = new Size(165, 27);
+            Source_text.Size = new Size(205, 31);
             Source_text.TabIndex = 34;
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(303, 224);
+            label6.Location = new Point(379, 280);
+            label6.Margin = new Padding(4, 0, 4, 0);
             label6.Name = "label6";
-            label6.Size = new Size(65, 20);
+            label6.Size = new Size(80, 25);
             label6.TabIndex = 33;
             label6.Text = "Source : ";
             // 
             // phone_text
             // 
-            phone_text.Location = new Point(90, 220);
-            phone_text.Margin = new Padding(3, 4, 3, 4);
+            phone_text.Location = new Point(112, 275);
+            phone_text.Margin = new Padding(4, 5, 4, 5);
             phone_text.Name = "phone_text";
-            phone_text.Size = new Size(165, 27);
+            phone_text.Size = new Size(205, 31);
             phone_text.TabIndex = 32;
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(14, 224);
+            label5.Location = new Point(18, 280);
+            label5.Margin = new Padding(4, 0, 4, 0);
             label5.Name = "label5";
-            label5.Size = new Size(61, 20);
+            label5.Size = new Size(76, 25);
             label5.TabIndex = 31;
             label5.Text = "Phone : ";
             // 
             // pin_text
             // 
-            pin_text.Location = new Point(379, 160);
-            pin_text.Margin = new Padding(3, 4, 3, 4);
+            pin_text.Location = new Point(474, 200);
+            pin_text.Margin = new Padding(4, 5, 4, 5);
             pin_text.Name = "pin_text";
-            pin_text.Size = new Size(165, 27);
+            pin_text.Size = new Size(205, 31);
             pin_text.TabIndex = 30;
+            pin_text.KeyPress += pin_text_KeyPress;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(303, 164);
+            label4.Location = new Point(379, 205);
+            label4.Margin = new Padding(4, 0, 4, 0);
             label4.Name = "label4";
-            label4.Size = new Size(40, 20);
+            label4.Size = new Size(50, 25);
             label4.TabIndex = 29;
             label4.Text = "Pin : ";
             // 
             // area_text
             // 
-            area_text.Location = new Point(90, 160);
-            area_text.Margin = new Padding(3, 4, 3, 4);
+            area_text.Location = new Point(112, 200);
+            area_text.Margin = new Padding(4, 5, 4, 5);
             area_text.Name = "area_text";
-            area_text.Size = new Size(165, 27);
+            area_text.Size = new Size(205, 31);
             area_text.TabIndex = 28;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(14, 164);
+            label3.Location = new Point(18, 205);
+            label3.Margin = new Padding(4, 0, 4, 0);
             label3.Name = "label3";
-            label3.Size = new Size(40, 20);
+            label3.Size = new Size(48, 25);
             label3.TabIndex = 27;
             label3.Text = "Area";
             // 
             // name_text
             // 
-            name_text.Location = new Point(90, 104);
-            name_text.Margin = new Padding(3, 4, 3, 4);
+            name_text.Location = new Point(112, 130);
+            name_text.Margin = new Padding(4, 5, 4, 5);
             name_text.Name = "name_text";
-            name_text.Size = new Size(165, 27);
+            name_text.Size = new Size(205, 31);
             name_text.TabIndex = 26;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(14, 108);
+            label2.Location = new Point(18, 135);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(60, 20);
+            label2.Size = new Size(73, 25);
             label2.TabIndex = 25;
             label2.Text = "Name : ";
             // 
@@ -245,24 +254,26 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 21.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(14, 12);
+            label1.Location = new Point(18, 15);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(221, 50);
+            label1.Size = new Size(261, 60);
             label1.TabIndex = 24;
             label1.Text = "Edit Walkin";
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(294, 104);
+            dateTimePicker1.Location = new Point(368, 130);
+            dateTimePicker1.Margin = new Padding(4, 4, 4, 4);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(250, 27);
+            dateTimePicker1.Size = new Size(312, 31);
             dateTimePicker1.TabIndex = 46;
             // 
             // edit_walkin
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(560, 503);
+            ClientSize = new Size(700, 629);
             Controls.Add(dateTimePicker1);
             Controls.Add(team_box);
             Controls.Add(status_combo);
@@ -286,7 +297,9 @@
             Controls.Add(name_text);
             Controls.Add(label2);
             Controls.Add(label1);
-            Margin = new Padding(3, 4, 3, 4);
+            Margin = new Padding(4, 5, 4, 5);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "edit_walkin";
             Text = "Edit";
             Load += edit_walkin_Load;

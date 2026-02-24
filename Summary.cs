@@ -148,6 +148,7 @@ namespace Walkin_Report
             data_table.Columns.Clear();
             data_table.AutoGenerateColumns = false;
 
+            data_table.Columns.Add("id", "ID");
             data_table.Columns.Add("store", "STORE");
             data_table.Columns.Add("name", "NAME");
             data_table.Columns.Add("date", "DATE");
@@ -171,10 +172,12 @@ namespace Walkin_Report
         private void add_data()
         {
             data_table.Rows.Clear();
-
+            int i = 0;
             foreach (Walkin w in walkins)
             {
+                i++;
                 data_table.Rows.Add(
+                    i,
                     w.Store,
                     w.Name,
                     w.CreatedAt.ToString(),
