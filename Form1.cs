@@ -26,7 +26,7 @@ namespace Walkin_Report
             Test_conn();
         }
 
-        private void Test_conn()
+        private bool Test_conn()
         {
             bool connect = db.test_connection();
             if (connect)
@@ -39,6 +39,7 @@ namespace Walkin_Report
                 connect_lbl.Text = "FALSE";
                 connect_lbl.ForeColor = Color.Red;
             }
+            return connect;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -49,16 +50,29 @@ namespace Walkin_Report
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Test_conn();
+            
+        }
+
+        private void formsetup()
+        {
+            MessageBox.Show("Loading data, please wait...");
             stores = db.GetAllStores();
             categories = db.GetAllCategories();
             walkins = db.GetAllWalkins();
-            DateTime fromDate = from_date.Value.Date;
-            DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
-            walkins = walkins
-                        .Where(w => w.CreatedAt >= fromDate && w.CreatedAt <= toDate)
-                        .ToList();
+            MessageBox.Show(walkins.Count.ToString() + " walkins loaded.");
+            //DateTime fromDate = from_date.Value.Date;
+            //DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
+            //walkins = walkins
+            //            .Where(w => w.CreatedAt >= fromDate && w.CreatedAt <= toDate)
+            //            .ToList();
+            from_date.Value = walkins[0].CreatedAt.Date;
+            to_date.Value = walkins[walkins.Count - 1].CreatedAt.Date;
             staffList = db.GetAllStaff();
+            uiload();
+        }
+
+        private void uiload()
+        {
             SetupReportGrid();
             PopulateReportGrid();
             SetupStaffReportGrid();
@@ -68,7 +82,6 @@ namespace Walkin_Report
             SetupWarmGrid();
             LoadWarmGrid();
         }
-
 
         private void LoadWarmGrid()
         {
@@ -288,6 +301,26 @@ namespace Walkin_Report
         {
             settings set = new settings();
             set.ShowDialog();
+            try
+            {
+                bool b = Test_conn();
+                if (b == true)
+                {
+                    formsetup();
+                }
+                else
+                {
+                    MessageBox.Show("Connection failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+
+            }
         }
 
         private void from_date_ValueChanged(object sender, EventArgs e)
@@ -298,6 +331,7 @@ namespace Walkin_Report
             walkins = walkins
                         .Where(w => w.CreatedAt >= fromDate && w.CreatedAt <= toDate)
                         .ToList();
+            uiload();
         }
 
         private void to_date_ValueChanged(object sender, EventArgs e)
@@ -308,6 +342,31 @@ namespace Walkin_Report
             walkins = walkins
                         .Where(w => w.CreatedAt >= fromDate && w.CreatedAt <= toDate)
                         .ToList();
+            uiload();
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            try
+            {
+                bool b = Test_conn();
+                if (b == true)
+                {
+                    formsetup();
+                }
+                else
+                {
+                    MessageBox.Show("Connection failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+
+            }
         }
     }
 }

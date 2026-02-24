@@ -139,6 +139,7 @@ namespace Walkin_Report
                     else
                     {
                         MessageBox.Show("Saved Changes");
+                        this.Close();
                     }
                 }
             }

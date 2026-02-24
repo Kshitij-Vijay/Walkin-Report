@@ -51,7 +51,7 @@ namespace Walkin_Report
         public bool test_connection()
         {
             bool conect = false;
-
+            MessageBox.Show(connStr);
             using (MySqlConnection conn = new MySqlConnection(connStr))
             {
                 try

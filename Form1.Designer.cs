@@ -51,10 +51,10 @@
             // button1
             // 
             button1.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(853, 348);
-            button1.Margin = new Padding(3, 4, 3, 4);
+            button1.Location = new Point(1066, 435);
+            button1.Margin = new Padding(4, 5, 4, 5);
             button1.Name = "button1";
-            button1.Size = new Size(200, 55);
+            button1.Size = new Size(250, 69);
             button1.TabIndex = 0;
             button1.Text = "Start";
             button1.UseVisualStyleBackColor = true;
@@ -63,10 +63,10 @@
             // button2
             // 
             button2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button2.Location = new Point(853, 494);
-            button2.Margin = new Padding(3, 4, 3, 4);
+            button2.Location = new Point(1066, 618);
+            button2.Margin = new Padding(4, 5, 4, 5);
             button2.Name = "button2";
-            button2.Size = new Size(200, 55);
+            button2.Size = new Size(250, 69);
             button2.TabIndex = 1;
             button2.Text = "Test connection";
             button2.UseVisualStyleBackColor = true;
@@ -76,9 +76,10 @@
             // 
             connect_lbl.AutoSize = true;
             connect_lbl.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            connect_lbl.Location = new Point(895, 570);
+            connect_lbl.Location = new Point(1119, 712);
+            connect_lbl.Margin = new Padding(4, 0, 4, 0);
             connect_lbl.Name = "connect_lbl";
-            connect_lbl.Size = new Size(119, 28);
+            connect_lbl.Size = new Size(145, 32);
             connect_lbl.TabIndex = 2;
             connect_lbl.Text = "Connection";
             // 
@@ -87,11 +88,11 @@
             report_grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             report_grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             report_grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            report_grid.Location = new Point(14, 16);
-            report_grid.Margin = new Padding(3, 4, 3, 4);
+            report_grid.Location = new Point(18, 20);
+            report_grid.Margin = new Padding(4, 5, 4, 5);
             report_grid.Name = "report_grid";
             report_grid.RowHeadersWidth = 51;
-            report_grid.Size = new Size(346, 171);
+            report_grid.Size = new Size(432, 214);
             report_grid.TabIndex = 3;
             // 
             // staff_report_grid
@@ -99,54 +100,58 @@
             staff_report_grid.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.ColumnHeader;
             staff_report_grid.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             staff_report_grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            staff_report_grid.Location = new Point(14, 195);
-            staff_report_grid.Margin = new Padding(3, 4, 3, 4);
+            staff_report_grid.Location = new Point(18, 244);
+            staff_report_grid.Margin = new Padding(4, 5, 4, 5);
             staff_report_grid.Name = "staff_report_grid";
             staff_report_grid.RowHeadersWidth = 51;
-            staff_report_grid.Size = new Size(203, 332);
+            staff_report_grid.Size = new Size(254, 415);
             staff_report_grid.TabIndex = 4;
             // 
             // statusChart
             // 
-            statusChart.Location = new Point(224, 195);
-            statusChart.Margin = new Padding(3, 4, 3, 4);
+            statusChart.Location = new Point(280, 244);
+            statusChart.Margin = new Padding(4, 5, 4, 5);
             statusChart.Name = "statusChart";
-            statusChart.Size = new Size(485, 332);
+            statusChart.Size = new Size(606, 415);
             statusChart.TabIndex = 5;
             statusChart.Text = "chart1";
             // 
             // dealBarChart
             // 
-            dealBarChart.Location = new Point(14, 535);
-            dealBarChart.Margin = new Padding(3, 4, 3, 4);
+            dealBarChart.Location = new Point(18, 669);
+            dealBarChart.Margin = new Padding(4, 5, 4, 5);
             dealBarChart.Name = "dealBarChart";
-            dealBarChart.Size = new Size(695, 165);
+            dealBarChart.Size = new Size(869, 206);
             dealBarChart.TabIndex = 6;
             dealBarChart.Text = "chart1";
             // 
             // warm_grid
             // 
             warm_grid.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            warm_grid.Location = new Point(367, 16);
-            warm_grid.Margin = new Padding(3, 4, 3, 4);
+            warm_grid.Location = new Point(459, 20);
+            warm_grid.Margin = new Padding(4, 5, 4, 5);
             warm_grid.Name = "warm_grid";
             warm_grid.RowHeadersWidth = 51;
-            warm_grid.Size = new Size(342, 171);
+            warm_grid.Size = new Size(428, 214);
             warm_grid.TabIndex = 7;
             // 
             // from_date
             // 
-            from_date.Location = new Point(819, 122);
+            from_date.Font = new Font("Segoe UI", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            from_date.Location = new Point(1024, 152);
+            from_date.Margin = new Padding(4);
             from_date.Name = "from_date";
-            from_date.Size = new Size(250, 27);
+            from_date.Size = new Size(312, 37);
             from_date.TabIndex = 8;
             from_date.ValueChanged += from_date_ValueChanged;
             // 
             // to_date
             // 
-            to_date.Location = new Point(819, 234);
+            to_date.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            to_date.Location = new Point(1024, 292);
+            to_date.Margin = new Padding(4);
             to_date.Name = "to_date";
-            to_date.Size = new Size(250, 27);
+            to_date.Size = new Size(312, 37);
             to_date.TabIndex = 9;
             to_date.ValueChanged += to_date_ValueChanged;
             // 
@@ -154,9 +159,10 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(906, 79);
+            label1.Location = new Point(1132, 99);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(80, 31);
+            label1.Size = new Size(98, 38);
             label1.TabIndex = 10;
             label1.Text = "FROM";
             // 
@@ -164,19 +170,20 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(919, 195);
+            label2.Location = new Point(1149, 244);
+            label2.Margin = new Padding(4, 0, 4, 0);
             label2.Name = "label2";
-            label2.Size = new Size(43, 31);
+            label2.Size = new Size(53, 38);
             label2.TabIndex = 11;
             label2.Text = "TO";
             // 
             // settings_btn
             // 
             settings_btn.Font = new Font("Segoe UI", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            settings_btn.Location = new Point(853, 420);
-            settings_btn.Margin = new Padding(3, 4, 3, 4);
+            settings_btn.Location = new Point(1066, 525);
+            settings_btn.Margin = new Padding(4, 5, 4, 5);
             settings_btn.Name = "settings_btn";
-            settings_btn.Size = new Size(200, 55);
+            settings_btn.Size = new Size(250, 69);
             settings_btn.TabIndex = 12;
             settings_btn.Text = "Settings";
             settings_btn.UseVisualStyleBackColor = true;
@@ -184,9 +191,9 @@
             // 
             // Form1
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1155, 721);
+            ClientSize = new Size(1444, 901);
             Controls.Add(settings_btn);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -200,10 +207,11 @@
             Controls.Add(connect_lbl);
             Controls.Add(button2);
             Controls.Add(button1);
-            Margin = new Padding(3, 4, 3, 4);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "Form1";
             Text = "Walk In Report";
             Load += Form1_Load;
+            Shown += Form1_Shown;
             ((System.ComponentModel.ISupportInitialize)report_grid).EndInit();
             ((System.ComponentModel.ISupportInitialize)staff_report_grid).EndInit();
             ((System.ComponentModel.ISupportInitialize)statusChart).EndInit();
