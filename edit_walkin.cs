@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Mysqlx.Crud;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -42,31 +43,43 @@ namespace Walkin_Report
 
         private void OK_btn_Click(object sender, EventArgs e)
         {
-            Walkin updated = new Walkin(
-                name_text.Text,
-                area_text.Text,
-                pin_text.Text,
-                phone_text.Text,
-                Source_text.Text,
-                team_box.Text,
-                status_combo.Text,
-                category_text.Text,
-                Products_text.Text,
-                store_combo.Text,
-                remarks_text.Text,
-                dateTimePicker1.Value
-            );
+            try
+            {
+                DateTime selectedDateTime = dateTimePicker1.Value;
 
-            // VERY IMPORTANT
-            updated.Id = this.id;
+                Walkin updated = new Walkin(
+                    SafeText(name_text, 100, true),       // required
+                    SafeText(area_text, 45),
+                    SafeNumber(pin_text, 10),
+                    SafeText(phone_text, 15),
+                    SafeText(Source_text, 45),
+                    SafeCombo(team_box),
+                    SafeCombo(status_combo, true),        // required
+                    SafeText(category_text, 45),
+                    SafeText(Products_text, 100),
+                    SafeCombo(store_combo, true),         // required
+                    SafeText(remarks_text, 100),
+                    selectedDateTime
+                );
 
-            DBManager db = new DBManager();
-            db.UpdateWalkin(updated);
+                // continue saving walkin...
 
-            MessageBox.Show("Walk-in updated successfully");
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+                // VERY IMPORTANT
+                updated.Id = this.id;
+
+                DBManager db = new DBManager();
+                db.UpdateWalkin(updated);
+
+                MessageBox.Show("Walk-in updated successfully");
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void pin_text_KeyPress(object sender, KeyPressEventArgs e)
@@ -75,6 +88,58 @@ namespace Walkin_Report
             {
                 e.Handled = true; // block input
             }
+        }
+
+
+        private string SafeText(TextBox tb, int maxLen, bool required = false)
+        {
+            string val = tb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(val))
+            {
+                if (required)
+                    throw new Exception($"{tb.Name.Replace("_text", "")} is required");
+                return null;
+            }
+
+            if (val.Length > maxLen)
+                throw new Exception($"{tb.Name.Replace("_text", "")} exceeds {maxLen} characters");
+
+            return val;
+        }
+
+        private string SafeCombo(ComboBox cb, bool required = false)
+        {
+            string val = cb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(val))
+            {
+                if (required)
+                    throw new Exception($"{cb.Name} must be selected");
+                return null;
+            }
+
+            return val;
+        }
+
+        private string SafeNumber(TextBox tb, int maxLen, bool required = false)
+        {
+            string val = tb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(val))
+            {
+                if (required)
+                    throw new Exception($"{tb.Name} is required");
+                return null;
+            }
+
+            if (!val.All(char.IsDigit))
+                throw new Exception($"{tb.Name} must contain only numbers");
+
+            if (val.Length > maxLen)
+                throw new Exception($"{tb.Name} exceeds {maxLen} digits");
+
+            return val;
         }
     }
 }

@@ -25,30 +25,93 @@ namespace Walkin_Report
 
         }
 
+        private string SafeText(TextBox tb, int maxLen, bool required = false)
+        {
+            string val = tb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(val))
+            {
+                if (required)
+                    throw new Exception($"{tb.Name.Replace("_text", "")} is required");
+                return null;
+            }
+
+            if (val.Length > maxLen)
+                throw new Exception($"{tb.Name.Replace("_text", "")} exceeds {maxLen} characters");
+
+            return val;
+        }
+
+        private string SafeCombo(ComboBox cb, bool required = false)
+        {
+            string val = cb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(val))
+            {
+                if (required)
+                    throw new Exception($"{cb.Name} must be selected");
+                return null;
+            }
+
+            return val;
+        }
+
+        private string SafeNumber(TextBox tb, int maxLen, bool required = false)
+        {
+            string val = tb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(val))
+            {
+                if (required)
+                    throw new Exception($"{tb.Name} is required");
+                return null;
+            }
+
+            if (!val.All(char.IsDigit))
+                throw new Exception($"{tb.Name} must contain only numbers");
+
+            if (val.Length > maxLen)
+                throw new Exception($"{tb.Name} exceeds {maxLen} digits");
+
+            return val;
+        }
+
         private void OK_btn_Click(object sender, EventArgs e)
         {
-            DateTime selectedDateTime = dateTimePicker1.Value;
-            Walkin walkin = new Walkin(
-                name_text.Text,
-                area_text.Text,
-                pin_text.Text,
-                phone_text.Text,
-                Source_text.Text,
-                team_box.Text,
-                status_combo.Text,
-                category_text.Text,
-                Products_text.Text,
-                store_combo.Text,
-                remarks_text.Text,
-                selectedDateTime
-            );
+            try
+            {
+                DateTime selectedDateTime = dateTimePicker1.Value;
 
-            DBManager db = new DBManager();
-            db.InsertWalkin(walkin);
+                Walkin walkin = new Walkin(
+                    SafeText(name_text, 100, true),       // required
+                    SafeText(area_text, 45),
+                    SafeNumber(pin_text, 10),
+                    SafeText(phone_text, 15),
+                    SafeText(Source_text, 45),
+                    SafeCombo(team_box),
+                    SafeCombo(status_combo, true),        // required
+                    SafeText(category_text, 45),
+                    SafeText(Products_text, 100),
+                    SafeCombo(store_combo, true),         // required
+                    SafeText(remarks_text, 100),
+                    selectedDateTime
+                );
 
-            MessageBox.Show("Walk-in saved successfully!");
+                // continue saving walkin...
 
-            this.Close();
+
+
+                DBManager db = new DBManager();
+                db.InsertWalkin(walkin);
+
+                MessageBox.Show("Walk-in saved successfully!");
+
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void Add_walk_Load(object sender, EventArgs e)
