@@ -2,6 +2,7 @@ using FastReport.DataVisualization.Charting;
 using OxyPlot;
 using OxyPlot.Series;
 using OxyPlot.WindowsForms;
+using System.Windows.Forms;
 
 
 namespace Walkin_Report
@@ -52,6 +53,11 @@ namespace Walkin_Report
             stores = db.GetAllStores();
             categories = db.GetAllCategories();
             walkins = db.GetAllWalkins();
+            DateTime fromDate = from_date.Value.Date;
+            DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
+            walkins = walkins
+                        .Where(w => w.CreatedAt >= fromDate && w.CreatedAt <= toDate)
+                        .ToList();
             staffList = db.GetAllStaff();
             SetupReportGrid();
             PopulateReportGrid();
@@ -280,7 +286,28 @@ namespace Walkin_Report
 
         private void settings_btn_Click(object sender, EventArgs e)
         {
+            settings set = new settings();
+            set.ShowDialog();
+        }
 
+        private void from_date_ValueChanged(object sender, EventArgs e)
+        {
+            walkins = db.GetAllWalkins();
+            DateTime fromDate = from_date.Value.Date;
+            DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
+            walkins = walkins
+                        .Where(w => w.CreatedAt >= fromDate && w.CreatedAt <= toDate)
+                        .ToList();
+        }
+
+        private void to_date_ValueChanged(object sender, EventArgs e)
+        {
+            walkins = db.GetAllWalkins();
+            DateTime fromDate = from_date.Value.Date;
+            DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
+            walkins = walkins
+                        .Where(w => w.CreatedAt >= fromDate && w.CreatedAt <= toDate)
+                        .ToList();
         }
     }
 }

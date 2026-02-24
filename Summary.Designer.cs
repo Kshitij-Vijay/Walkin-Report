@@ -53,25 +53,27 @@
             store_group_box.Margin = new Padding(3, 4, 3, 4);
             store_group_box.Name = "store_group_box";
             store_group_box.Padding = new Padding(3, 4, 3, 4);
-            store_group_box.Size = new Size(333, 104);
+            store_group_box.Size = new Size(544, 104);
             store_group_box.TabIndex = 1;
             store_group_box.TabStop = false;
             store_group_box.Text = "Store";
             // 
             // data_table
             // 
+            data_table.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             data_table.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             data_table.Location = new Point(14, 128);
             data_table.Margin = new Padding(3, 4, 3, 4);
             data_table.Name = "data_table";
             data_table.RowHeadersWidth = 51;
-            data_table.Size = new Size(1168, 597);
+            data_table.Size = new Size(1479, 758);
             data_table.TabIndex = 2;
             data_table.CellClick += data_table_CellClick;
             // 
             // Add_Walkin
             // 
-            Add_Walkin.Location = new Point(1098, 65);
+            Add_Walkin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            Add_Walkin.Location = new Point(1410, 65);
             Add_Walkin.Margin = new Padding(3, 4, 3, 4);
             Add_Walkin.Name = "Add_Walkin";
             Add_Walkin.Size = new Size(83, 55);
@@ -82,7 +84,8 @@
             // 
             // search_btn
             // 
-            search_btn.Location = new Point(1009, 65);
+            search_btn.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            search_btn.Location = new Point(1321, 65);
             search_btn.Margin = new Padding(3, 4, 3, 4);
             search_btn.Name = "search_btn";
             search_btn.Size = new Size(83, 55);
@@ -95,7 +98,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1195, 741);
+            ClientSize = new Size(1505, 899);
             Controls.Add(search_btn);
             Controls.Add(Add_Walkin);
             Controls.Add(data_table);

@@ -36,8 +36,8 @@
             statusChart = new FastReport.DataVisualization.Charting.Chart();
             dealBarChart = new FastReport.DataVisualization.Charting.Chart();
             warm_grid = new DataGridView();
-            from = new DateTimePicker();
-            to = new DateTimePicker();
+            from_date = new DateTimePicker();
+            to_date = new DateTimePicker();
             label1 = new Label();
             label2 = new Label();
             settings_btn = new Button();
@@ -134,19 +134,21 @@
             warm_grid.Size = new Size(342, 171);
             warm_grid.TabIndex = 7;
             // 
-            // from
+            // from_date
             // 
-            from.Location = new Point(819, 122);
-            from.Name = "from";
-            from.Size = new Size(250, 27);
-            from.TabIndex = 8;
+            from_date.Location = new Point(819, 122);
+            from_date.Name = "from_date";
+            from_date.Size = new Size(250, 27);
+            from_date.TabIndex = 8;
+            from_date.ValueChanged += from_date_ValueChanged;
             // 
-            // to
+            // to_date
             // 
-            to.Location = new Point(819, 234);
-            to.Name = "to";
-            to.Size = new Size(250, 27);
-            to.TabIndex = 9;
+            to_date.Location = new Point(819, 234);
+            to_date.Name = "to_date";
+            to_date.Size = new Size(250, 27);
+            to_date.TabIndex = 9;
+            to_date.ValueChanged += to_date_ValueChanged;
             // 
             // label1
             // 
@@ -188,8 +190,8 @@
             Controls.Add(settings_btn);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(to);
-            Controls.Add(from);
+            Controls.Add(to_date);
+            Controls.Add(from_date);
             Controls.Add(warm_grid);
             Controls.Add(dealBarChart);
             Controls.Add(statusChart);
@@ -221,8 +223,8 @@
         private FastReport.DataVisualization.Charting.Chart statusChart;
         private FastReport.DataVisualization.Charting.Chart dealBarChart;
         private DataGridView warm_grid;
-        private DateTimePicker from;
-        private DateTimePicker to;
+        private DateTimePicker from_date;
+        private DateTimePicker to_date;
         private Label label1;
         private Label label2;
         private Button settings_btn;

@@ -289,7 +289,7 @@
             Controls.Add(label1);
             Margin = new Padding(3, 4, 3, 4);
             Name = "Add_walk";
-            Text = "Add_walk";
+            Text = "Add";
             Load += Add_walk_Load;
             ResumeLayout(false);
             PerformLayout();

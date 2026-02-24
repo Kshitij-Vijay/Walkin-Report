@@ -2,13 +2,51 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace Walkin_Report
 {
     public class DBManager
     {
-        private readonly string connStr =
-            "server=localhost;user=root;database=walkin;password=*1+1J_Zero00;";
+        private string connStr;
+
+
+        public DBManager()
+        {
+            LoadConfig();
+        }
+
+        private void LoadConfig()
+        {
+            string path = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "dbconfig.xml"
+            );
+
+            if (!File.Exists(path))
+            {
+                MessageBox.Show($"Config file not found:\n{path}");
+                return;
+            }
+
+            XmlDocument doc = new XmlDocument();
+            doc.Load(path);
+
+            string server = doc.SelectSingleNode("/database/server")?.InnerText;
+            string db = doc.SelectSingleNode("/database/name")?.InnerText;
+            string user = doc.SelectSingleNode("/database/user")?.InnerText;
+            string pass = doc.SelectSingleNode("/database/password")?.InnerText;
+
+            if (string.IsNullOrWhiteSpace(server) ||
+                string.IsNullOrWhiteSpace(db) ||
+                string.IsNullOrWhiteSpace(user))
+            {
+                MessageBox.Show("Invalid database configuration");
+                return;
+            }
+
+            connStr = $"Server={server};Database={db};Uid={user};Pwd={pass};";
+        }
 
         public bool test_connection()
         {
@@ -350,6 +388,26 @@ namespace Walkin_Report
             }
 
             return columns;
+        }
+
+        public bool test_connection_trial(string st)
+        {
+            bool conect = false;
+
+            using (MySqlConnection conn = new MySqlConnection(st))
+            {
+                try
+                {
+                    conn.Open();
+                    conect = true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+            }
+
+            return conect;
         }
     }
 }
