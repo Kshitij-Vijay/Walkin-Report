@@ -87,6 +87,7 @@
             // search_btn
             // 
             search_btn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            search_btn.Enabled = false;
             search_btn.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             search_btn.Location = new Point(1032, 81);
             search_btn.Margin = new Padding(4, 5, 4, 5);
@@ -95,6 +96,7 @@
             search_btn.TabIndex = 5;
             search_btn.Text = "Search";
             search_btn.UseVisualStyleBackColor = true;
+            search_btn.Visible = false;
             search_btn.Click += search_btn_Click;
             // 
             // Summary
