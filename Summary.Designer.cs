@@ -33,6 +33,10 @@
             data_table = new DataGridView();
             Add_Walkin = new Button();
             search_btn = new Button();
+            from_date = new DateTimePicker();
+            to_date = new DateTimePicker();
+            label1 = new Label();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)data_table).BeginInit();
             SuspendLayout();
             // 
@@ -67,7 +71,7 @@
             data_table.Margin = new Padding(30);
             data_table.Name = "data_table";
             data_table.RowHeadersWidth = 51;
-            data_table.Size = new Size(1268, 506);
+            data_table.Size = new Size(1619, 506);
             data_table.TabIndex = 2;
             data_table.CellClick += data_table_CellClick;
             // 
@@ -75,7 +79,7 @@
             // 
             Add_Walkin.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             Add_Walkin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Add_Walkin.Location = new Point(1143, 81);
+            Add_Walkin.Location = new Point(1494, 81);
             Add_Walkin.Margin = new Padding(4, 5, 4, 5);
             Add_Walkin.Name = "Add_Walkin";
             Add_Walkin.Size = new Size(104, 69);
@@ -89,7 +93,7 @@
             search_btn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             search_btn.Enabled = false;
             search_btn.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            search_btn.Location = new Point(1032, 81);
+            search_btn.Location = new Point(1383, 81);
             search_btn.Margin = new Padding(4, 5, 4, 5);
             search_btn.Name = "search_btn";
             search_btn.Size = new Size(104, 69);
@@ -99,11 +103,52 @@
             search_btn.Visible = false;
             search_btn.Click += search_btn_Click;
             // 
+            // from_date
+            // 
+            from_date.Location = new Point(996, 33);
+            from_date.Name = "from_date";
+            from_date.Size = new Size(199, 31);
+            from_date.TabIndex = 6;
+            from_date.ValueChanged += from_date_ValueChanged;
+            // 
+            // to_date
+            // 
+            to_date.Location = new Point(996, 119);
+            to_date.Name = "to_date";
+            to_date.Size = new Size(199, 31);
+            to_date.TabIndex = 7;
+            to_date.ValueChanged += to_date_ValueChanged;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI Black", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Location = new Point(1057, 67);
+            label1.Name = "label1";
+            label1.Size = new Size(64, 45);
+            label1.TabIndex = 8;
+            label1.Text = "TO";
+            // 
+            // button1
+            // 
+            button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            button1.Location = new Point(1212, 33);
+            button1.Name = "button1";
+            button1.Size = new Size(101, 117);
+            button1.TabIndex = 9;
+            button1.Text = "Full List";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
+            // 
             // Summary
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1268, 680);
+            ClientSize = new Size(1619, 680);
+            Controls.Add(button1);
+            Controls.Add(label1);
+            Controls.Add(to_date);
+            Controls.Add(from_date);
             Controls.Add(search_btn);
             Controls.Add(Add_Walkin);
             Controls.Add(data_table);
@@ -116,6 +161,7 @@
             Load += Summary_Load;
             ((System.ComponentModel.ISupportInitialize)data_table).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -125,5 +171,9 @@
         private DataGridView data_table;
         private Button Add_Walkin;
         private Button search_btn;
+        private DateTimePicker from_date;
+        private DateTimePicker to_date;
+        private Label label1;
+        private Button button1;
     }
 }

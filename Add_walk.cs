@@ -118,17 +118,21 @@ namespace Walkin_Report
         {
             LoadStores();
             LoadStatuses();
+            LoadStaffs();
+        }
+
+        private void LoadStaffs()
+        {
             team_box.Items.Clear();
-            List<string> arr = new List<string> { "DIV", "JYO", "KSH", "MDV", "MS", "PLV", "RDK", "RMY", "SHS", "SUD", "VIJ" };
-            foreach (string s in arr)
+            List<Staff> arr = db.GetAllStaff();
+            foreach (Staff s in arr)
             {
-                team_box.Items.Add(s);
+                team_box.Items.Add(s.Sym);
             }
         }
 
         private void LoadStores()
         {
-            DBManager db = new DBManager();
             List<Store> stores = db.GetAllStores();
 
             store_combo.Items.Clear();
@@ -144,7 +148,6 @@ namespace Walkin_Report
 
         private void LoadStatuses()
         {
-            DBManager db = new DBManager();
             List<Status> statuses = db.GetAllStatuses();
 
             status_combo.Items.Clear();

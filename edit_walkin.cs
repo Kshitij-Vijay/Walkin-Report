@@ -15,6 +15,7 @@ namespace Walkin_Report
     {
         Walkin selectedWalkin;
         int id;
+        DBManager db = new DBManager();
         public edit_walkin(Walkin selectedWalkin)
         {
             InitializeComponent();
@@ -26,6 +27,9 @@ namespace Walkin_Report
 
         private void edit_walkin_Load(object sender, EventArgs e)
         {
+            LoadStaffs();
+            LoadStores();
+            LoadStatuses();
             Walkin w = selectedWalkin;
             name_text.Text = w.Name ?? "";
             area_text.Text = w.Area ?? "";
@@ -39,6 +43,49 @@ namespace Walkin_Report
             store_combo.Text = w.Store ?? "";
             remarks_text.Text = w.Remarks ?? "";
             dateTimePicker1.Text = w.CreatedAt.ToString() ?? "";
+        }
+
+        private void LoadStaffs()
+        {
+            team_box.Items.Clear();
+            List<Staff> arr = db.GetAllStaff();
+            foreach (Staff s in arr)
+            {
+                team_box.Items.Add(s.Sym);
+            }
+
+            if(team_box.Items.Count > 0)
+                team_box.SelectedIndex = 0; // optional default
+        }
+
+        private void LoadStores()
+        {
+            List<Store> stores = db.GetAllStores();
+
+            store_combo.Items.Clear();
+
+            foreach (Store store in stores)
+            {
+                store_combo.Items.Add(store.Sym);
+            }
+
+            if (store_combo.Items.Count > 0)
+                store_combo.SelectedIndex = 0; // optional default
+        }
+
+        private void LoadStatuses()
+        {
+            List<Status> statuses = db.GetAllStatuses();
+
+            status_combo.Items.Clear();
+
+            foreach (Status status in statuses)
+            {
+                status_combo.Items.Add(status.Name);
+            }
+
+            if (status_combo.Items.Count > 0)
+                status_combo.SelectedIndex = 0; // optional default
         }
 
         private void OK_btn_Click(object sender, EventArgs e)
@@ -68,7 +115,6 @@ namespace Walkin_Report
                 // VERY IMPORTANT
                 updated.Id = this.id;
 
-                DBManager db = new DBManager();
                 db.UpdateWalkin(updated);
 
                 MessageBox.Show("Walk-in updated successfully");

@@ -21,6 +21,7 @@ namespace Walkin_Report
         public Summary()
         {
             InitializeComponent();
+            this.WindowState = FormWindowState.Maximized;
         }
 
         private void Summary_Load(object sender, EventArgs e)
@@ -103,6 +104,7 @@ namespace Walkin_Report
             }
 
             walkins = db.GetAllWalkins();
+            walkins.Reverse();
             all_walkins = walkins;
             add_data();
 
@@ -193,6 +195,15 @@ namespace Walkin_Report
                 );
             }
 
+            if (walkins != null && walkins.Count > 0)
+            {
+                DateTime minDate = walkins.Min(w => w.CreatedAt);
+                DateTime maxDate = walkins.Max(w => w.CreatedAt);
+
+                from_date.Value = minDate.Date;
+                to_date.Value = maxDate.Date;
+            }
+
         }
 
         private void Add_Walkin_Click(object sender, EventArgs e)
@@ -200,12 +211,14 @@ namespace Walkin_Report
             Add_walk adw = new Add_walk();
             adw.ShowDialog();
             walkins = db.GetAllWalkins();
+            walkins.Reverse();
             all_walkins = walkins;
             add_data();
         }
 
         private void data_table_CellClick(object sender, DataGridViewCellEventArgs e)
         {
+            // Edit walkins
             if (e.RowIndex < 0) return; // ignore header clicks
 
             Walkin w = walkins[e.RowIndex];
@@ -213,26 +226,50 @@ namespace Walkin_Report
             edit_walkin edw = new edit_walkin(w);
             edw.ShowDialog();
             walkins = db.GetAllWalkins();
+            walkins.Reverse();
             all_walkins = walkins;
             add_data();
-        }
-
-        private void edit_btn_Click(object sender, EventArgs e)
-        {
-            if (selectedWalkin != null)
-            {
-                edit_walkin edw = new edit_walkin(selectedWalkin);
-            }
-            else
-            {
-                MessageBox.Show("Select a Walkin");
-            }
         }
 
         private void search_btn_Click(object sender, EventArgs e)
         {
             Search s = new Search(walkins);
             s.ShowDialog();
+        }
+
+        private void from_date_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime fromDate = from_date.Value.Date;
+            DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
+
+            walkins = walkins
+                .Where(w =>
+        w.CreatedAt.Date >= from_date.Value.Date &&
+        w.CreatedAt.Date <= to_date.Value.Date)
+                .ToList();
+            add_data();
+        }
+
+        private void to_date_ValueChanged(object sender, EventArgs e)
+        {
+            DateTime fromDate = from_date.Value.Date;
+            DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
+
+            walkins = walkins
+                .Where(w =>
+        w.CreatedAt.Date >= from_date.Value.Date &&
+        w.CreatedAt.Date <= to_date.Value.Date)
+                .ToList();
+            add_data();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {  // full list
+            walkins = db.GetAllWalkins();
+            walkins.Reverse();
+            all_walkins = walkins;
+            add_data();
+
         }
     }
 }
