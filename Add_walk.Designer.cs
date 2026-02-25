@@ -39,7 +39,6 @@
             label5 = new Label();
             Source_text = new TextBox();
             label6 = new Label();
-            category_text = new TextBox();
             label7 = new Label();
             Products_text = new TextBox();
             label8 = new Label();
@@ -51,6 +50,9 @@
             status_combo = new ComboBox();
             team_box = new ComboBox();
             dateTimePicker1 = new DateTimePicker();
+            category_text = new ComboBox();
+            add_category = new Button();
+            Category_list_lbl = new Label();
             SuspendLayout();
             // 
             // label1
@@ -76,19 +78,21 @@
             // 
             // name_text
             // 
+            name_text.Font = new Font("Segoe UI", 10F);
             name_text.Location = new Point(112, 130);
             name_text.Margin = new Padding(4, 5, 4, 5);
             name_text.Name = "name_text";
-            name_text.Size = new Size(205, 31);
+            name_text.Size = new Size(205, 34);
             name_text.TabIndex = 2;
             // 
             // area_text
             // 
+            area_text.Font = new Font("Segoe UI", 10F);
             area_text.Location = new Point(112, 200);
             area_text.Margin = new Padding(4, 5, 4, 5);
             area_text.Multiline = true;
             area_text.Name = "area_text";
-            area_text.Size = new Size(205, 27);
+            area_text.Size = new Size(205, 34);
             area_text.TabIndex = 4;
             // 
             // label3
@@ -104,10 +108,12 @@
             // 
             // pin_text
             // 
+            pin_text.Font = new Font("Segoe UI", 10F);
             pin_text.Location = new Point(474, 200);
             pin_text.Margin = new Padding(4, 5, 4, 5);
+            pin_text.MaxLength = 6;
             pin_text.Name = "pin_text";
-            pin_text.Size = new Size(205, 31);
+            pin_text.Size = new Size(205, 34);
             pin_text.TabIndex = 6;
             pin_text.KeyPress += pin_text_KeyPress;
             // 
@@ -123,10 +129,12 @@
             // 
             // phone_text
             // 
+            phone_text.Font = new Font("Segoe UI", 10F);
             phone_text.Location = new Point(112, 275);
             phone_text.Margin = new Padding(4, 5, 4, 5);
+            phone_text.MaxLength = 55;
             phone_text.Name = "phone_text";
-            phone_text.Size = new Size(205, 31);
+            phone_text.Size = new Size(205, 34);
             phone_text.TabIndex = 8;
             // 
             // label5
@@ -141,10 +149,11 @@
             // 
             // Source_text
             // 
+            Source_text.Font = new Font("Segoe UI", 10F);
             Source_text.Location = new Point(474, 275);
             Source_text.Margin = new Padding(4, 5, 4, 5);
             Source_text.Name = "Source_text";
-            Source_text.Size = new Size(205, 31);
+            Source_text.Size = new Size(205, 34);
             Source_text.TabIndex = 10;
             // 
             // label6
@@ -156,14 +165,6 @@
             label6.Size = new Size(80, 25);
             label6.TabIndex = 9;
             label6.Text = "Source : ";
-            // 
-            // category_text
-            // 
-            category_text.Location = new Point(112, 354);
-            category_text.Margin = new Padding(4, 5, 4, 5);
-            category_text.Name = "category_text";
-            category_text.Size = new Size(205, 31);
-            category_text.TabIndex = 12;
             // 
             // label7
             // 
@@ -177,10 +178,11 @@
             // 
             // Products_text
             // 
+            Products_text.Font = new Font("Segoe UI", 10F);
             Products_text.Location = new Point(474, 354);
             Products_text.Margin = new Padding(4, 5, 4, 5);
             Products_text.Name = "Products_text";
-            Products_text.Size = new Size(205, 31);
+            Products_text.Size = new Size(205, 34);
             Products_text.TabIndex = 14;
             // 
             // label8
@@ -195,10 +197,11 @@
             // 
             // remarks_text
             // 
+            remarks_text.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point, 0);
             remarks_text.Location = new Point(112, 444);
             remarks_text.Margin = new Padding(4, 5, 4, 5);
             remarks_text.Name = "remarks_text";
-            remarks_text.Size = new Size(205, 31);
+            remarks_text.Size = new Size(205, 34);
             remarks_text.TabIndex = 16;
             // 
             // label9
@@ -213,11 +216,12 @@
             // 
             // store_combo
             // 
+            store_combo.Font = new Font("Segoe UI", 10F);
             store_combo.FormattingEnabled = true;
             store_combo.Location = new Point(579, 444);
             store_combo.Margin = new Padding(4, 5, 4, 5);
             store_combo.Name = "store_combo";
-            store_combo.Size = new Size(102, 33);
+            store_combo.Size = new Size(102, 36);
             store_combo.TabIndex = 19;
             // 
             // OK_btn
@@ -247,35 +251,69 @@
             // 
             // status_combo
             // 
+            status_combo.Font = new Font("Segoe UI", 10F);
             status_combo.FormattingEnabled = true;
             status_combo.Location = new Point(360, 444);
             status_combo.Margin = new Padding(4, 5, 4, 5);
             status_combo.Name = "status_combo";
-            status_combo.Size = new Size(102, 33);
+            status_combo.Size = new Size(102, 36);
             status_combo.TabIndex = 22;
             // 
             // team_box
             // 
+            team_box.Font = new Font("Segoe UI", 10F);
             team_box.FormattingEnabled = true;
             team_box.Location = new Point(474, 444);
             team_box.Margin = new Padding(4, 5, 4, 5);
             team_box.Name = "team_box";
-            team_box.Size = new Size(94, 33);
+            team_box.Size = new Size(94, 36);
             team_box.TabIndex = 23;
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(369, 128);
-            dateTimePicker1.Margin = new Padding(4, 4, 4, 4);
+            dateTimePicker1.Location = new Point(474, 128);
+            dateTimePicker1.Margin = new Padding(4);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(312, 31);
+            dateTimePicker1.Size = new Size(207, 31);
             dateTimePicker1.TabIndex = 24;
+            // 
+            // category_text
+            // 
+            category_text.Font = new Font("Segoe UI", 10F);
+            category_text.FormattingEnabled = true;
+            category_text.Location = new Point(123, 356);
+            category_text.Name = "category_text";
+            category_text.Size = new Size(131, 36);
+            category_text.TabIndex = 48;
+            category_text.SelectedIndexChanged += category_text_SelectedIndexChanged;
+            // 
+            // add_category
+            // 
+            add_category.Font = new Font("Impact", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            add_category.Location = new Point(260, 355);
+            add_category.Name = "add_category";
+            add_category.Size = new Size(57, 34);
+            add_category.TabIndex = 49;
+            add_category.Text = "+";
+            add_category.UseVisualStyleBackColor = true;
+            add_category.Click += add_category_Click;
+            // 
+            // Category_list_lbl
+            // 
+            Category_list_lbl.AutoSize = true;
+            Category_list_lbl.Location = new Point(47, 393);
+            Category_list_lbl.Name = "Category_list_lbl";
+            Category_list_lbl.Size = new Size(0, 25);
+            Category_list_lbl.TabIndex = 50;
             // 
             // Add_walk
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(709, 634);
+            Controls.Add(Category_list_lbl);
+            Controls.Add(add_category);
+            Controls.Add(category_text);
             Controls.Add(dateTimePicker1);
             Controls.Add(team_box);
             Controls.Add(status_combo);
@@ -286,7 +324,6 @@
             Controls.Add(label9);
             Controls.Add(Products_text);
             Controls.Add(label8);
-            Controls.Add(category_text);
             Controls.Add(label7);
             Controls.Add(Source_text);
             Controls.Add(label6);
@@ -322,7 +359,6 @@
         private Label label5;
         private TextBox Source_text;
         private Label label6;
-        private TextBox category_text;
         private Label label7;
         private TextBox Products_text;
         private Label label8;
@@ -336,5 +372,8 @@
         private ComboBox status_combo;
         private ComboBox team_box;
         private DateTimePicker dateTimePicker1;
+        private ComboBox category_text;
+        private Button add_category;
+        private Label Category_list_lbl;
     }
 }
