@@ -408,5 +408,31 @@ namespace Walkin_Report
 
             return conect;
         }
+
+        public void delete_walkin_by_id(int id)
+        {
+            string query = "DELETE FROM walkins WHERE id = @id";
+
+            using (MySqlConnection conn = new MySqlConnection(connStr))
+            using (MySqlCommand cmd = new MySqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+
+                try
+                {
+                    conn.Open();
+                    int rowsAffected = cmd.ExecuteNonQuery();
+
+                    if (rowsAffected == 0)
+                    {
+                        MessageBox.Show("No record found with the given ID.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Delete failed:\n" + ex.Message);
+                }
+            }
+        }
     }
 }

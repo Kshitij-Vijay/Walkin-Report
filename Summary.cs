@@ -251,25 +251,39 @@ namespace Walkin_Report
             if(edw.DialogResult == DialogResult.OK)
             {
                 w = edw.updated_walkin;
-                int index = walkins.FindIndex(x => x.Id == w.Id);
-                if (index != -1)
+                if(w != null)
                 {
-                    walkins[index] = w;
+                    int index = walkins.FindIndex(x => x.Id == w.Id);
+                    if (index != -1)
+                    {
+                        walkins[index] = w;
+                    }
+
+                    add_data();
+
+
+                    // 🔁 Restore scroll
+                    if (firstDisplayedRow >= 0 && firstDisplayedRow < data_table.Rows.Count)
+                        data_table.FirstDisplayedScrollingRowIndex = firstDisplayedRow;
+
+                    // 🔁 Restore selection
+                    if (selectedRowIndex >= 0 && selectedRowIndex < data_table.Rows.Count)
+                    {
+                        data_table.ClearSelection();
+                        data_table.Rows[selectedRowIndex].Selected = true;
+                        data_table.CurrentCell = data_table.Rows[selectedRowIndex].Cells[0];
+                    }
                 }
-                add_data();
-
-
-                // 🔁 Restore scroll
-                if (firstDisplayedRow >= 0 && firstDisplayedRow < data_table.Rows.Count)
-                    data_table.FirstDisplayedScrollingRowIndex = firstDisplayedRow;
-
-                // 🔁 Restore selection
-                if (selectedRowIndex >= 0 && selectedRowIndex < data_table.Rows.Count)
+                else
                 {
-                    data_table.ClearSelection();
-                    data_table.Rows[selectedRowIndex].Selected = true;
-                    data_table.CurrentCell = data_table.Rows[selectedRowIndex].Cells[0];
+                    // Reload data
+                    walkins = db.GetAllWalkins();
+                    walkins.Reverse();
+                    all_walkins = walkins;
+
+                    add_data();
                 }
+
             }
         }
 

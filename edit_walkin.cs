@@ -18,7 +18,7 @@ namespace Walkin_Report
         DBManager db = new DBManager();
         List<Category> categories = new List<Category>();
         bool category_lable_list_set = false;
-        public Walkin updated_walkin {  get; private set; }
+        public Walkin updated_walkin { get; private set; }
         public edit_walkin(Walkin selectedWalkin)
         {
             InitializeComponent();
@@ -128,16 +128,16 @@ namespace Walkin_Report
                 DateTime selectedDateTime = dateTimePicker1.Value;
 
                 Walkin updated = new Walkin(
-                    SafeText(name_text, 100, true),       
+                    SafeText(name_text, 100, true),
                     SafeText(area_text, 45),
                     SafeNumber(pin_text, 10),
                     SafeText(phone_text, 40),
                     SafeText(Source_text, 45),
                     SafeCombo(team_box),
-                    SafeCombo(status_combo, true),                            
-                    Safestring(Category_list_lbl.Text),            
+                    SafeCombo(status_combo, true),
+                    Safestring(Category_list_lbl.Text),
                     SafeText(Products_text, 100),
-                    SafeCombo(store_combo, true),         
+                    SafeCombo(store_combo, true),
                     SafeText(remarks_text, 100),
                     selectedDateTime
                 );
@@ -237,7 +237,7 @@ namespace Walkin_Report
         private void add_category_Click(object sender, EventArgs e)
         {
             string cc = category_text.Text.Trim();
-            if (category_lable_list_set==false)
+            if (category_lable_list_set == false)
             {
                 Category_list_lbl.Text = cc;
                 category_lable_list_set = true;
@@ -275,6 +275,19 @@ namespace Walkin_Report
             if (category_text.SelectedItem != null)
             {
                 add_category.Enabled = true;
+            }
+        }
+
+        private void Delete_btn_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show( "Are you sure you want to delete this walk-in?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                db.delete_walkin_by_id(id);
+                updated_walkin = null;
+                this.DialogResult = DialogResult.OK;
+                this.Close();
             }
         }
     }
