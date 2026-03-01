@@ -26,94 +26,27 @@ namespace Walkin_Report
 
         }
 
-
-
-        private string Safestring(string tb)
-        {
-            string val = tb.Trim();
-
-            if (string.IsNullOrWhiteSpace(val))
-            {
-                MessageBox.Show("Category is required", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-
-            return val;
-        }
-
-        private string SafeText(TextBox tb, int maxLen, bool required = false)
-        {
-            string val = tb.Text?.Trim();
-
-            if (string.IsNullOrWhiteSpace(val))
-            {
-                if (required)
-                    throw new Exception($"{tb.Name.Replace("_text", "")} is required");
-                return null;
-            }
-
-            if (val.Length > maxLen)
-                throw new Exception($"{tb.Name.Replace("_text", "")} exceeds {maxLen} characters");
-
-            return val;
-        }
-
-        private string SafeCombo(ComboBox cb, bool required = false)
-        {
-            string val = cb.Text?.Trim();
-
-            if (string.IsNullOrWhiteSpace(val))
-            {
-                if (required)
-                    throw new Exception($"{cb.Name} must be selected");
-                return null;
-            }
-
-            return val;
-        }
-
-        private string SafeNumber(TextBox tb, int maxLen, bool required = false)
-        {
-            string val = tb.Text?.Trim();
-
-            if (string.IsNullOrWhiteSpace(val))
-            {
-                if (required)
-                    throw new Exception($"{tb.Name} is required");
-                return null;
-            }
-
-            if (!val.All(char.IsDigit))
-                throw new Exception($"{tb.Name} must contain only numbers");
-
-            if (val.Length > maxLen)
-                throw new Exception($"{tb.Name} exceeds {maxLen} digits");
-
-            return val;
-        }
-
         private void OK_btn_Click(object sender, EventArgs e)
         {
             try
             {
                 DateTime selectedDateTime = dateTimePicker1.Value;
-
+                string_safety sf = new string_safety();
                 Walkin walkin = new Walkin(
-                    SafeText(name_text, 100, true),       // required
-                    SafeText(area_text, 45),
-                    SafeNumber(pin_text, 6),
-                    SafeText(phone_text, 15),
-                    SafeText(Source_text, 45),
-                    SafeCombo(team_box),
-                    SafeCombo(status_combo, true),
-                    Safestring(Category_list_lbl.Text),
-                    SafeText(Products_text, 100),
-                    SafeCombo(store_combo, true),         // required
-                    SafeText(remarks_text, 100),
+                    sf.SafeText(name_text, 100, true),       // required
+                    sf.SafeText(area_text, 45),
+                    sf.SafeNumber(pin_text, 6),
+                    sf.SafeText(phone_text, 15),
+                    sf.SafeText(Source_text, 45),
+                    sf.SafeCombo(team_box),
+                    sf.SafeCombo(status_combo, true),
+                    sf.Safestring(Category_list_lbl.Text),
+                    sf.SafeText(Products_text, 100),
+                    sf.SafeCombo(store_combo, true),         // required
+                    sf.SafeText(remarks_text, 100),
                     selectedDateTime
                 );
-
-                // continue saving walkin...
+                walkin.amount = (float)sf.SafeDecimal(amount_box, 50, 2, true);
 
 
 
@@ -152,7 +85,7 @@ namespace Walkin_Report
             if (category_text.Items.Count > 0)
                 category_text.SelectedIndex = 0;
 
-            category_text.SelectedItem = null; 
+            category_text.SelectedItem = null;
             category_text.SelectedIndex = -1;
             category_text.Text = ""; // Clear text to show placeholder
         }
@@ -239,10 +172,10 @@ namespace Walkin_Report
             }
             LoadCategories();
             add_category.Enabled = false;
-            
-            foreach(Category c in categories)
+
+            foreach (Category c in categories)
             {
-                if(c.Sym.Equals(cc, StringComparison.OrdinalIgnoreCase))
+                if (c.Sym.Equals(cc, StringComparison.OrdinalIgnoreCase))
                 {
                     category_text.Items.Remove(cc);
                     break;
@@ -255,10 +188,30 @@ namespace Walkin_Report
 
         private void category_text_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(category_text.SelectedItem != null)
+            if (category_text.SelectedItem != null)
             {
                 add_category.Enabled = true;
             }
+        }
+
+        private void amount_box_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+
+            // Allow control keys (Backspace, Delete, Ctrl+C, etc.)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(e.KeyChar))
+                return;
+
+            // Allow ONE decimal point
+            if (e.KeyChar == '.' && !tb.Text.Contains('.'))
+                return;
+
+            // Block everything else
+            e.Handled = true;
         }
     }
 }

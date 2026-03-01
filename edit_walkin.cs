@@ -19,7 +19,7 @@ namespace Walkin_Report
         List<Category> categories = new List<Category>();
         bool category_lable_list_set = false;
         bool followup;
-        public string edit_result {  get; set; }
+        public string edit_result { get; set; }
         public Walkin updated_walkin { get; private set; }
         public edit_walkin(Walkin selectedWalkin, bool v)
         {
@@ -147,25 +147,26 @@ namespace Walkin_Report
         {
             try
             {
+                string_safety sf = new string_safety();
                 DateTime selectedDateTime = dateTimePicker1.Value;
 
                 Walkin updated = new Walkin(
-                    SafeText(name_text, 100, true),
-                    SafeText(area_text, 45),
-                    SafeNumber(pin_text, 10),
-                    SafeText(phone_text, 40),
-                    SafeText(Source_text, 45),
-                    SafeCombo(team_box),
-                    SafeCombo(status_combo, true),
-                    Safestring(Category_list_lbl.Text),
-                    SafeText(Products_text, 100),
-                    SafeCombo(store_combo, true),
-                    SafeText(remarks_text, 100),
+                    sf.SafeText(name_text, 100, true),
+                    sf.SafeText(area_text, 45),
+                    sf.SafeNumber(pin_text, 10),
+                    sf.SafeText(phone_text, 40),
+                    sf.SafeText(Source_text, 45),
+                    sf.SafeCombo(team_box),
+                    sf.SafeCombo(status_combo, true),
+                    sf.Safestring(Category_list_lbl.Text),
+                    sf.SafeText(Products_text, 100),
+                    sf.SafeCombo(store_combo, true),
+                    sf.SafeText(remarks_text, 100),
                     selectedDateTime
                 );
-                updated.amount = (float)SafeDecimal(amount_box, 50,2, true);
+                updated.amount = (float)sf.SafeDecimal(amount_box, 50, 2, true);
 
-                if(followup == true)
+                if (followup == true)
                 {
                     updated.followup = this.id;
                     db.InsertWalkin(updated);
@@ -192,116 +193,6 @@ namespace Walkin_Report
             }
         }
 
-        private string Safestring(string tb)
-        {
-            string val = tb.Trim();
-
-            if (string.IsNullOrWhiteSpace(val))
-            {
-                MessageBox.Show("Category is required", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-
-
-            return val;
-        }
-
-        private void pin_text_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true; // block input
-            }
-        }
-
-
-        private string SafeText(TextBox tb, int maxLen, bool required = false)
-        {
-            string val = tb.Text?.Trim();
-
-            if (string.IsNullOrWhiteSpace(val))
-            {
-                if (required)
-                    throw new Exception($"{tb.Name.Replace("_text", "")} is required");
-                return null;
-            }
-
-            if (val.Length > maxLen)
-                throw new Exception($"{tb.Name.Replace("_text", "")} exceeds {maxLen} characters");
-
-            return val;
-        }
-
-        private string SafeCombo(ComboBox cb, bool required = false)
-        {
-            string val = cb.Text?.Trim();
-
-            if (string.IsNullOrWhiteSpace(val))
-            {
-                if (required)
-                    throw new Exception($"{cb.Name} must be selected");
-                return null;
-            }
-
-            return val;
-        }
-
-        private decimal? SafeDecimal( TextBox tb, int maxDigitsBeforeDecimal, int maxDigitsAfterDecimal, bool required = false)
-        {
-            string val = tb.Text?.Trim();
-
-            if (string.IsNullOrWhiteSpace(val))
-            {
-                if (required)
-                    throw new Exception($"{tb.Name} is required");
-                return null;
-            }
-
-            // Allow both "." and "," as decimal separator
-            val = val.Replace(',', '.');
-
-            // Validate numeric format manually
-            if (!decimal.TryParse(
-                    val,
-                    System.Globalization.NumberStyles.AllowDecimalPoint,
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    out decimal number))
-            {
-                throw new Exception($"{tb.Name} must be a valid number");
-            }
-
-            // Split parts
-            string[] parts = val.Split('.');
-            string before = parts[0].Replace("-", "");
-            string after = parts.Length > 1 ? parts[1] : "";
-
-            if (before.Length > maxDigitsBeforeDecimal)
-                throw new Exception($"{tb.Name} exceeds {maxDigitsBeforeDecimal} digits before decimal");
-
-            if (after.Length > maxDigitsAfterDecimal)
-                throw new Exception($"{tb.Name} exceeds {maxDigitsAfterDecimal} digits after decimal");
-
-            return number;
-        }
-
-        private string SafeNumber(TextBox tb, int maxLen, bool required = false)
-        {
-            string val = tb.Text?.Trim();
-
-            if (string.IsNullOrWhiteSpace(val))
-            {
-                if (required)
-                    throw new Exception($"{tb.Name} is required");
-                return null;
-            }
-
-            if (!val.All(char.IsDigit))
-                throw new Exception($"{tb.Name} must contain only numbers");
-
-            if (val.Length > maxLen)
-                throw new Exception($"{tb.Name} exceeds {maxLen} digits");
-
-            return val;
-        }
 
         private void add_category_Click(object sender, EventArgs e)
         {
@@ -356,6 +247,31 @@ namespace Walkin_Report
                 db.delete_walkin_by_id(id);
                 updated_walkin = null;
                 edit_result = "deleted";
+                if (selectedWalkin.followup != 0)
+                {
+                    List<Walkin> all = db.GetAllWalkins();
+                    int idm = selectedWalkin.Id;
+                    int fidm = selectedWalkin.followup; // parent
+                    Walkin parent = null;
+                    Walkin child = null;
+                    foreach (Walkin walkin in all)
+                    {
+                        if (walkin.Id == fidm)
+                        {
+                            parent = walkin;
+                        }
+                        if (walkin.followup == idm)
+                        {
+                            child = walkin;
+                        }
+                    }
+                    if (child != null && parent != null)
+                    {
+                        child.followup = parent.Id;
+                        db.UpdateWalkin(child);
+                        MessageBox.Show("Deleted");
+                    }
+                }
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
@@ -368,6 +284,39 @@ namespace Walkin_Report
             edit_result = "followup";
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void pin_text_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            // Allow control keys (Backspace, Delete, Ctrl+C, etc.)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Allow only digits
+            if (!char.IsDigit(e.KeyChar))
+                e.Handled = true;
+        }
+
+        private void amount_box_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+            TextBox tb = (TextBox)sender;
+
+            // Allow control keys (Backspace, Delete, Ctrl+C, etc.)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(e.KeyChar))
+                return;
+
+            // Allow ONE decimal point
+            if (e.KeyChar == '.' && !tb.Text.Contains('.'))
+                return;
+
+            // Block everything else
+            e.Handled = true;
         }
     }
 }

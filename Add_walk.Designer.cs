@@ -265,9 +265,10 @@
             // 
             // dateTimePicker1
             // 
-            dateTimePicker1.Location = new Point(379, 102);
+            dateTimePicker1.Font = new Font("Segoe UI", 10F);
+            dateTimePicker1.Location = new Point(303, 102);
             dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(166, 27);
+            dateTimePicker1.Size = new Size(242, 30);
             dateTimePicker1.TabIndex = 24;
             // 
             // category_text
@@ -275,7 +276,7 @@
             category_text.Font = new Font("Segoe UI", 10F);
             category_text.FormattingEnabled = true;
             category_text.Location = new Point(98, 285);
-            category_text.Margin = new Padding(2, 2, 2, 2);
+            category_text.Margin = new Padding(2);
             category_text.Name = "category_text";
             category_text.Size = new Size(106, 31);
             category_text.TabIndex = 48;
@@ -285,9 +286,9 @@
             // 
             add_category.Font = new Font("Impact", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             add_category.Location = new Point(208, 284);
-            add_category.Margin = new Padding(2, 2, 2, 2);
+            add_category.Margin = new Padding(2);
             add_category.Name = "add_category";
-            add_category.Size = new Size(46, 30);
+            add_category.Size = new Size(46, 32);
             add_category.TabIndex = 49;
             add_category.Text = "+";
             add_category.UseVisualStyleBackColor = true;
@@ -311,11 +312,12 @@
             amount_box.Name = "amount_box";
             amount_box.Size = new Size(165, 30);
             amount_box.TabIndex = 58;
+            amount_box.KeyPress += amount_box_KeyPress;
             // 
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(294, 359);
+            label10.Location = new Point(303, 355);
             label10.Name = "label10";
             label10.Size = new Size(73, 20);
             label10.TabIndex = 57;

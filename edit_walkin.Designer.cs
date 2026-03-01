@@ -338,11 +338,12 @@
             amount_box.Name = "amount_box";
             amount_box.Size = new Size(165, 30);
             amount_box.TabIndex = 56;
+            amount_box.KeyPress += amount_box_KeyPress;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(295, 344);
+            label1.Location = new Point(303, 344);
             label1.Name = "label1";
             label1.Size = new Size(73, 20);
             label1.TabIndex = 55;

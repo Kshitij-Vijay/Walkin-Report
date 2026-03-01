@@ -171,21 +171,30 @@ namespace Walkin_Report
                         {
                             Walkin walkin = new Walkin(
                                 reader.GetString("name"),
-                                reader["area"]?.ToString(),
-                                reader["pin"]?.ToString(),
-                                reader["phone"]?.ToString(),
-                                reader["source"]?.ToString(),
-                                reader["team"]?.ToString(),
-                                reader["status"]?.ToString(),
-                                reader["categor"]?.ToString(),
-                                reader["products"]?.ToString(),
-                                reader.GetString("store"),
-                                reader["remarks"]?.ToString(),
+
+                                reader["area"] == DBNull.Value ? null : reader["area"].ToString(),
+                                reader["pin"] == DBNull.Value ? null : reader["pin"].ToString(),
+                                reader["phone"] == DBNull.Value ? null : reader["phone"].ToString(),
+                                reader["source"] == DBNull.Value ? null : reader["source"].ToString(),
+                                reader["team"] == DBNull.Value ? null : reader["team"].ToString(),
+                                reader["status"] == DBNull.Value ? null : reader["status"].ToString(),
+                                reader["categor"] == DBNull.Value ? null : reader["categor"].ToString(),
+                                reader["products"] == DBNull.Value ? null : reader["products"].ToString(),
+
+                                reader.GetString("store"), // assumed NOT NULL
+
+                                reader["remarks"] == DBNull.Value ? null : reader["remarks"].ToString(),
+
                                 reader.GetDateTime("created_at")
                             );
+
                             walkin.Id = reader.GetInt32("id");
-                            walkin.amount = reader.GetFloat("amount");
-                            walkin.followup = reader.GetInt32("followup");
+
+                            walkin.amount =
+                                reader["amount"] == DBNull.Value ? 0f : Convert.ToSingle(reader["amount"]);
+
+                            walkin.followup =
+                                reader["followup"] == DBNull.Value ? 0 : Convert.ToInt32(reader["followup"]);
 
                             walkins.Add(walkin);
                         }
@@ -327,7 +336,9 @@ namespace Walkin_Report
 
         public void UpdateWalkin(Walkin w)
         {
-            string query = @"
+            try
+            {
+                string query = @"
         UPDATE walkins SET
             name = @name,
             area = @area,
@@ -346,27 +357,33 @@ namespace Walkin_Report
         WHERE id = @id;
     ";
 
-            using (MySqlConnection conn = new MySqlConnection(connStr))
-            using (MySqlCommand cmd = new MySqlCommand(query, conn))
-            {
-                cmd.Parameters.AddWithValue("@id", w.Id);
-                cmd.Parameters.AddWithValue("@name", w.Name);
-                cmd.Parameters.AddWithValue("@area", w.Area);
-                cmd.Parameters.AddWithValue("@pin", w.Pin);
-                cmd.Parameters.AddWithValue("@phone", w.Phone);
-                cmd.Parameters.AddWithValue("@source", w.Source);
-                cmd.Parameters.AddWithValue("@team", w.Team);
-                cmd.Parameters.AddWithValue("@status", w.Status);
-                cmd.Parameters.AddWithValue("@categor", w.Category);
-                cmd.Parameters.AddWithValue("@products", w.Products);
-                cmd.Parameters.AddWithValue("@store", w.Store);
-                cmd.Parameters.AddWithValue("@remarks", w.Remarks);
-                cmd.Parameters.AddWithValue("@created_at", w.CreatedAt);
-                cmd.Parameters.AddWithValue("@amount", w.amount);
-                cmd.Parameters.AddWithValue("@followup", w.followup);
+                using (MySqlConnection conn = new MySqlConnection(connStr))
+                using (MySqlCommand cmd = new MySqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@id", w.Id);
+                    cmd.Parameters.AddWithValue("@name", w.Name);
+                    cmd.Parameters.AddWithValue("@area", w.Area);
+                    cmd.Parameters.AddWithValue("@pin", w.Pin);
+                    cmd.Parameters.AddWithValue("@phone", w.Phone);
+                    cmd.Parameters.AddWithValue("@source", w.Source);
+                    cmd.Parameters.AddWithValue("@team", w.Team);
+                    cmd.Parameters.AddWithValue("@status", w.Status);
+                    cmd.Parameters.AddWithValue("@categor", w.Category);
+                    cmd.Parameters.AddWithValue("@products", w.Products);
+                    cmd.Parameters.AddWithValue("@store", w.Store);
+                    cmd.Parameters.AddWithValue("@remarks", w.Remarks);
+                    cmd.Parameters.AddWithValue("@created_at", w.CreatedAt);
+                    cmd.Parameters.AddWithValue("@amount", w.amount);
+                    cmd.Parameters.AddWithValue("@followup", w.followup);
 
-                conn.Open();
-                cmd.ExecuteNonQuery();
+                    conn.Open();
+                    cmd.ExecuteNonQuery();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
             }
         }
 
