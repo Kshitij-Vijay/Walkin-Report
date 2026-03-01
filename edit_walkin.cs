@@ -247,30 +247,27 @@ namespace Walkin_Report
                 db.delete_walkin_by_id(id);
                 updated_walkin = null;
                 edit_result = "deleted";
-                if (selectedWalkin.followup != 0)
+                List<Walkin> all = db.GetAllWalkins();
+                int idm = selectedWalkin.Id;
+                int fidm = selectedWalkin.followup; // parent
+                Walkin parent = null;
+                Walkin child = null;
+                foreach (Walkin walkin in all)
                 {
-                    List<Walkin> all = db.GetAllWalkins();
-                    int idm = selectedWalkin.Id;
-                    int fidm = selectedWalkin.followup; // parent
-                    Walkin parent = null;
-                    Walkin child = null;
-                    foreach (Walkin walkin in all)
+                    if (walkin.Id == fidm)
                     {
-                        if (walkin.Id == fidm)
-                        {
-                            parent = walkin;
-                        }
-                        if (walkin.followup == idm)
-                        {
-                            child = walkin;
-                        }
+                        parent = walkin;
                     }
-                    if (child != null && parent != null)
+                    if (walkin.followup == idm)
                     {
-                        child.followup = parent.Id;
-                        db.UpdateWalkin(child);
-                        MessageBox.Show("Deleted");
+                        child = walkin;
                     }
+                }
+                if (child != null && parent != null)
+                {
+                    child.followup = parent.Id;
+                    db.UpdateWalkin(child);
+                    MessageBox.Show("Deleted");
                 }
                 this.DialogResult = DialogResult.OK;
                 this.Close();
