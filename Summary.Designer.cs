@@ -37,6 +37,7 @@
             to_date = new DateTimePicker();
             label1 = new Label();
             button1 = new Button();
+            group_follow_up_btns = new Button();
             ((System.ComponentModel.ISupportInitialize)data_table).BeginInit();
             SuspendLayout();
             // 
@@ -68,10 +69,10 @@
             data_table.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             data_table.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             data_table.Location = new Point(0, 139);
-            data_table.Margin = new Padding(24, 24, 24, 24);
+            data_table.Margin = new Padding(24);
             data_table.Name = "data_table";
             data_table.RowHeadersWidth = 51;
-            data_table.Size = new Size(1295, 405);
+            data_table.Size = new Size(1408, 405);
             data_table.TabIndex = 2;
             data_table.CellClick += data_table_CellClick;
             // 
@@ -79,7 +80,7 @@
             // 
             Add_Walkin.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             Add_Walkin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Add_Walkin.Location = new Point(1195, 65);
+            Add_Walkin.Location = new Point(1308, 65);
             Add_Walkin.Margin = new Padding(3, 4, 3, 4);
             Add_Walkin.Name = "Add_Walkin";
             Add_Walkin.Size = new Size(83, 55);
@@ -92,7 +93,7 @@
             // 
             search_btn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             search_btn.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            search_btn.Location = new Point(1106, 65);
+            search_btn.Location = new Point(1219, 65);
             search_btn.Margin = new Padding(3, 4, 3, 4);
             search_btn.Name = "search_btn";
             search_btn.Size = new Size(83, 55);
@@ -104,7 +105,7 @@
             // from_date
             // 
             from_date.Location = new Point(797, 26);
-            from_date.Margin = new Padding(2, 2, 2, 2);
+            from_date.Margin = new Padding(2);
             from_date.Name = "from_date";
             from_date.Size = new Size(160, 27);
             from_date.TabIndex = 6;
@@ -113,7 +114,7 @@
             // to_date
             // 
             to_date.Location = new Point(797, 95);
-            to_date.Margin = new Padding(2, 2, 2, 2);
+            to_date.Margin = new Padding(2);
             to_date.Name = "to_date";
             to_date.Size = new Size(160, 27);
             to_date.TabIndex = 7;
@@ -134,7 +135,7 @@
             // 
             button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
             button1.Location = new Point(970, 26);
-            button1.Margin = new Padding(2, 2, 2, 2);
+            button1.Margin = new Padding(2);
             button1.Name = "button1";
             button1.Size = new Size(81, 94);
             button1.TabIndex = 9;
@@ -142,11 +143,23 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
+            // group_follow_up_btns
+            // 
+            group_follow_up_btns.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            group_follow_up_btns.Location = new Point(1055, 26);
+            group_follow_up_btns.Margin = new Padding(2);
+            group_follow_up_btns.Name = "group_follow_up_btns";
+            group_follow_up_btns.Size = new Size(103, 94);
+            group_follow_up_btns.TabIndex = 10;
+            group_follow_up_btns.Text = "Group By Followups";
+            group_follow_up_btns.UseVisualStyleBackColor = true;
+            // 
             // Summary
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1295, 551);
+            ClientSize = new Size(1408, 551);
+            Controls.Add(group_follow_up_btns);
             Controls.Add(button1);
             Controls.Add(label1);
             Controls.Add(to_date);
@@ -157,7 +170,7 @@
             Controls.Add(store_group_box);
             Controls.Add(status_group_box);
             Margin = new Padding(3, 4, 3, 4);
-            MinimumSize = new Size(1036, 598);
+            MinimumSize = new Size(1426, 598);
             Name = "Summary";
             Text = "Walkin Report [Summary]";
             Load += Summary_Load;
@@ -177,5 +190,6 @@
         private DateTimePicker to_date;
         private Label label1;
         private Button button1;
+        private Button group_follow_up_btns;
     }
 }

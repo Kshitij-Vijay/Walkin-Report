@@ -18,14 +18,17 @@ namespace Walkin_Report
         DBManager db = new DBManager();
         List<Category> categories = new List<Category>();
         bool category_lable_list_set = false;
+        bool followup;
+        public string edit_result {  get; set; }
         public Walkin updated_walkin { get; private set; }
-        public edit_walkin(Walkin selectedWalkin)
+        public edit_walkin(Walkin selectedWalkin, bool v)
         {
             InitializeComponent();
             this.selectedWalkin = selectedWalkin;
             this.id = selectedWalkin.Id;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.followup = v;
         }
 
         private void edit_walkin_Load(object sender, EventArgs e)
@@ -50,6 +53,25 @@ namespace Walkin_Report
             remarks_text.Text = w.Remarks ?? "";
             dateTimePicker1.Text = w.CreatedAt.ToString() ?? "";
             Category_list_lbl.Text = w.Category ?? "";
+            amount_box.Text = w.amount.ToString() ?? "0";
+
+            if (followup == false)
+            {
+                f_or_w_lbl.Text = "Edit Walkin";
+                edit_result = "editing";
+                followUP_btn.Enabled = true;
+                Delete_btn.Enabled = true;
+                Delete_btn.Visible = true;
+            }
+            else
+            {
+                f_or_w_lbl.Text = "Edit Followup";
+                edit_result = "followup";
+                followUP_btn.Enabled = false;
+                Delete_btn.Enabled = false;
+                Delete_btn.Visible = false;
+                dateTimePicker1.Value = DateTime.Today;
+            }
         }
 
         private void LoadCategories()
@@ -141,19 +163,28 @@ namespace Walkin_Report
                     SafeText(remarks_text, 100),
                     selectedDateTime
                 );
+                updated.amount = (float)SafeDecimal(amount_box, 50,2, true);
 
-                // continue saving walkin...
-
-
-                // VERY IMPORTANT
-                updated.Id = this.id;
-
-                db.UpdateWalkin(updated);
-
-                MessageBox.Show("Walk-in updated successfully");
-                updated_walkin = updated;
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                if(followup == true)
+                {
+                    updated.followup = this.id;
+                    db.InsertWalkin(updated);
+                    MessageBox.Show("Followup Added");
+                    updated_walkin = null;
+                    edit_result = "followup";
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
+                else
+                {
+                    updated.Id = this.id;
+                    db.UpdateWalkin(updated);
+                    MessageBox.Show("Walk-in updated successfully");
+                    edit_result = "editing";
+                    updated_walkin = updated;
+                    this.DialogResult = DialogResult.OK;
+                    this.Close();
+                }
             }
             catch (Exception ex)
             {
@@ -212,6 +243,44 @@ namespace Walkin_Report
             }
 
             return val;
+        }
+
+        private decimal? SafeDecimal( TextBox tb, int maxDigitsBeforeDecimal, int maxDigitsAfterDecimal, bool required = false)
+        {
+            string val = tb.Text?.Trim();
+
+            if (string.IsNullOrWhiteSpace(val))
+            {
+                if (required)
+                    throw new Exception($"{tb.Name} is required");
+                return null;
+            }
+
+            // Allow both "." and "," as decimal separator
+            val = val.Replace(',', '.');
+
+            // Validate numeric format manually
+            if (!decimal.TryParse(
+                    val,
+                    System.Globalization.NumberStyles.AllowDecimalPoint,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out decimal number))
+            {
+                throw new Exception($"{tb.Name} must be a valid number");
+            }
+
+            // Split parts
+            string[] parts = val.Split('.');
+            string before = parts[0].Replace("-", "");
+            string after = parts.Length > 1 ? parts[1] : "";
+
+            if (before.Length > maxDigitsBeforeDecimal)
+                throw new Exception($"{tb.Name} exceeds {maxDigitsBeforeDecimal} digits before decimal");
+
+            if (after.Length > maxDigitsAfterDecimal)
+                throw new Exception($"{tb.Name} exceeds {maxDigitsAfterDecimal} digits after decimal");
+
+            return number;
         }
 
         private string SafeNumber(TextBox tb, int maxLen, bool required = false)
@@ -280,15 +349,25 @@ namespace Walkin_Report
 
         private void Delete_btn_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show( "Are you sure you want to delete this walk-in?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this walk-in?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
             if (result == DialogResult.Yes)
             {
                 db.delete_walkin_by_id(id);
                 updated_walkin = null;
+                edit_result = "deleted";
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
+        }
+
+        private void followUP_btn_Click(object sender, EventArgs e)
+        {
+            edit_walkin fup = new edit_walkin(selectedWalkin, true);
+            fup.ShowDialog();
+            edit_result = "followup";
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

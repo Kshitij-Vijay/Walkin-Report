@@ -13,6 +13,10 @@
     public string Store { get; set; }
     public string Remarks { get; set; }
 
+    public float amount { get; set; }
+
+    public int followup { get; set; }
+
     // ✅ NEW
     public DateTime CreatedAt { get; set; }
 

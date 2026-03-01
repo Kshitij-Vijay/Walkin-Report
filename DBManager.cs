@@ -155,7 +155,7 @@ namespace Walkin_Report
             List<Walkin> walkins = new List<Walkin>();
 
             string query = @"SELECT id, name, area, pin, phone, source, team,
-                            status, categor, products, store, remarks, created_at
+                            status, categor, products, store, remarks, created_at, amount, followup
                      FROM walkins";
 
             using (MySqlConnection conn = new MySqlConnection(connStr))
@@ -181,9 +181,11 @@ namespace Walkin_Report
                                 reader["products"]?.ToString(),
                                 reader.GetString("store"),
                                 reader["remarks"]?.ToString(),
-                                reader.GetDateTime("created_at") // ✅ FIX
+                                reader.GetDateTime("created_at")
                             );
                             walkin.Id = reader.GetInt32("id");
+                            walkin.amount = reader.GetFloat("amount");
+                            walkin.followup = reader.GetInt32("followup");
 
                             walkins.Add(walkin);
                         }
@@ -202,9 +204,9 @@ namespace Walkin_Report
         {
             string query = @"
         INSERT INTO walkins
-        (name, area, pin, phone, source, team, status, categor, products, store, remarks, created_at)
+        (name, area, pin, phone, source, team, status, categor, products, store, remarks, created_at, amount, followup)
         VALUES
-        (@name, @area, @pin, @phone, @source, @team, @status, @categor, @products, @store, @remarks, @created_at);
+        (@name, @area, @pin, @phone, @source, @team, @status, @categor, @products, @store, @remarks, @created_at, @amount, @followup);
     ";
 
             using (MySqlConnection conn = new MySqlConnection(connStr))
@@ -221,6 +223,8 @@ namespace Walkin_Report
                 cmd.Parameters.AddWithValue("@products", w.Products);
                 cmd.Parameters.AddWithValue("@store", w.Store);
                 cmd.Parameters.AddWithValue("@remarks", w.Remarks);
+                cmd.Parameters.AddWithValue("@amount", w.amount);
+                cmd.Parameters.AddWithValue("@followup", w.followup);
 
                 cmd.Parameters.Add("@created_at", MySqlDbType.DateTime)
                               .Value = w.CreatedAt;   // ✅ BEST PRACTICE
@@ -336,7 +340,9 @@ namespace Walkin_Report
             products = @products,
             store = @store,
             remarks = @remarks,
-            created_at = @created_at
+            created_at = @created_at,
+            amount = @amount,
+            followup = @followup 
         WHERE id = @id;
     ";
 
@@ -356,6 +362,8 @@ namespace Walkin_Report
                 cmd.Parameters.AddWithValue("@store", w.Store);
                 cmd.Parameters.AddWithValue("@remarks", w.Remarks);
                 cmd.Parameters.AddWithValue("@created_at", w.CreatedAt);
+                cmd.Parameters.AddWithValue("@amount", w.amount);
+                cmd.Parameters.AddWithValue("@followup", w.followup);
 
                 conn.Open();
                 cmd.ExecuteNonQuery();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.CodeAnalysis.Emit;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -106,6 +107,9 @@ namespace Walkin_Report
 
             walkins = db.GetAllWalkins();
             walkins.Reverse();
+            walkins = walkins
+    .OrderByDescending(w => w.CreatedAt)
+    .ToList();
             all_walkins = walkins;
             add_data();
 
@@ -155,6 +159,8 @@ namespace Walkin_Report
             data_table.Columns.Add("store", "STORE");
             data_table.Columns.Add("name", "NAME");
             data_table.Columns.Add("date", "DATE");
+            data_table.Columns.Add("type", "TYPE");
+            data_table.Columns.Add("amount", "AMOUNT");
             data_table.Columns.Add("area", "AREA");
             data_table.Columns.Add("pin", "PIN");
             data_table.Columns.Add("phone", "PHONE");
@@ -179,11 +185,18 @@ namespace Walkin_Report
             foreach (Walkin w in walkins)
             {
                 i++;
+                string type = "New Customer";
+                if (w.followup > 0)
+                {
+                    type = "Followup";
+                }
                 data_table.Rows.Add(
                     i,
                     w.Store,
                     w.Name,
                     w.CreatedAt.ToString(),
+                    type,
+                    w.amount.ToString(),
                     w.Area,
                     w.Pin,
                     w.Phone,
@@ -216,6 +229,9 @@ namespace Walkin_Report
                 // Reload data
                 walkins = db.GetAllWalkins();
                 walkins.Reverse();
+                walkins = walkins
+    .OrderByDescending(w => w.CreatedAt)
+    .ToList();
                 all_walkins = walkins;
 
                 add_data();
@@ -246,41 +262,55 @@ namespace Walkin_Report
 
             Walkin w = walkins[e.RowIndex];
 
-            edit_walkin edw = new edit_walkin(w);
+            edit_walkin edw = new edit_walkin(w, false);
             edw.ShowDialog();
-            if(edw.DialogResult == DialogResult.OK)
+            if (edw.DialogResult == DialogResult.OK)
             {
-                w = edw.updated_walkin;
-                if(w != null)
+                if (edw.edit_result == "editing")
                 {
-                    int index = walkins.FindIndex(x => x.Id == w.Id);
-                    if (index != -1)
+                    w = edw.updated_walkin;
+                    if (w != null)
                     {
-                        walkins[index] = w;
-                    }
+                        int index = walkins.FindIndex(x => x.Id == w.Id);
+                        if (index != -1)
+                        {
+                            walkins[index] = w;
+                        }
 
-                    add_data();
+                        add_data();
 
 
-                    // 🔁 Restore scroll
-                    if (firstDisplayedRow >= 0 && firstDisplayedRow < data_table.Rows.Count)
-                        data_table.FirstDisplayedScrollingRowIndex = firstDisplayedRow;
+                        // 🔁 Restore scroll
+                        if (firstDisplayedRow >= 0 && firstDisplayedRow < data_table.Rows.Count)
+                            data_table.FirstDisplayedScrollingRowIndex = firstDisplayedRow;
 
-                    // 🔁 Restore selection
-                    if (selectedRowIndex >= 0 && selectedRowIndex < data_table.Rows.Count)
-                    {
-                        data_table.ClearSelection();
-                        data_table.Rows[selectedRowIndex].Selected = true;
-                        data_table.CurrentCell = data_table.Rows[selectedRowIndex].Cells[0];
+                        // 🔁 Restore selection
+                        if (selectedRowIndex >= 0 && selectedRowIndex < data_table.Rows.Count)
+                        {
+                            data_table.ClearSelection();
+                            data_table.Rows[selectedRowIndex].Selected = true;
+                            data_table.CurrentCell = data_table.Rows[selectedRowIndex].Cells[0];
+                        }
                     }
                 }
-                else
+                else if (edw.edit_result == "followup")
                 {
-                    // Reload data
                     walkins = db.GetAllWalkins();
                     walkins.Reverse();
+                    walkins = walkins
+    .OrderByDescending(w => w.CreatedAt)
+    .ToList();
                     all_walkins = walkins;
-
+                    add_data();
+                }
+                else if (edw.edit_result == "deleted")
+                {
+                    walkins = db.GetAllWalkins();
+                    walkins.Reverse();
+                    walkins = walkins
+    .OrderByDescending(w => w.CreatedAt)
+    .ToList();
+                    all_walkins = walkins;
                     add_data();
                 }
 
@@ -291,7 +321,7 @@ namespace Walkin_Report
         {
             Search s = new Search(walkins);
             s.ShowDialog();
-            if(s.DialogResult == DialogResult.OK)
+            if (s.DialogResult == DialogResult.OK)
             {
                 walkins = s.output_walks;
                 search_query = s.output_queries;
@@ -329,6 +359,9 @@ namespace Walkin_Report
         {  // full list
             walkins = db.GetAllWalkins();
             walkins.Reverse();
+            walkins = walkins
+    .OrderByDescending(w => w.CreatedAt)
+    .ToList();
             all_walkins = walkins;
             add_data();
 

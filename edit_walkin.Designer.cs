@@ -30,7 +30,7 @@
         {
             team_box = new ComboBox();
             status_combo = new ComboBox();
-            button1 = new Button();
+            cancel_btn = new Button();
             OK_btn = new Button();
             store_combo = new ComboBox();
             remarks_text = new TextBox();
@@ -48,19 +48,22 @@
             label3 = new Label();
             name_text = new TextBox();
             label2 = new Label();
-            label1 = new Label();
             dateTimePicker1 = new DateTimePicker();
             category_text = new ComboBox();
             add_category = new Button();
             Category_list_lbl = new Label();
             Delete_btn = new Button();
+            followUP_btn = new Button();
+            f_or_w_lbl = new Label();
+            amount_box = new TextBox();
+            label1 = new Label();
             SuspendLayout();
             // 
             // team_box
             // 
             team_box.Font = new Font("Segoe UI", 10F);
             team_box.FormattingEnabled = true;
-            team_box.Location = new Point(379, 355);
+            team_box.Location = new Point(378, 476);
             team_box.Margin = new Padding(3, 4, 3, 4);
             team_box.Name = "team_box";
             team_box.Size = new Size(76, 31);
@@ -70,29 +73,29 @@
             // 
             status_combo.Font = new Font("Segoe UI", 10F);
             status_combo.FormattingEnabled = true;
-            status_combo.Location = new Point(288, 355);
+            status_combo.Location = new Point(287, 476);
             status_combo.Margin = new Padding(3, 4, 3, 4);
             status_combo.Name = "status_combo";
             status_combo.Size = new Size(82, 31);
             status_combo.TabIndex = 44;
             // 
-            // button1
+            // cancel_btn
             // 
-            button1.DialogResult = DialogResult.Cancel;
-            button1.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            button1.Location = new Point(298, 423);
-            button1.Margin = new Padding(3, 4, 3, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(120, 52);
-            button1.TabIndex = 43;
-            button1.Text = "Cancel";
-            button1.UseVisualStyleBackColor = true;
+            cancel_btn.DialogResult = DialogResult.Cancel;
+            cancel_btn.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            cancel_btn.Location = new Point(298, 600);
+            cancel_btn.Margin = new Padding(3, 4, 3, 4);
+            cancel_btn.Name = "cancel_btn";
+            cancel_btn.Size = new Size(120, 52);
+            cancel_btn.TabIndex = 43;
+            cancel_btn.Text = "Cancel";
+            cancel_btn.UseVisualStyleBackColor = true;
             // 
             // OK_btn
             // 
             OK_btn.DialogResult = DialogResult.OK;
             OK_btn.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            OK_btn.Location = new Point(425, 423);
+            OK_btn.Location = new Point(425, 600);
             OK_btn.Margin = new Padding(3, 4, 3, 4);
             OK_btn.Name = "OK_btn";
             OK_btn.Size = new Size(120, 52);
@@ -105,7 +108,7 @@
             // 
             store_combo.Font = new Font("Segoe UI", 10F);
             store_combo.FormattingEnabled = true;
-            store_combo.Location = new Point(463, 355);
+            store_combo.Location = new Point(462, 476);
             store_combo.Margin = new Padding(3, 4, 3, 4);
             store_combo.Name = "store_combo";
             store_combo.Size = new Size(82, 31);
@@ -116,8 +119,9 @@
             remarks_text.Font = new Font("Segoe UI", 10F);
             remarks_text.Location = new Point(90, 355);
             remarks_text.Margin = new Padding(3, 4, 3, 4);
+            remarks_text.Multiline = true;
             remarks_text.Name = "remarks_text";
-            remarks_text.Size = new Size(165, 30);
+            remarks_text.Size = new Size(165, 152);
             remarks_text.TabIndex = 40;
             // 
             // label9
@@ -249,16 +253,6 @@
             label2.TabIndex = 25;
             label2.Text = "Name : ";
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI", 21.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(14, 12);
-            label1.Name = "label1";
-            label1.Size = new Size(221, 50);
-            label1.TabIndex = 24;
-            label1.Text = "Edit Walkin";
-            // 
             // dateTimePicker1
             // 
             dateTimePicker1.Font = new Font("Segoe UI", 10F);
@@ -272,7 +266,7 @@
             category_text.Font = new Font("Segoe UI", 10F);
             category_text.FormattingEnabled = true;
             category_text.Location = new Point(98, 283);
-            category_text.Margin = new Padding(2, 2, 2, 2);
+            category_text.Margin = new Padding(2);
             category_text.Name = "category_text";
             category_text.Size = new Size(106, 31);
             category_text.TabIndex = 47;
@@ -282,7 +276,7 @@
             // 
             add_category.Font = new Font("Impact", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             add_category.Location = new Point(208, 283);
-            add_category.Margin = new Padding(2, 2, 2, 2);
+            add_category.Margin = new Padding(2);
             add_category.Name = "add_category";
             add_category.Size = new Size(46, 29);
             add_category.TabIndex = 50;
@@ -303,7 +297,7 @@
             // 
             Delete_btn.DialogResult = DialogResult.Cancel;
             Delete_btn.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Delete_btn.Location = new Point(12, 423);
+            Delete_btn.Location = new Point(12, 600);
             Delete_btn.Margin = new Padding(3, 4, 3, 4);
             Delete_btn.Name = "Delete_btn";
             Delete_btn.Size = new Size(120, 52);
@@ -312,11 +306,57 @@
             Delete_btn.UseVisualStyleBackColor = true;
             Delete_btn.Click += Delete_btn_Click;
             // 
+            // followUP_btn
+            // 
+            followUP_btn.DialogResult = DialogResult.Cancel;
+            followUP_btn.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            followUP_btn.Location = new Point(304, 397);
+            followUP_btn.Margin = new Padding(3, 4, 3, 4);
+            followUP_btn.Name = "followUP_btn";
+            followUP_btn.Size = new Size(241, 52);
+            followUP_btn.TabIndex = 53;
+            followUP_btn.Text = "Add Follow Up";
+            followUP_btn.UseVisualStyleBackColor = true;
+            followUP_btn.Click += followUP_btn_Click;
+            // 
+            // f_or_w_lbl
+            // 
+            f_or_w_lbl.AutoSize = true;
+            f_or_w_lbl.Font = new Font("Segoe UI", 21.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            f_or_w_lbl.Location = new Point(14, 9);
+            f_or_w_lbl.Name = "f_or_w_lbl";
+            f_or_w_lbl.Size = new Size(341, 50);
+            f_or_w_lbl.TabIndex = 54;
+            f_or_w_lbl.Text = "Walkin / Followup";
+            // 
+            // amount_box
+            // 
+            amount_box.Font = new Font("Segoe UI", 10F);
+            amount_box.Location = new Point(379, 339);
+            amount_box.Margin = new Padding(3, 4, 3, 4);
+            amount_box.MaxLength = 6;
+            amount_box.Name = "amount_box";
+            amount_box.Size = new Size(165, 30);
+            amount_box.TabIndex = 56;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(295, 344);
+            label1.Name = "label1";
+            label1.Size = new Size(73, 20);
+            label1.TabIndex = 55;
+            label1.Text = "Amount : ";
+            // 
             // edit_walkin
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(560, 503);
+            ClientSize = new Size(560, 665);
+            Controls.Add(amount_box);
+            Controls.Add(label1);
+            Controls.Add(f_or_w_lbl);
+            Controls.Add(followUP_btn);
             Controls.Add(Delete_btn);
             Controls.Add(Category_list_lbl);
             Controls.Add(add_category);
@@ -324,7 +364,7 @@
             Controls.Add(dateTimePicker1);
             Controls.Add(team_box);
             Controls.Add(status_combo);
-            Controls.Add(button1);
+            Controls.Add(cancel_btn);
             Controls.Add(OK_btn);
             Controls.Add(store_combo);
             Controls.Add(remarks_text);
@@ -342,7 +382,6 @@
             Controls.Add(label3);
             Controls.Add(name_text);
             Controls.Add(label2);
-            Controls.Add(label1);
             Margin = new Padding(3, 4, 3, 4);
             MaximizeBox = false;
             MinimizeBox = false;
@@ -357,7 +396,7 @@
 
         private ComboBox team_box;
         private ComboBox status_combo;
-        private Button button1;
+        private Button cancel_btn;
         private Button OK_btn;
         private ComboBox store_combo;
         private TextBox remarks_text;
@@ -375,11 +414,14 @@
         private Label label3;
         private TextBox name_text;
         private Label label2;
-        private Label label1;
         private DateTimePicker dateTimePicker1;
         private ComboBox category_text;
         private Button add_category;
         private Label Category_list_lbl;
         private Button Delete_btn;
+        private Button followUP_btn;
+        private Label f_or_w_lbl;
+        private TextBox amount_box;
+        private Label label1;
     }
 }
