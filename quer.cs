@@ -15,8 +15,16 @@ namespace Walkin_Report
         public quer(string parameter, string keyword)
         {
             InitializeComponent();
-            para_label.Text = parameter;
-            key_label.Text = keyword;
+            para_label.Text = CapitalizeFirst(parameter);
+            key_label.Text = CapitalizeFirst(keyword);
+        }
+
+        string CapitalizeFirst(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+                return input;
+
+            return char.ToUpper(input[0]) + input.Substring(1);
         }
     }
 }

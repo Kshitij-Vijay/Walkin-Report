@@ -235,6 +235,11 @@ namespace Walkin_Report
         {
             Search s = new Search(walkins);
             s.ShowDialog();
+            if(s.DialogResult == DialogResult.OK)
+            {
+                walkins = s.output_walks;
+                add_data();
+            }
         }
 
         private void from_date_ValueChanged(object sender, EventArgs e)

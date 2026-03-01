@@ -42,22 +42,22 @@
             // 
             // status_group_box
             // 
-            status_group_box.Location = new Point(18, 20);
-            status_group_box.Margin = new Padding(4, 5, 4, 5);
+            status_group_box.Location = new Point(14, 16);
+            status_group_box.Margin = new Padding(3, 4, 3, 4);
             status_group_box.Name = "status_group_box";
-            status_group_box.Padding = new Padding(4, 5, 4, 5);
-            status_group_box.Size = new Size(532, 130);
+            status_group_box.Padding = new Padding(3, 4, 3, 4);
+            status_group_box.Size = new Size(426, 104);
             status_group_box.TabIndex = 0;
             status_group_box.TabStop = false;
             status_group_box.Text = "Status";
             // 
             // store_group_box
             // 
-            store_group_box.Location = new Point(558, 20);
-            store_group_box.Margin = new Padding(4, 5, 4, 5);
+            store_group_box.Location = new Point(446, 16);
+            store_group_box.Margin = new Padding(3, 4, 3, 4);
             store_group_box.Name = "store_group_box";
-            store_group_box.Padding = new Padding(4, 5, 4, 5);
-            store_group_box.Size = new Size(431, 130);
+            store_group_box.Padding = new Padding(3, 4, 3, 4);
+            store_group_box.Size = new Size(345, 104);
             store_group_box.TabIndex = 1;
             store_group_box.TabStop = false;
             store_group_box.Text = "Store";
@@ -67,11 +67,11 @@
             data_table.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             data_table.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
             data_table.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            data_table.Location = new Point(0, 174);
-            data_table.Margin = new Padding(30);
+            data_table.Location = new Point(0, 139);
+            data_table.Margin = new Padding(24, 24, 24, 24);
             data_table.Name = "data_table";
             data_table.RowHeadersWidth = 51;
-            data_table.Size = new Size(1619, 506);
+            data_table.Size = new Size(1295, 405);
             data_table.TabIndex = 2;
             data_table.CellClick += data_table_CellClick;
             // 
@@ -79,10 +79,10 @@
             // 
             Add_Walkin.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             Add_Walkin.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            Add_Walkin.Location = new Point(1494, 81);
-            Add_Walkin.Margin = new Padding(4, 5, 4, 5);
+            Add_Walkin.Location = new Point(1195, 65);
+            Add_Walkin.Margin = new Padding(3, 4, 3, 4);
             Add_Walkin.Name = "Add_Walkin";
-            Add_Walkin.Size = new Size(104, 69);
+            Add_Walkin.Size = new Size(83, 55);
             Add_Walkin.TabIndex = 4;
             Add_Walkin.Text = "Add";
             Add_Walkin.UseVisualStyleBackColor = true;
@@ -91,31 +91,31 @@
             // search_btn
             // 
             search_btn.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            search_btn.Enabled = false;
             search_btn.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            search_btn.Location = new Point(1383, 81);
-            search_btn.Margin = new Padding(4, 5, 4, 5);
+            search_btn.Location = new Point(1106, 65);
+            search_btn.Margin = new Padding(3, 4, 3, 4);
             search_btn.Name = "search_btn";
-            search_btn.Size = new Size(104, 69);
+            search_btn.Size = new Size(83, 55);
             search_btn.TabIndex = 5;
             search_btn.Text = "Search";
             search_btn.UseVisualStyleBackColor = true;
-            search_btn.Visible = false;
             search_btn.Click += search_btn_Click;
             // 
             // from_date
             // 
-            from_date.Location = new Point(996, 33);
+            from_date.Location = new Point(797, 26);
+            from_date.Margin = new Padding(2, 2, 2, 2);
             from_date.Name = "from_date";
-            from_date.Size = new Size(199, 31);
+            from_date.Size = new Size(160, 27);
             from_date.TabIndex = 6;
             from_date.ValueChanged += from_date_ValueChanged;
             // 
             // to_date
             // 
-            to_date.Location = new Point(996, 119);
+            to_date.Location = new Point(797, 95);
+            to_date.Margin = new Padding(2, 2, 2, 2);
             to_date.Name = "to_date";
-            to_date.Size = new Size(199, 31);
+            to_date.Size = new Size(160, 27);
             to_date.TabIndex = 7;
             to_date.ValueChanged += to_date_ValueChanged;
             // 
@@ -123,18 +123,20 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Black", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(1057, 67);
+            label1.Location = new Point(846, 54);
+            label1.Margin = new Padding(2, 0, 2, 0);
             label1.Name = "label1";
-            label1.Size = new Size(64, 45);
+            label1.Size = new Size(55, 37);
             label1.TabIndex = 8;
             label1.Text = "TO";
             // 
             // button1
             // 
             button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
-            button1.Location = new Point(1212, 33);
+            button1.Location = new Point(970, 26);
+            button1.Margin = new Padding(2, 2, 2, 2);
             button1.Name = "button1";
-            button1.Size = new Size(101, 117);
+            button1.Size = new Size(81, 94);
             button1.TabIndex = 9;
             button1.Text = "Full List";
             button1.UseVisualStyleBackColor = true;
@@ -142,9 +144,9 @@
             // 
             // Summary
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1619, 680);
+            ClientSize = new Size(1295, 551);
             Controls.Add(button1);
             Controls.Add(label1);
             Controls.Add(to_date);
@@ -154,8 +156,8 @@
             Controls.Add(data_table);
             Controls.Add(store_group_box);
             Controls.Add(status_group_box);
-            Margin = new Padding(4, 5, 4, 5);
-            MinimumSize = new Size(1290, 736);
+            Margin = new Padding(3, 4, 3, 4);
+            MinimumSize = new Size(1036, 598);
             Name = "Summary";
             Text = "Walkin Report [Summary]";
             Load += Summary_Load;

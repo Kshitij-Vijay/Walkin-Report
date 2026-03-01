@@ -36,27 +36,30 @@
             // para_label
             // 
             para_label.AutoSize = true;
-            para_label.Location = new Point(19, 18);
+            para_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            para_label.Location = new Point(12, 7);
             para_label.Name = "para_label";
-            para_label.Size = new Size(39, 20);
+            para_label.Size = new Size(46, 23);
             para_label.TabIndex = 0;
             para_label.Text = "para";
             // 
             // key_label
             // 
             key_label.AutoSize = true;
-            key_label.Location = new Point(148, 18);
+            key_label.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            key_label.Location = new Point(133, 7);
             key_label.Name = "key_label";
-            key_label.Size = new Size(31, 20);
+            key_label.Size = new Size(38, 23);
             key_label.TabIndex = 1;
             key_label.Text = "key";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(100, 18);
+            label3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold);
+            label3.Location = new Point(90, 7);
             label3.Name = "label3";
-            label3.Size = new Size(12, 20);
+            label3.Size = new Size(15, 23);
             label3.TabIndex = 2;
             label3.Text = ":";
             // 
@@ -68,7 +71,7 @@
             Controls.Add(key_label);
             Controls.Add(para_label);
             Name = "quer";
-            Size = new Size(220, 52);
+            Size = new Size(208, 39);
             ResumeLayout(false);
             PerformLayout();
         }

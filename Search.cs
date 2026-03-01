@@ -13,10 +13,9 @@ namespace Walkin_Report
     public partial class Search : Form
     {
         private List<Walkin> walkins;
-        private List<Walkin> all_walkins;
-        private List<Walkin> output_walks;
+        public List<Walkin> output_walks { get; private set; }
         private List<Walkin> selection_walk = new List<Walkin>();
-        Dictionary<string, string> queries = new Dictionary<string, string>();
+        List<KeyValuePair<string,string>> queries = new List<KeyValuePair<string, string>>();
         string para = "";
         string key = "";
         DBManager db = new DBManager();
@@ -28,16 +27,30 @@ namespace Walkin_Report
         }
         private void Search_Load_1(object sender, EventArgs e)
         {
-            all_walkins = db.GetAllWalkins();
             parameter_add();
             search_text_box.Enabled = false;
             button1.Enabled = false;
+            if(output_walks == null)
+            {
+                show_btn.Enabled = false;
+            }else if(output_walks.Count <=0)
+            {
+                show_btn.Enabled = false;
+            }else if(queries == null)
+            {
+                show_btn.Enabled = false;
+            }else if(queries.Count <= 0)
+            {
+                show_btn.Enabled = false;
+            }
+            else
+            {
+                show_btn.Enabled = true;
+            }
         }
-        private void parameter_add()
+        private void parameter_add() // to add data to the combo box
         {
             parameter_combo_box.Items.Clear();
-
-            DBManager db = new DBManager();
             List<string> columns = db.GetWalkinColumns();
 
             foreach (string col in columns)
@@ -53,11 +66,16 @@ namespace Walkin_Report
                 );
             }
 
+            parameter_combo_box.Items.Remove("Created At");
+            parameter_combo_box.Items.Remove("Categor");
+            parameter_combo_box.Items.Add("Category");
+
+
             if (parameter_combo_box.Items.Count > 0)
                 parameter_combo_box.SelectedIndex = 0;
         }
 
-        private void search_text_box_TextChanged_1(object sender, EventArgs e)
+        private void search_text_box_TextChanged_1(object sender, EventArgs e) // triggered when something is entered inside the text search
         {
             string keyword = search_text_box.Text.Trim().ToLower();
             if (string.IsNullOrEmpty(keyword))
@@ -68,14 +86,33 @@ namespace Walkin_Report
             }
             button1.Enabled = true;
             string parameter = parameter_combo_box.SelectedItem.ToString();
+            if (parameter == "Category")
+            {
+                parameter = "Categor";
+            }
             para = parameter;
             key = keyword;
-            the_search(parameter, keyword);
+            selection_walk = the_search(parameter, keyword);
+            update_result_lbl();
         }
 
-        private void the_search(string parameter, string keyword)
+        private void update_result_lbl()
         {
-            selection_walk = new List<Walkin>();
+            int cccc = 0;
+            if (output_walks != null)
+            {
+                cccc += output_walks.Count;
+            }
+            if (selection_walk != null)
+            {
+                cccc += selection_walk.Count;
+            }
+            result_label.Text = cccc.ToString() + " Matches";
+        }
+
+        private List<Walkin> the_search(string parameter, string keyword) // algorithm that searches the walkins
+        {
+            List<Walkin> selection_walk2 = new List<Walkin>();
 
             foreach (Walkin w in walkins)
             {
@@ -83,13 +120,13 @@ namespace Walkin_Report
 
                 if (!string.IsNullOrEmpty(value) && value.ToLower().Contains(keyword))
                 {
-                    selection_walk.Add(w);
+                    selection_walk2.Add(w);
                 }
             }
-            result_label.Text = $"{selection_walk.Count} matches";
+            return selection_walk2;
         }
 
-        private string GetWalkinValue(Walkin w, string parameter)
+        private string GetWalkinValue(Walkin w, string parameter) // algorithm to search the walkins
         {
             switch (parameter)
             {
@@ -100,7 +137,7 @@ namespace Walkin_Report
                 case "Source": return w.Source;
                 case "Team": return w.Team;
                 case "Status": return w.Status;
-                case "Category": return w.Category;
+                case "Categor": return w.Category;
                 case "Products": return w.Products;
                 case "Store": return w.Store;
                 case "Remarks": return w.Remarks;
@@ -108,17 +145,43 @@ namespace Walkin_Report
             }
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e) // add combo box parameters
         {
-            queries[para] = key;
+            queries.Add(new KeyValuePair<string, string>(para,key));
             update_flow_panel();
             button1.Enabled = false;
             search_text_box.Text = "";
             search_text_box.Enabled = false;
             parameter_combo_box.Text = "";
+
+            output_walks = MergeWalkinsNoDuplicates(output_walks, selection_walk);
+            selection_walk = new List<Walkin>();
+            update_result_lbl();
+
+
+            if (output_walks == null)
+            {
+                show_btn.Enabled = false;
+            }
+            else if (output_walks.Count <= 0)
+            {
+                show_btn.Enabled = false;
+            }
+            else if (queries == null)
+            {
+                show_btn.Enabled = false;
+            }
+            else if (queries.Count <= 0)
+            {
+                show_btn.Enabled = false;
+            }
+            else
+            {
+                show_btn.Enabled = true;
+            }
         }
 
-        private void update_flow_panel()
+        private void update_flow_panel() // to manipulate the selected combo ui elements
         {
             // Clear old UI
             flowLayoutPanel1.Controls.Clear();
@@ -133,14 +196,49 @@ namespace Walkin_Report
             }
         }
 
-        private void parameter_combo_box_SelectedIndexChanged(object sender, EventArgs e)
+        private void parameter_combo_box_SelectedIndexChanged(object sender, EventArgs e) // enable and disable the add button according to selection
         {
             search_text_box.Enabled = true;
         }
 
         private void show_btn_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.OK;
+            Close();
+        }
 
+        public static List<Walkin> MergeWalkinsNoDuplicates(List<Walkin> outputWalkins,List<Walkin> selectionWalkins)
+        {
+            if (selectionWalkins == null)
+            {
+               
+            }
+            else if (outputWalkins == null)
+            {
+                outputWalkins = selectionWalkins;
+            }
+            else
+            {
+                HashSet<int> existingIds = new HashSet<int>(
+                    outputWalkins
+                        .Where(w => w != null)
+                        .Select(w => w.Id)
+                );
+
+                foreach (var w in selectionWalkins)
+                {
+                    if (w == null) continue;
+
+                    if (!existingIds.Contains(w.Id))
+                    {
+                        outputWalkins.Add(w);
+                        existingIds.Add(w.Id);
+                    }
+                }
+
+            }
+
+            return outputWalkins;
         }
     }
 }
