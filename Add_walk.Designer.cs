@@ -292,7 +292,7 @@
             add_category.Font = new Font("Impact", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             add_category.Location = new Point(260, 355);
             add_category.Name = "add_category";
-            add_category.Size = new Size(57, 34);
+            add_category.Size = new Size(57, 37);
             add_category.TabIndex = 49;
             add_category.Text = "+";
             add_category.UseVisualStyleBackColor = true;
