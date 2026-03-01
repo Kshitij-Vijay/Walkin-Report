@@ -153,6 +153,7 @@
             group_follow_up_btns.TabIndex = 10;
             group_follow_up_btns.Text = "Group By Followups";
             group_follow_up_btns.UseVisualStyleBackColor = true;
+            group_follow_up_btns.Click += group_follow_up_btns_Click;
             // 
             // Summary
             // 

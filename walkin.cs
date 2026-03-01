@@ -16,6 +16,7 @@
     public float amount { get; set; }
 
     public int followup { get; set; }
+    public int checkno { get; set; }
 
     // ✅ NEW
     public DateTime CreatedAt { get; set; }

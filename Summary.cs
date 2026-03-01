@@ -194,7 +194,7 @@ namespace Walkin_Report
                     i,
                     w.Store,
                     w.Name,
-                    w.CreatedAt.ToString(),
+                    w.CreatedAt.Date.ToShortDateString(),
                     type,
                     w.amount.ToString(),
                     w.Area,
@@ -365,6 +365,73 @@ namespace Walkin_Report
             all_walkins = walkins;
             add_data();
 
+        }
+
+        private void group_follow_up_btns_Click(object sender, EventArgs e)
+        {
+            // Sort by date first
+            walkins = walkins
+                .OrderByDescending(w => w.CreatedAt)
+                .ToList();
+
+            List<Walkin> parents = new List<Walkin>();
+            List<Walkin> children = new List<Walkin>();
+
+            // Split parents and children
+            for (int i = 0; i < walkins.Count; i++)
+            {
+                walkins[i].checkno = 0;
+
+                if (walkins[i].followup == 0)
+                    parents.Add(walkins[i]);
+                else
+                    children.Add(walkins[i]);
+            }
+
+            const int MAX_RETRY = 20;
+
+            // Try to attach children under parents
+            while (children.Count > 0)
+            {
+                bool insertedAny = false;
+
+                for (int j = children.Count - 1; j >= 0; j--) // 👈 reverse loop
+                {
+                    Walkin child = children[j];
+                    bool inserted = false;
+
+                    for (int i = 0; i < parents.Count; i++)
+                    {
+                        if (parents[i].Id == child.followup)
+                        {
+                            parents.Insert(i , child);
+                            children.RemoveAt(j);
+                            inserted = true;
+                            insertedAny = true;
+                            break;
+                        }
+                    }
+
+                    if (!inserted)
+                    {
+                        child.checkno++;
+
+                        // Prevent infinite loop for orphan follow-ups
+                        if (child.checkno >= MAX_RETRY)
+                        {
+                            parents.Add(child);   // fallback placement
+                            children.RemoveAt(j);
+                        }
+                    }
+                }
+
+                // Safety break if nothing was inserted
+                if (!insertedAny)
+                    break;
+            }
+
+            walkins = parents;
+            add_data();
         }
     }
 }
