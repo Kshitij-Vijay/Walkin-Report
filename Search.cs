@@ -15,7 +15,8 @@ namespace Walkin_Report
         private List<Walkin> walkins;
         public List<Walkin> output_walks { get; private set; }
         private List<Walkin> selection_walk = new List<Walkin>();
-        List<KeyValuePair<string,string>> queries = new List<KeyValuePair<string, string>>();
+        private List<KeyValuePair<string, string>> queries = new List<KeyValuePair<string, string>>();
+        public List<KeyValuePair<string, string>> output_queries { get; private set; }
         string para = "";
         string key = "";
         DBManager db = new DBManager();
@@ -203,6 +204,7 @@ namespace Walkin_Report
 
         private void show_btn_Click(object sender, EventArgs e)
         {
+            output_queries = queries;
             DialogResult = DialogResult.OK;
             Close();
         }

@@ -17,6 +17,7 @@ namespace Walkin_Report
         List<Status> statuses = new List<Status>();
         List<Walkin> walkins = new List<Walkin>();
         List<Walkin> all_walkins = new List<Walkin>();
+        List<KeyValuePair<string, string>> search_query = new List<KeyValuePair<string, string>>();
         Walkin selectedWalkin;
         public Summary()
         {
@@ -209,11 +210,28 @@ namespace Walkin_Report
         private void Add_Walkin_Click(object sender, EventArgs e)
         {
             Add_walk adw = new Add_walk();
-            adw.ShowDialog();
-            walkins = db.GetAllWalkins();
-            walkins.Reverse();
-            all_walkins = walkins;
-            add_data();
+
+            if (adw.ShowDialog() == DialogResult.OK)
+            {
+                // Reload data
+                walkins = db.GetAllWalkins();
+                walkins.Reverse();
+                all_walkins = walkins;
+
+                add_data();
+
+                // 🔍 Find newest walkin (max id)
+                int newId = walkins.Max(w => w.Id);
+                int rowIndex = walkins.FindIndex(w => w.Id == newId);
+
+                if (rowIndex >= 0 && rowIndex < data_table.Rows.Count)
+                {
+                    data_table.ClearSelection();
+                    data_table.Rows[rowIndex].Selected = true;
+                    data_table.CurrentCell = data_table.Rows[rowIndex].Cells[0];
+                    data_table.FirstDisplayedScrollingRowIndex = rowIndex;
+                }
+            }
         }
 
         private void data_table_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -221,14 +239,38 @@ namespace Walkin_Report
             // Edit walkins
             if (e.RowIndex < 0) return; // ignore header clicks
 
+
+            // 🔹 Save selection + scroll
+            int selectedRowIndex = e.RowIndex;
+            int firstDisplayedRow = data_table.FirstDisplayedScrollingRowIndex;
+
             Walkin w = walkins[e.RowIndex];
 
             edit_walkin edw = new edit_walkin(w);
             edw.ShowDialog();
-            walkins = db.GetAllWalkins();
-            walkins.Reverse();
-            all_walkins = walkins;
-            add_data();
+            if(edw.DialogResult == DialogResult.OK)
+            {
+                w = edw.updated_walkin;
+                int index = walkins.FindIndex(x => x.Id == w.Id);
+                if (index != -1)
+                {
+                    walkins[index] = w;
+                }
+                add_data();
+
+
+                // 🔁 Restore scroll
+                if (firstDisplayedRow >= 0 && firstDisplayedRow < data_table.Rows.Count)
+                    data_table.FirstDisplayedScrollingRowIndex = firstDisplayedRow;
+
+                // 🔁 Restore selection
+                if (selectedRowIndex >= 0 && selectedRowIndex < data_table.Rows.Count)
+                {
+                    data_table.ClearSelection();
+                    data_table.Rows[selectedRowIndex].Selected = true;
+                    data_table.CurrentCell = data_table.Rows[selectedRowIndex].Cells[0];
+                }
+            }
         }
 
         private void search_btn_Click(object sender, EventArgs e)
@@ -238,6 +280,7 @@ namespace Walkin_Report
             if(s.DialogResult == DialogResult.OK)
             {
                 walkins = s.output_walks;
+                search_query = s.output_queries;
                 add_data();
             }
         }

@@ -18,6 +18,7 @@ namespace Walkin_Report
         DBManager db = new DBManager();
         List<Category> categories = new List<Category>();
         bool category_lable_list_set = false;
+        public Walkin updated_walkin {  get; private set; }
         public edit_walkin(Walkin selectedWalkin)
         {
             InitializeComponent();
@@ -150,7 +151,7 @@ namespace Walkin_Report
                 db.UpdateWalkin(updated);
 
                 MessageBox.Show("Walk-in updated successfully");
-
+                updated_walkin = updated;
                 this.DialogResult = DialogResult.OK;
                 this.Close();
             }
