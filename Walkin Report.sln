@@ -5,9 +5,11 @@ VisualStudioVersion = 17.14.36915.13
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Walkin Report", "Walkin Report.csproj", "{3C26B725-2884-4882-AE4D-FF2A34632D9C}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Walkin-Report", "..\Walkin-Report\Walkin-Report.vdproj", "{1D915E95-C9C2-BFCB-EFD0-29785D031DEA}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Walkin-Report", "Walkin-Report.vdproj", "{1D915E95-C9C2-BFCB-EFD0-29785D031DEA}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Walkin1", "..\Walkin1\Walkin1.vdproj", "{FB63729A-39CF-AF3E-A771-DDA377084884}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Walkin", "..\Walkin\Walkin.vdproj", "{D7751377-A0DC-AAA1-668F-6384095821F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +25,8 @@ Global
 		{1D915E95-C9C2-BFCB-EFD0-29785D031DEA}.Release|Any CPU.ActiveCfg = Release
 		{FB63729A-39CF-AF3E-A771-DDA377084884}.Debug|Any CPU.ActiveCfg = Debug
 		{FB63729A-39CF-AF3E-A771-DDA377084884}.Release|Any CPU.ActiveCfg = Release
+		{D7751377-A0DC-AAA1-668F-6384095821F8}.Debug|Any CPU.ActiveCfg = Debug
+		{D7751377-A0DC-AAA1-668F-6384095821F8}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
