@@ -459,5 +459,57 @@ namespace Walkin_Report
                 }
             }
         }
+
+        public bool backup()
+        {
+            bool res = false;
+            try
+            {
+                using var connection = new MySqlConnection(connStr);
+                connection.Open();
+
+                using (var cmd = new MySqlCommand("DROP TABLE IF EXISTS walkins_backup", connection))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+
+                using (var cmd = new MySqlCommand("CREATE TABLE walkins_backup LIKE walkins; INSERT INTO walkins_backup SELECT * FROM walkins;", connection))
+                {
+                    cmd.ExecuteNonQuery();
+                }
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Backup failed:\n" + ex.Message);
+            }
+            return res;
+        }
+
+        public bool LogBackupTable(string tableName)
+        {
+            bool res = false;
+            try
+            {
+                using var connection = new MySqlConnection(connStr);
+                connection.Open();
+
+                string logQuery = @"INSERT INTO backup_logs (tablen, updated_time) 
+                        VALUES (@tableName, @updatedTime)";
+
+                using (var cmd = new MySqlCommand(logQuery, connection))
+                {
+                    cmd.Parameters.AddWithValue("@tableName", tableName);
+                    cmd.Parameters.AddWithValue("@updatedTime", DateTime.Now);
+                    cmd.ExecuteNonQuery();
+                }
+                res = true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Logging failed:\n" + ex.Message);
+            }
+            return res;
+        }
     }
 }

@@ -404,7 +404,7 @@ namespace Walkin_Report
                     {
                         if (parents[i].Id == child.followup)
                         {
-                            parents.Insert(i , child);
+                            parents.Insert(i, child);
                             children.RemoveAt(j);
                             inserted = true;
                             insertedAny = true;
@@ -432,6 +432,27 @@ namespace Walkin_Report
 
             walkins = parents;
             add_data();
+        }
+
+        private void backup_btn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                bool res = db.backup();
+                if (res==true)
+                {
+                    db.LogBackupTable("walkins");
+                    MessageBox.Show("Backup Succeded");
+                }
+                else
+                {
+                    MessageBox.Show("Backup Failed");
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.ToString());
+            }
         }
     }
 }
