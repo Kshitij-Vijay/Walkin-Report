@@ -36,7 +36,7 @@ namespace Walkin_Report
                     sf.SafeText(name_text, 100, true),       // required
                     sf.SafeText(area_text, 45),
                     sf.SafeNumber(pin_text, 6),
-                    sf.SafeText(phone_text, 15),
+                    sf.SafeText(phone_text, 55),
                     sf.SafeText(Source_text, 45),
                     sf.SafeCombo(team_box),
                     sf.SafeCombo(status_combo, true),

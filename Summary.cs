@@ -439,7 +439,7 @@ namespace Walkin_Report
             try
             {
                 bool res = db.backup();
-                if (res==true)
+                if (res == true)
                 {
                     db.LogBackupTable("walkins");
                     MessageBox.Show("Backup Succeded");
@@ -453,6 +453,16 @@ namespace Walkin_Report
             {
                 MessageBox.Show(ex.ToString());
             }
+        }
+
+        private void date_rad_btn_CheckedChanged(object sender, EventArgs e)
+        {
+            add_data();
+        }
+
+        private void Status_rad_btn_CheckedChanged(object sender, EventArgs e)
+        {
+            add_data();
         }
     }
 }
