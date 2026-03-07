@@ -40,6 +40,7 @@
             Test_btn = new Button();
             conn_label = new Label();
             label5 = new Label();
+            manage_users_btn = new Button();
             SuspendLayout();
             // 
             // label1
@@ -142,10 +143,9 @@
             // 
             // conn_label
             // 
-            conn_label.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             conn_label.AutoSize = true;
             conn_label.Font = new Font("Segoe UI", 10.8F);
-            conn_label.Location = new Point(137, 328);
+            conn_label.Location = new Point(137, 338);
             conn_label.Name = "conn_label";
             conn_label.Size = new Size(102, 25);
             conn_label.TabIndex = 10;
@@ -162,11 +162,24 @@
             label5.TabIndex = 11;
             label5.Text = "Version 3";
             // 
+            // manage_users_btn
+            // 
+            manage_users_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            manage_users_btn.Location = new Point(12, 502);
+            manage_users_btn.Margin = new Padding(3, 4, 3, 4);
+            manage_users_btn.Name = "manage_users_btn";
+            manage_users_btn.Size = new Size(194, 55);
+            manage_users_btn.TabIndex = 12;
+            manage_users_btn.Text = "Manage Users";
+            manage_users_btn.UseVisualStyleBackColor = true;
+            manage_users_btn.Click += manage_users_btn_Click;
+            // 
             // settings
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(390, 450);
+            ClientSize = new Size(396, 739);
+            Controls.Add(manage_users_btn);
             Controls.Add(label5);
             Controls.Add(conn_label);
             Controls.Add(Test_btn);
@@ -202,5 +215,6 @@
         private Button Test_btn;
         private Label conn_label;
         private Label label5;
+        private Button manage_users_btn;
     }
 }

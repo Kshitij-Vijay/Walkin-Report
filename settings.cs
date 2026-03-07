@@ -132,7 +132,7 @@ namespace Walkin_Report
                     conn_label.Text = "Connected Successfully";
                     MessageBox.Show("Connected Successfully");
                     bool u = UpdateDbConfig(server, database, user, pass);
-                    if(u == false)
+                    if (u == false)
                     {
                         MessageBox.Show("Couldn't save changes");
                     }
@@ -192,6 +192,10 @@ namespace Walkin_Report
         }
         private Dictionary<int, Color> statusColors;
 
-
+        private void manage_users_btn_Click(object sender, EventArgs e)
+        {
+            Users_forms uf = new Users_forms();
+            uf.ShowDialog();
+        }
     }
 }
