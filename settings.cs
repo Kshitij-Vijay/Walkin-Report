@@ -62,7 +62,6 @@ namespace Walkin_Report
         private void settings_Load(object sender, EventArgs e)
         {
             LoadConfig();
-            colors();
         }
 
         private void Test_btn_Click(object sender, EventArgs e)
@@ -193,60 +192,6 @@ namespace Walkin_Report
         }
         private Dictionary<int, Color> statusColors;
 
-        public void PopulateStatusGrid(DataGridView dataGridView1, List<Status> statuses)
-        {
-            statusColors = db.LoadStatusColors(statuses);
 
-            dataGridView1.DataSource = null;
-            dataGridView1.Columns.Clear();
-
-            dataGridView1.Columns.Add("Status", "Status");
-            dataGridView1.Columns["Status"].ReadOnly = true;
-            dataGridView1.Columns["Status"].Width = 150;
-
-            dataGridView1.Columns.Add("Color", "Color");
-            dataGridView1.Columns["Color"].Width = 100;
-
-            foreach (Status status in statuses)
-            {
-                int rowIndex = dataGridView1.Rows.Add(status.Name, "");
-
-                // Use saved color or default
-                Color color = statusColors.ContainsKey(status.Id) ?
-                             statusColors[status.Id] : Color.LightGray;
-
-                dataGridView1.Rows[rowIndex].Cells[1].Style.BackColor = color;
-                dataGridView1.Rows[rowIndex].Tag = status.Id;  // Store ID in row Tag
-            }
-
-            dataGridView1.CellClick += DataGridView1_CellClick;
-        }
-
-        private void DataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == 1 && e.RowIndex >= 0)
-            {
-                DataGridView dgv = sender as DataGridView;
-                int statusId = (int)dgv.Rows[e.RowIndex].Tag;
-
-                using (ColorDialog colorDialog = new ColorDialog())
-                {
-                    if (colorDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        dgv.Rows[e.RowIndex].Cells[1].Style.BackColor = colorDialog.Color;
-                        dgv.Rows[e.RowIndex].Cells[1].Value = "";
-
-                        // Save hex to DB immediately
-                        db.SaveStatusColor(statusId, colorDialog.Color);
-                    }
-                }
-            }
-        }
-
-        private void colors()
-        {
-            var statuses = db.GetAllStatuses();
-            PopulateStatusGrid(dataGridView1, statuses);
-        }
     }
 }
