@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Walkin_Report;
 using Walkin_Report.login;
 
 namespace YourProject
@@ -216,6 +217,66 @@ namespace YourProject
                 JsonSerializer.Deserialize<List<Walkin>>(json, options);
 
             return walkins;
+        }
+
+        public static async Task<List<Store>> GetStores()
+        {
+            HttpResponseMessage response =
+                await client.GetAsync(base_url + "/GetStores");
+
+            string json = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            return JsonSerializer.Deserialize<List<Store>>(json, options);
+        }
+
+        public static async Task<List<Status>> GetStatus()
+        {
+            HttpResponseMessage response =
+                await client.GetAsync(base_url + "/GetStatus");
+
+            string json = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            return JsonSerializer.Deserialize<List<Status>>(json, options);
+        }
+
+        public static async Task<List<Staff>> GetStaff()
+        {
+            HttpResponseMessage response =
+                await client.GetAsync(base_url + "/GetStaff");
+
+            string json = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            return JsonSerializer.Deserialize<List<Staff>>(json, options);
+        }
+
+        public static async Task<List<Category>> GetCategories()
+        {
+            HttpResponseMessage response =
+                await client.GetAsync(base_url + "/GetCategor");
+
+            string json = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            return JsonSerializer.Deserialize<List<Category>>(json, options);
         }
     }
 }

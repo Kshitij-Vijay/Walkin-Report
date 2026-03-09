@@ -209,12 +209,12 @@ namespace Walkin_Report
 
         private async void excel_data_btn_Click(object sender, EventArgs e)
         {
-            List<Walkin> walkins = await HttpService.GetWalkins();
-            MessageBox.Show($"Total Walkins: {walkins.Count}");
-            foreach (Walkin walkin in walkins)
-            {
-                MessageBox.Show(walkin.Name);
-            }
+            await excel_xml.excel_data();
+        }
+
+        private async void excel_full_btn_Click(object sender, EventArgs e)
+        {
+            await excel_xml.excel_data_full();
         }
     }
 }

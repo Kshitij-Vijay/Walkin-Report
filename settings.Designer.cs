@@ -247,6 +247,7 @@
             excel_full_btn.TabIndex = 18;
             excel_full_btn.Text = "Full";
             excel_full_btn.UseVisualStyleBackColor = true;
+            excel_full_btn.Click += excel_full_btn_Click;
             // 
             // excel_group_box
             // 
