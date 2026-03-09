@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
+using Walkin_Report.login;
 
 namespace Walkin_Report
 {
@@ -16,6 +17,7 @@ namespace Walkin_Report
     {
         string st;
         DBManager db = new DBManager();
+        excel_xml xm = new excel_xml();
         public settings()
         {
             InitializeComponent();
@@ -37,10 +39,10 @@ namespace Walkin_Report
             XmlDocument doc = new XmlDocument();
             doc.Load(path);
 
-            string server = doc.SelectSingleNode("/database/server")?.InnerText;
-            string db = doc.SelectSingleNode("/database/name")?.InnerText;
-            string user = doc.SelectSingleNode("/database/user")?.InnerText;
-            string pass = doc.SelectSingleNode("/database/password")?.InnerText;
+            string server = xm.get_xml_tag("server");
+            string db = xm.get_xml_tag("name");
+            string user = xm.get_xml_tag("user");
+            string pass = xm.get_xml_tag("password");
 
             if (string.IsNullOrWhiteSpace(server) ||
                 string.IsNullOrWhiteSpace(db) ||
@@ -62,6 +64,8 @@ namespace Walkin_Report
         private void settings_Load(object sender, EventArgs e)
         {
             LoadConfig();
+            username_lbl.Text = xm.get_xml_tag("netusername");
+            token_exp_lbl.Text = xm.get_xml_tag("expiry");
         }
 
         private void Test_btn_Click(object sender, EventArgs e)
@@ -195,6 +199,11 @@ namespace Walkin_Report
         {
             Users_forms uf = new Users_forms();
             uf.ShowDialog();
+        }
+
+        private void new_account_btn_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

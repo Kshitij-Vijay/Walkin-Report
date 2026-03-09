@@ -41,6 +41,9 @@
             conn_label = new Label();
             label5 = new Label();
             manage_users_btn = new Button();
+            username_lbl = new Label();
+            new_account_btn = new Button();
+            token_exp_lbl = new Label();
             SuspendLayout();
             // 
             // label1
@@ -165,20 +168,58 @@
             // manage_users_btn
             // 
             manage_users_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            manage_users_btn.Location = new Point(12, 502);
+            manage_users_btn.Location = new Point(12, 599);
             manage_users_btn.Margin = new Padding(3, 4, 3, 4);
             manage_users_btn.Name = "manage_users_btn";
-            manage_users_btn.Size = new Size(194, 55);
+            manage_users_btn.Size = new Size(186, 58);
             manage_users_btn.TabIndex = 12;
             manage_users_btn.Text = "Manage Users";
             manage_users_btn.UseVisualStyleBackColor = true;
             manage_users_btn.Click += manage_users_btn_Click;
+            // 
+            // username_lbl
+            // 
+            username_lbl.AutoSize = true;
+            username_lbl.Font = new Font("MV Boli", 18F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            username_lbl.Location = new Point(11, 486);
+            username_lbl.Margin = new Padding(2, 0, 2, 0);
+            username_lbl.Name = "username_lbl";
+            username_lbl.Size = new Size(159, 40);
+            username_lbl.TabIndex = 13;
+            username_lbl.Text = "Username";
+            // 
+            // new_account_btn
+            // 
+            new_account_btn.DialogResult = DialogResult.Abort;
+            new_account_btn.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            new_account_btn.Location = new Point(12, 665);
+            new_account_btn.Margin = new Padding(3, 4, 3, 4);
+            new_account_btn.Name = "new_account_btn";
+            new_account_btn.Size = new Size(186, 58);
+            new_account_btn.TabIndex = 14;
+            new_account_btn.Text = "New Account";
+            new_account_btn.UseVisualStyleBackColor = true;
+            new_account_btn.Click += new_account_btn_Click;
+            // 
+            // token_exp_lbl
+            // 
+            token_exp_lbl.AutoSize = true;
+            token_exp_lbl.Font = new Font("MV Boli", 13.8F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
+            token_exp_lbl.Location = new Point(12, 526);
+            token_exp_lbl.Margin = new Padding(2, 0, 2, 0);
+            token_exp_lbl.Name = "token_exp_lbl";
+            token_exp_lbl.Size = new Size(82, 29);
+            token_exp_lbl.TabIndex = 15;
+            token_exp_lbl.Text = "expiry";
             // 
             // settings
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(396, 739);
+            Controls.Add(token_exp_lbl);
+            Controls.Add(new_account_btn);
+            Controls.Add(username_lbl);
             Controls.Add(manage_users_btn);
             Controls.Add(label5);
             Controls.Add(conn_label);
@@ -216,5 +257,8 @@
         private Label conn_label;
         private Label label5;
         private Button manage_users_btn;
+        private Label username_lbl;
+        private Button new_account_btn;
+        private Label token_exp_lbl;
     }
 }

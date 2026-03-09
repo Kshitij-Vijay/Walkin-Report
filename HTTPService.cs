@@ -6,6 +6,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Walkin_Report.login;
 
 namespace YourProject
 {
@@ -91,6 +92,8 @@ namespace YourProject
                 doc.RootElement.GetProperty("access_token").GetString();
 
             SetToken(token);
+            excel_xml xm = new excel_xml();
+            xm.set_xml_tag("netjwt", token);
 
             return true;
         }
@@ -117,6 +120,26 @@ namespace YourProject
                 await client.PostAsync(base_url + "/update_user", content);
 
             return response;
+        }
+
+        public static async Task<Token> token_validity(string token)
+        {
+            var request = new HttpRequestMessage(
+                HttpMethod.Get,
+                base_url + "/token_validity"
+            );
+
+            request.Headers.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+
+            HttpResponseMessage response = await client.SendAsync(request);
+
+            string json = await response.Content.ReadAsStringAsync();
+
+            Token result =
+                JsonSerializer.Deserialize<Token>(json);
+
+            return result;
         }
     }
 }

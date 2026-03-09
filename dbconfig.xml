@@ -4,4 +4,7 @@
 	<name>walkin</name>
 	<user>root</user>
 	<password>*1+1J_Zero00</password>
+	<netusername></netusername>
+	<netpassword></netpassword>
+	<netjwt></netjwt>
 </database>

@@ -3,6 +3,7 @@ using OxyPlot;
 using OxyPlot.Series;
 using OxyPlot.WindowsForms;
 using System.Windows.Forms;
+using Walkin_Report.login;
 
 
 namespace Walkin_Report
@@ -301,7 +302,7 @@ namespace Walkin_Report
         private void settings_btn_Click(object sender, EventArgs e)
         {
             settings set = new settings();
-            set.ShowDialog();
+            DialogResult res =  set.ShowDialog();
             try
             {
                 bool b = Test_conn();
@@ -320,7 +321,12 @@ namespace Walkin_Report
             }
             finally
             {
-
+                if(res == DialogResult.Abort)
+                {
+                    this.Close();
+                    first_men fm = new first_men(1);
+                    fm.Show();
+                }
             }
         }
 

@@ -13,7 +13,8 @@ namespace Walkin_Report
 {
     public partial class login_first : Form
     {
-        string name, email, password, role;
+
+        login.excel_xml xm = new login.excel_xml();
         public login_first()
         {
             InitializeComponent();
@@ -21,10 +22,8 @@ namespace Walkin_Report
 
         private void login_first_Load(object sender, EventArgs e)
         {
-            name = name_text.Text;
-            email = email_text.Text;
-            password = password_text.Text;
-            role = Role_text.Text;
+            name_text.Text = xm.get_xml_tag("netusername");
+            password_text.Text = xm.get_xml_tag("netpassword");
         }
 
         private async void OK_btn_Click(object sender, EventArgs e)
@@ -41,6 +40,8 @@ namespace Walkin_Report
             }
 
             MessageBox.Show("Login successful");
+            xm.set_xml_tag("netusername", name);
+            xm.set_xml_tag("netpassword", name);
             Form1 form1 = new Form1();
             form1.Show();
         }
