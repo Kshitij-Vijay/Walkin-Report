@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using YourProject;
 
 namespace Walkin_Report.login
 {
@@ -28,7 +29,7 @@ namespace Walkin_Report.login
             role = "user";
         }
 
-        private void OK_btn_Click(object sender, EventArgs e)
+        private async void OK_btn_Click(object sender, EventArgs e)
         {
             name = name_text.Text;
             password = password_text.Text;
@@ -39,7 +40,17 @@ namespace Walkin_Report.login
             }
             else
             {
+                var result = await HttpService.Register(name, password, email, role);
 
+                if (result.success)
+                {
+                    MessageBox.Show("Success: " + result.message);
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Error: " + result.message);
+                }
             }
         }
     }

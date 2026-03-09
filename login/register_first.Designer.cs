@@ -62,7 +62,7 @@
             OK_btn.Name = "OK_btn";
             OK_btn.Size = new Size(172, 62);
             OK_btn.TabIndex = 29;
-            OK_btn.Text = "OK";
+            OK_btn.Text = "Register";
             OK_btn.UseVisualStyleBackColor = true;
             OK_btn.Click += OK_btn_Click;
             // 

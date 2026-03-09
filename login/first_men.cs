@@ -49,6 +49,8 @@ namespace Walkin_Report.login
 
         private void register_btn_Click(object sender, EventArgs e)
         {
+            register_first rf = new register_first();
+            rf.ShowDialog();
         }
 
         private void login_btn_Click(object sender, EventArgs e)

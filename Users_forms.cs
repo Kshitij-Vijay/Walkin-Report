@@ -33,25 +33,32 @@ namespace Walkin_Report
             try
             {
                 List<Userz> users = await HttpService.GetUsers();
-
-                users_table.Rows.Clear();
-
-                foreach (var u in users)
+                if (users != null)
                 {
-                    int index = users_table.Rows.Add(
-                u.id,
-                u.name,
-                u.type,
-                u.roles
-            );
+                    users_table.Rows.Clear();
 
-                    // store full object in row
-                    users_table.Rows[index].Tag = u;
+                    foreach (var u in users)
+                    {
+                        int index = users_table.Rows.Add(
+                    u.id,
+                    u.name,
+                    u.type,
+                    u.roles
+                );
+
+                        // store full object in row
+                        users_table.Rows[index].Tag = u;
+                    }
+                
+                }
+                else
+                {
+                    this.Close();
                 }
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show(ex.ToString());
             }
         }
 

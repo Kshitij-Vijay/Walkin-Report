@@ -31,16 +31,28 @@ namespace YourProject
         public static async Task<List<Userz>> GetUsers()
         {
             SetToken(token);
+
             HttpResponseMessage response =
                 await client.GetAsync(base_url + "/users");
 
-            if (!response.IsSuccessStatusCode)
-                throw new Exception("Failed to fetch users");
-
             string json = await response.Content.ReadAsStringAsync();
 
+            using JsonDocument doc = JsonDocument.Parse(json);
+
+            // Check for API error
+            if (doc.RootElement.TryGetProperty("error", out JsonElement err))
+            {
+                MessageBox.Show(err.GetString());
+                return null;
+            }
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
             List<Userz> users =
-                JsonSerializer.Deserialize<List<Userz>>(json);
+                JsonSerializer.Deserialize<List<Userz>>(json, options);
 
             return users;
         }
@@ -140,6 +152,44 @@ namespace YourProject
                 JsonSerializer.Deserialize<Token>(json);
 
             return result;
+        }
+
+        public static async Task<(bool success, string message)> Register(string name, string password, string email, string type)
+        {
+            try
+            {
+                var data = new
+                {
+                    name = name,
+                    email = email,
+                    password = password,
+                    type = type
+                };
+
+                string json = JsonSerializer.Serialize(data);
+
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response =
+                    await client.PostAsync(base_url + "/register", content);
+
+                string responseJson =
+                    await response.Content.ReadAsStringAsync();
+
+                using JsonDocument doc = JsonDocument.Parse(responseJson);
+
+                if (doc.RootElement.TryGetProperty("message", out var msg))
+                    return (true, msg.GetString());
+
+                if (doc.RootElement.TryGetProperty("detail", out var err))
+                    return (false, err.GetString());
+
+                return (false, "Unknown error");
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
         }
     }
 }

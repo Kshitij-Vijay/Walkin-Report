@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Walkin_Report.login;
 using YourProject;
 
 namespace Walkin_Report
@@ -42,6 +43,13 @@ namespace Walkin_Report
             MessageBox.Show("Login successful");
             xm.set_xml_tag("netusername", name);
             xm.set_xml_tag("netpassword", name);
+
+            Token response = await HttpService.token_validity(xm.get_xml_tag("netjwt"));
+            if (response.valid == true)
+            {
+                xm.set_xml_tag("expiry", response.expires_at);
+            }
+            this.Hide();
             Form1 form1 = new Form1();
             form1.Show();
         }
