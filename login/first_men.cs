@@ -31,16 +31,13 @@ namespace Walkin_Report.login
                     if (response.valid == true)
                     {
                         xm.set_xml_tag("expiry", response.expires_at);
-                        List<Userz> users = await HttpService.GetUsers();
-                        if(users != null && users.Count > 0)
+                        try
                         {
-                            foreach(Userz user in users)
-                            {
-                                if(user.name == xm.get_xml_tag("netusername"))
-                                {
-                                    xm.set_xml_tag("netroles", user.roles);
-                                }
-                            }
+                            string roles = await HttpService.GetRoles(xm.get_xml_tag("netusername"));
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
                         }
                         Form1 ff = new Form1();
                         this.Hide();

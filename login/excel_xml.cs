@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -149,6 +150,12 @@ namespace Walkin_Report.login
 
                 MessageBox.Show("All data exported successfully!");
             }
+        }
+
+        public int[] string_to_arr(string str)
+        {
+            int[] rolesArray = str.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+            return rolesArray;
         }
     }
 }

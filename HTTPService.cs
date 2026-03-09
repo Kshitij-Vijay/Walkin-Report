@@ -278,5 +278,24 @@ namespace YourProject
 
             return JsonSerializer.Deserialize<List<Category>>(json, options);
         }
+
+        public static async Task<string> GetRoles(string username)
+        {
+            HttpResponseMessage response =
+                await client.GetAsync(base_url + "/getroles?username=" + username);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                string err = await response.Content.ReadAsStringAsync();
+                throw new Exception(err);
+            }
+
+            string json = await response.Content.ReadAsStringAsync();
+
+            // Response comes as a quoted string → remove quotes
+            string roles = System.Text.Json.JsonSerializer.Deserialize<string>(json);
+
+            return roles;
+        }
     }
 }
