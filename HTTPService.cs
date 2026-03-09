@@ -39,13 +39,17 @@ namespace YourProject
 
             using JsonDocument doc = JsonDocument.Parse(json);
 
-            // Check for API error
-            if (doc.RootElement.TryGetProperty("error", out JsonElement err))
+            // If API returned an object (error)
+            if (doc.RootElement.ValueKind == JsonValueKind.Object)
             {
-                MessageBox.Show(err.GetString());
-                return null;
+                if (doc.RootElement.TryGetProperty("error", out JsonElement err))
+                {
+                    MessageBox.Show(err.GetString());
+                    return null;
+                }
             }
 
+            // Otherwise it's an array (users)
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
@@ -150,7 +154,7 @@ namespace YourProject
 
             Token result =
                 JsonSerializer.Deserialize<Token>(json);
-
+            SetToken(token);
             return result;
         }
 

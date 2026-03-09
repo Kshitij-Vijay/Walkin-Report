@@ -44,7 +44,7 @@ namespace Walkin_Report
                     u.name,
                     u.type,
                     u.roles
-                );
+                            );
 
                         // store full object in row
                         users_table.Rows[index].Tag = u;

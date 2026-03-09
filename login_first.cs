@@ -42,12 +42,22 @@ namespace Walkin_Report
 
             MessageBox.Show("Login successful");
             xm.set_xml_tag("netusername", name);
-            xm.set_xml_tag("netpassword", name);
-
+            xm.set_xml_tag("netpassword", password);
             Token response = await HttpService.token_validity(xm.get_xml_tag("netjwt"));
             if (response.valid == true)
             {
                 xm.set_xml_tag("expiry", response.expires_at);
+            }
+            List<Userz> users = await HttpService.GetUsers();
+            if (users != null && users.Count > 0)
+            {
+                foreach (Userz user in users)
+                {
+                    if (user.name == xm.get_xml_tag("netusername"))
+                    {
+                        xm.set_xml_tag("netroles", user.roles);
+                    }
+                }
             }
             this.Hide();
             Form1 form1 = new Form1();
