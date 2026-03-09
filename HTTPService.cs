@@ -16,7 +16,7 @@ namespace YourProject
         private static readonly string base_url = "http://127.0.0.1:8000";
         private static HttpClient client = new HttpClient();
 
-        private static string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6IktzaGl0aWoiLCJ0eXBlIjoiYWRtaW4iLCJleHAiOjE3NzI4OTYwMTd9.Yb3CnfLf3BRjBPeiZTeDg63wb-5dSXDg_Uv07Ei_Guk";
+        private static string token;
 
         // set token after login
         public static void SetToken(string jwt)
@@ -194,6 +194,28 @@ namespace YourProject
             {
                 return (false, ex.Message);
             }
+        }
+
+        public static async Task<List<Walkin>> GetWalkins()
+        {
+
+            HttpResponseMessage response =
+                await client.GetAsync(base_url + "/GetWalkins");
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("Failed to fetch walkins");
+
+            string json = await response.Content.ReadAsStringAsync();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+
+            List<Walkin> walkins =
+                JsonSerializer.Deserialize<List<Walkin>>(json, options);
+
+            return walkins;
         }
     }
 }

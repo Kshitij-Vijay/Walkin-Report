@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using Walkin_Report.login;
+using YourProject;
 
 namespace Walkin_Report
 {
@@ -204,6 +205,16 @@ namespace Walkin_Report
         private void new_account_btn_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private async void excel_data_btn_Click(object sender, EventArgs e)
+        {
+            List<Walkin> walkins = await HttpService.GetWalkins();
+            MessageBox.Show($"Total Walkins: {walkins.Count}");
+            foreach (Walkin walkin in walkins)
+            {
+                MessageBox.Show(walkin.Name);
+            }
         }
     }
 }

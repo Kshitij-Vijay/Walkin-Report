@@ -1,27 +1,52 @@
-﻿public class Walkin
+﻿using System.Text.Json.Serialization;
+
+public class Walkin
 {
-    public int Id { get; set; }          // optional (DB auto increment)
+    [JsonPropertyName("id")]
+    public int Id { get; set; }
+
+    [JsonPropertyName("name")]
     public string Name { get; set; }
+
+    [JsonPropertyName("area")]
     public string Area { get; set; }
+
+    [JsonPropertyName("pin")]
     public string Pin { get; set; }
+
+    [JsonPropertyName("phone")]
     public string Phone { get; set; }
+
+    [JsonPropertyName("source")]
     public string Source { get; set; }
+
+    [JsonPropertyName("team")]
     public string Team { get; set; }
+
+    [JsonPropertyName("status")]
     public string Status { get; set; }
+
+    [JsonPropertyName("categor")]
     public string Category { get; set; }
+
+    [JsonPropertyName("products")]
     public string Products { get; set; }
+
+    [JsonPropertyName("store")]
     public string Store { get; set; }
+
+    [JsonPropertyName("remarks")]
     public string Remarks { get; set; }
 
+    [JsonPropertyName("amount")]
     public float amount { get; set; }
 
+    [JsonPropertyName("followup")]
     public int followup { get; set; }
-    public int checkno { get; set; }
 
-    // ✅ NEW
+    [JsonPropertyName("created_at")]
     public DateTime CreatedAt { get; set; }
-
-    // Constructor
+    public int checkno { get; set; }
     public Walkin(
         string name,
         string area,
