@@ -190,7 +190,6 @@ namespace Walkin_Report
             el.InnerText = value;
             return el;
         }
-        private Dictionary<int, Color> statusColors;
 
         private void manage_users_btn_Click(object sender, EventArgs e)
         {
