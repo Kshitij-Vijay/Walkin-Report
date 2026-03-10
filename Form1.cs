@@ -2,8 +2,10 @@ using FastReport.DataVisualization.Charting;
 using OxyPlot;
 using OxyPlot.Series;
 using OxyPlot.WindowsForms;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Walkin_Report.login;
+using YourProject;
 
 
 namespace Walkin_Report
@@ -56,12 +58,12 @@ namespace Walkin_Report
             
         }
 
-        private void formsetup()
+        private async void formsetup()
         {
             MessageBox.Show("Loading data, please wait...");
-            stores = db.GetAllStores();
-            categories = db.GetAllCategories();
-            walkins = db.GetAllWalkins();
+            stores = await HttpService.GetStores();
+            categories = await HttpService.GetCategories();
+            walkins = await HttpService.GetWalkins();
             //DateTime fromDate = from_date.Value.Date;
             //DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
             //walkins = walkins

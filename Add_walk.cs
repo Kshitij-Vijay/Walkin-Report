@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using YourProject;
 
 namespace Walkin_Report
 {
@@ -107,9 +108,9 @@ namespace Walkin_Report
 
         }
 
-        private void LoadStores()
+        private async void LoadStores()
         {
-            List<Store> stores = db.GetAllStores();
+            List<Store> stores = await HttpService.GetStores();
 
             store_combo.Items.Clear();
 

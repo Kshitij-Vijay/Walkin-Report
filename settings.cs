@@ -19,6 +19,7 @@ namespace Walkin_Report
         string st;
         DBManager db = new DBManager();
         excel_xml xm = new excel_xml();
+        int[] rolesarr;
         public settings()
         {
             InitializeComponent();
@@ -67,6 +68,50 @@ namespace Walkin_Report
             LoadConfig();
             username_lbl.Text = xm.get_xml_tag("netusername");
             token_exp_lbl.Text = xm.get_xml_tag("expiry");
+            acitons();
+        }
+
+        private void acitons()
+        {
+            rolesarr = xm.string_to_arr(xm.get_xml_tag("netroles"));
+            if (rolesarr.Contains(1)) // able to generate walkin.csv
+            {
+                excel_data_btn.Enabled = true;
+                excel_data_btn.Visible = true;
+            }
+            else
+            {
+                excel_data_btn.Enabled = false;
+                excel_data_btn.Visible = false;
+            }
+
+            if (rolesarr.Contains(2))// able to generate the entire database.csv
+            {
+                excel_full_btn.Enabled = true;
+                excel_full_btn.Visible = true;
+            }
+            else
+            {
+                excel_full_btn.Enabled = false;
+                excel_full_btn.Visible = false;
+            }
+
+            if (rolesarr.Contains(1) == false && rolesarr.Contains(2) == false)
+            {
+                excel_group_box.Enabled = false;
+                excel_group_box.Visible = false;
+            }
+
+            if (rolesarr.Contains(18))
+            {
+                manage_users_btn.Enabled = true;
+                manage_users_btn.Visible = true;
+            }
+            else
+            {
+                manage_users_btn.Enabled = false;
+                manage_users_btn.Visible = false;
+            }
         }
 
         private void Test_btn_Click(object sender, EventArgs e)

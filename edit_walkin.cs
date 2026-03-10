@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using YourProject;
 
 namespace Walkin_Report
 {
@@ -31,13 +32,13 @@ namespace Walkin_Report
             this.followup = v;
         }
 
-        private void edit_walkin_Load(object sender, EventArgs e)
+        private async void edit_walkin_Load(object sender, EventArgs e)
         {
             add_category.Enabled = false; // Disable until categories are loaded
             categories = db.GetAllCategories();
-            LoadStores();
-            LoadStatuses();
-            LoadStaffs();
+            await LoadStores();
+            await LoadStatuses();
+            await LoadStaffs();
             LoadCategories();
             Walkin w = selectedWalkin;
             name_text.Text = w.Name ?? "";
@@ -90,10 +91,10 @@ namespace Walkin_Report
             category_text.Text = ""; // Clear text to show placeholder
         }
 
-        private void LoadStaffs()
+        private async Task LoadStaffs()
         {
             team_box.Items.Clear();
-            List<Staff> arr = db.GetAllStaff();
+            List<Staff> arr = await HttpService.GetStaff();
             foreach (Staff s in arr)
             {
                 team_box.Items.Add(s.Sym);
@@ -107,9 +108,9 @@ namespace Walkin_Report
 
         }
 
-        private void LoadStores()
+        private async Task LoadStores()
         {
-            List<Store> stores = db.GetAllStores();
+            List<Store> stores = await HttpService.GetStores();
 
             store_combo.Items.Clear();
 
@@ -125,9 +126,9 @@ namespace Walkin_Report
             store_combo.SelectedIndex = -1;
         }
 
-        private void LoadStatuses()
+        private async Task LoadStatuses()
         {
-            List<Status> statuses = db.GetAllStatuses();
+            List<Status> statuses = await HttpService.GetStatus();
 
             status_combo.Items.Clear();
 

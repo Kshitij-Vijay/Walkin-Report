@@ -7,4 +7,5 @@
 	<netusername></netusername>
 	<netpassword></netpassword>
 	<netjwt></netjwt>
+	<netroles></netroles>
 </database>

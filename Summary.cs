@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using YourProject;
 
 namespace Walkin_Report
 {
@@ -26,10 +27,10 @@ namespace Walkin_Report
             this.WindowState = FormWindowState.Maximized;
         }
 
-        private void Summary_Load(object sender, EventArgs e)
+        private async void Summary_Load(object sender, EventArgs e)
         {
             stores.Clear();
-            stores = db.GetAllStores();
+            stores = await HttpService.GetStores();
             statuses.Clear();
             statuses = db.GetAllStatuses();
             store_group_box.Controls.Clear();

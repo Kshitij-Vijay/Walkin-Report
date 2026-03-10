@@ -34,6 +34,7 @@ namespace Walkin_Report.login
                         try
                         {
                             string roles = await HttpService.GetRoles(xm.get_xml_tag("netusername"));
+                            xm.set_xml_tag("netroles", roles);
                         }
                         catch (Exception ex)
                         {
