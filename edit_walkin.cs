@@ -18,6 +18,7 @@ namespace Walkin_Report
         int id;
         DBManager db = new DBManager();
         List<Category> categories = new List<Category>();
+        List<Walkin> all = new List<Walkin>();
         bool category_lable_list_set = false;
         bool followup;
         public string edit_result { get; set; }
@@ -35,10 +36,11 @@ namespace Walkin_Report
         private async void edit_walkin_Load(object sender, EventArgs e)
         {
             add_category.Enabled = false; // Disable until categories are loaded
-            categories = db.GetAllCategories();
+            categories = await HttpService.GetCategories();
             await LoadStores();
             await LoadStatuses();
             await LoadStaffs();
+            all = await HttpService.GetWalkins();
             LoadCategories();
             Walkin w = selectedWalkin;
             name_text.Text = w.Name ?? "";
@@ -248,7 +250,6 @@ namespace Walkin_Report
                 db.delete_walkin_by_id(id);
                 updated_walkin = null;
                 edit_result = "deleted";
-                List<Walkin> all = db.GetAllWalkins();
                 int idm = selectedWalkin.Id;
                 int fidm = selectedWalkin.followup; // parent
                 Walkin parent = null;

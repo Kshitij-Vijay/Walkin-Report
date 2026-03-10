@@ -67,7 +67,7 @@ namespace Walkin_Report
         private async void Add_walk_Load(object sender, EventArgs e)
         {
             add_category.Enabled = false; // Disable until categories are loaded
-            categories = db.GetAllCategories();
+            categories = await HttpService.GetCategories();
             await LoadStores();
             await LoadStatuses();
             await LoadStaffs();

@@ -106,7 +106,7 @@ namespace Walkin_Report
                 }
             }
 
-            walkins = db.GetAllWalkins();
+            walkins = await HttpService.GetWalkins();
             walkins.Reverse();
             walkins = walkins
     .OrderByDescending(w => w.CreatedAt)
@@ -221,14 +221,15 @@ namespace Walkin_Report
 
         }
 
-        private void Add_Walkin_Click(object sender, EventArgs e)
+        private async void Add_Walkin_Click(object sender, EventArgs e)
         {
             Add_walk adw = new Add_walk();
 
             if (adw.ShowDialog() == DialogResult.OK)
             {
                 // Reload data
-                walkins = db.GetAllWalkins();
+                walkins = await HttpService
+                    .GetWalkins();
                 walkins.Reverse();
                 walkins = walkins
     .OrderByDescending(w => w.CreatedAt)
@@ -251,7 +252,7 @@ namespace Walkin_Report
             }
         }
 
-        private void data_table_CellClick(object sender, DataGridViewCellEventArgs e)
+        private async void data_table_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             // Edit walkins
             if (e.RowIndex < 0) return; // ignore header clicks
@@ -296,7 +297,7 @@ namespace Walkin_Report
                 }
                 else if (edw.edit_result == "followup")
                 {
-                    walkins = db.GetAllWalkins();
+                    walkins = await HttpService.GetWalkins();
                     walkins.Reverse();
                     walkins = walkins
     .OrderByDescending(w => w.CreatedAt)
@@ -306,7 +307,7 @@ namespace Walkin_Report
                 }
                 else if (edw.edit_result == "deleted")
                 {
-                    walkins = db.GetAllWalkins();
+                    walkins = await HttpService.GetWalkins();
                     walkins.Reverse();
                     walkins = walkins
     .OrderByDescending(w => w.CreatedAt)
@@ -356,9 +357,9 @@ namespace Walkin_Report
             add_data();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private async void button1_Click(object sender, EventArgs e)
         {  // full list
-            walkins = db.GetAllWalkins();
+            walkins = await HttpService.GetWalkins();
             walkins.Reverse();
             walkins = walkins
     .OrderByDescending(w => w.CreatedAt)

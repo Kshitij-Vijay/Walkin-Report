@@ -332,9 +332,9 @@ namespace Walkin_Report
             }
         }
 
-        private void from_date_ValueChanged(object sender, EventArgs e)
+        private async void from_date_ValueChanged(object sender, EventArgs e)
         {
-            walkins = db.GetAllWalkins();
+            walkins = await HttpService.GetWalkins();
             DateTime fromDate = from_date.Value.Date;
             DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
             walkins = walkins
@@ -343,9 +343,9 @@ namespace Walkin_Report
             uiload();
         }
 
-        private void to_date_ValueChanged(object sender, EventArgs e)
+        private async void to_date_ValueChanged(object sender, EventArgs e)
         {
-            walkins = db.GetAllWalkins();
+            walkins = await HttpService.GetWalkins();
             DateTime fromDate = from_date.Value.Date;
             DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
             walkins = walkins
