@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Walkin_Report.login;
 using YourProject;
 
 namespace Walkin_Report
@@ -50,6 +51,7 @@ namespace Walkin_Report
 
             foreach (Store store in stores)
             {
+
                 Button btn = new Button();
                 btn.Text = store.Sym;
                 btn.Width = btnWidth;
@@ -114,6 +116,39 @@ namespace Walkin_Report
             all_walkins = walkins;
             add_data();
 
+            roles();
+        }
+
+        private void roles()
+        {
+            excel_xml xm = new excel_xml();
+            int[] rolesarr = xm.string_to_arr(xm.get_xml_tag("netroles"));
+            if (rolesarr.Contains(21))
+            {
+                Add_Walkin.Enabled = true;
+            }
+            else
+            {
+                Add_Walkin.Enabled = false;
+            }
+            if (rolesarr.Contains(22))
+            {
+                search_btn.Enabled = true;
+            }
+            else
+            {
+                search_btn.Enabled = false;
+            }
+            if (rolesarr.Contains(16))
+            {
+                backup_btn.Enabled = true;
+                backup_btn.Visible = true;
+            }
+            else
+            {
+                backup_btn.Enabled = false;
+                backup_btn.Visible = false;
+            }
         }
 
         private void StoreButton_Click(object sender, EventArgs e)

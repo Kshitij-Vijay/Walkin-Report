@@ -30,19 +30,26 @@ namespace Walkin_Report.login
                     Token response = await HttpService.token_validity(xm.get_xml_tag("netjwt"));
                     if (response.valid == true)
                     {
-                        xm.set_xml_tag("expiry", response.expires_at);
                         try
                         {
                             string roles = await HttpService.GetRoles(xm.get_xml_tag("netusername"));
-                            xm.set_xml_tag("netroles", roles);
+                            int[] rolesarr = xm.string_to_arr(roles);
+                            if (rolesarr[0] > 0)
+                            {
+                                xm.set_xml_tag("netroles", roles);
+                                xm.set_xml_tag("expiry", response.expires_at);
+                                this.Hide();
+                                Form1 form1 = new Form1();
+                                form1.Show();
+                            }
+                            else
+                            {
+                            }
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show(ex.Message);
                         }
-                        Form1 ff = new Form1();
-                        this.Hide();
-                        ff.Show();
                     }
                 }
                 else

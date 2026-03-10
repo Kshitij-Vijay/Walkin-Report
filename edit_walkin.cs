@@ -1,4 +1,5 @@
 ﻿using Mysqlx.Crud;
+using Org.BouncyCastle.Asn1.X509;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Walkin_Report.login;
 using YourProject;
 
 namespace Walkin_Report
@@ -74,6 +76,35 @@ namespace Walkin_Report
                 Delete_btn.Enabled = false;
                 Delete_btn.Visible = false;
                 dateTimePicker1.Value = DateTime.Today;
+            }
+
+            roles();
+        }
+
+        private void roles()
+        {
+            excel_xml xm = new excel_xml();
+            int[] rolesarr = xm.string_to_arr(xm.get_xml_tag("netroles"));
+
+            if (rolesarr.Contains(19))
+            {
+                Delete_btn.Enabled = true;
+                Delete_btn.Visible = true;
+            }
+            else
+            {
+
+                Delete_btn.Enabled = false;
+                Delete_btn.Visible = false;
+            }
+
+            if (rolesarr.Contains(20))
+            {
+                followUP_btn.Enabled = true;
+            }
+            else
+            {
+                followUP_btn.Enabled = false;
             }
         }
 

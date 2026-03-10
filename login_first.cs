@@ -40,28 +40,39 @@ namespace Walkin_Report
                 return;
             }
 
-            MessageBox.Show("Login successful");
             xm.set_xml_tag("netusername", name);
             xm.set_xml_tag("netpassword", password);
             Token response = await HttpService.token_validity(xm.get_xml_tag("netjwt"));
             if (response.valid == true)
             {
-                xm.set_xml_tag("expiry", response.expires_at);
-            }
-            List<Userz> users = await HttpService.GetUsers();
-            if (users != null && users.Count > 0)
-            {
-                foreach (Userz user in users)
+                try
                 {
-                    if (user.name == xm.get_xml_tag("netusername"))
+                    string roles = await HttpService.GetRoles(xm.get_xml_tag("netusername"));
+                    int[] rolesarr = xm.string_to_arr(roles);
+                    if (rolesarr[0] > 0)
                     {
-                        xm.set_xml_tag("netroles", user.roles);
+                        xm.set_xml_tag("netroles", roles);
+                        xm.set_xml_tag("expiry", response.expires_at);
+                        this.Hide();
+                        Form1 form1 = new Form1();
+                        form1.Show();
+                        MessageBox.Show("Login successful");
+                    }
+                    else
+                    {
+                        MessageBox.Show("No roles assigned. Contact administrator.");
                     }
                 }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
-            this.Hide();
-            Form1 form1 = new Form1();
-            form1.Show();
+        }
+
+        private void Test_btn_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
