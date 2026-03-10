@@ -64,13 +64,13 @@ namespace Walkin_Report
             }
         }
 
-        private void Add_walk_Load(object sender, EventArgs e)
+        private async void Add_walk_Load(object sender, EventArgs e)
         {
             add_category.Enabled = false; // Disable until categories are loaded
             categories = db.GetAllCategories();
-            LoadStores();
-            LoadStatuses();
-            LoadStaffs();
+            await LoadStores();
+            await LoadStatuses();
+            await LoadStaffs();
             LoadCategories();
 
         }
@@ -91,10 +91,10 @@ namespace Walkin_Report
             category_text.Text = ""; // Clear text to show placeholder
         }
 
-        private void LoadStaffs()
+        private async Task LoadStaffs()
         {
             team_box.Items.Clear();
-            List<Staff> arr = db.GetAllStaff();
+            List<Staff> arr = await HttpService.GetStaff();
             foreach (Staff s in arr)
             {
                 team_box.Items.Add(s.Sym);
@@ -108,7 +108,7 @@ namespace Walkin_Report
 
         }
 
-        private async void LoadStores()
+        private async Task LoadStores()
         {
             List<Store> stores = await HttpService.GetStores();
 
@@ -126,9 +126,9 @@ namespace Walkin_Report
             store_combo.SelectedIndex = -1;
         }
 
-        private void LoadStatuses()
+        private async Task LoadStatuses()
         {
-            List<Status> statuses = db.GetAllStatuses();
+            List<Status> statuses = await HttpService.GetStatus();
 
             status_combo.Items.Clear();
 

@@ -71,7 +71,7 @@ namespace Walkin_Report
             //            .ToList();
             from_date.Value = walkins[0].CreatedAt.Date;
             to_date.Value = walkins[walkins.Count - 1].CreatedAt.Date;
-            staffList = db.GetAllStaff();
+            staffList = await HttpService.GetStaff();
             uiload();
         }
 

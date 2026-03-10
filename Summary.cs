@@ -32,7 +32,7 @@ namespace Walkin_Report
             stores.Clear();
             stores = await HttpService.GetStores();
             statuses.Clear();
-            statuses = db.GetAllStatuses();
+            statuses = await HttpService.GetStatus();
             store_group_box.Controls.Clear();
             SetupDataGridView();
 
