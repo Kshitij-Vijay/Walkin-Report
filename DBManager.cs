@@ -8,8 +8,6 @@ namespace Walkin_Report
     public class DBManager
     {
         private string connStr;
-
-
         public DBManager()
         {
             LoadConfig();
@@ -510,65 +508,5 @@ namespace Walkin_Report
             }
             return res;
         }
-
-        public Dictionary<int, Color> LoadStatusColors(List<Status> statuses)
-        {
-            var colorMap = new Dictionary<int, Color>();
-            try
-            {
-                using var connection = new MySqlConnection(connStr);
-                connection.Open();
-
-                string query = "SELECT status_id, color_hex FROM status_colors WHERE status_id IN (" +
-                               string.Join(",", statuses.Select(s => s.Id)) + ")";
-
-                using (var cmd = new MySqlCommand(query, connection))
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        int statusId = reader.GetInt32("status_id");
-                        string hex = reader.GetString("color_hex");
-                        colorMap[statusId] = ColorTranslator.FromHtml(hex);
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to load status colors:\n" + ex.Message);
-                return new Dictionary<int, Color>();
-            }
-            return colorMap;
-        }
-
-
-        public void SaveStatusColor(int statusId, Color color)
-        {
-            try
-            {
-                string hexColor = ColorTranslator.ToHtml(color);  // "#FF0000"
-
-                using var connection = new MySqlConnection(connStr);
-                connection.Open();
-
-                string query = @"INSERT INTO status_colors (status_id, color_hex) 
-                    VALUES (@statusId, @colorHex)
-                    ON DUPLICATE KEY UPDATE color_hex = @colorHex";
-
-                using (var cmd = new MySqlCommand(query, connection))
-                {
-                    cmd.Parameters.AddWithValue("@statusId", statusId);
-                    cmd.Parameters.AddWithValue("@colorHex", hexColor);
-                    cmd.ExecuteNonQuery();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to save status color:\n" + ex.Message);
-                return;
-            }
-        }
-
     }
 }

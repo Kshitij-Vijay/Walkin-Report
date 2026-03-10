@@ -266,6 +266,7 @@ namespace Walkin_Report
 
             edit_walkin edw = new edit_walkin(w, false);
             edw.ShowDialog();
+            //await edw.Completion; // wait for deletion or update tasks to finish
             if (edw.DialogResult == DialogResult.OK)
             {
                 if (edw.edit_result == "editing")
@@ -436,20 +437,11 @@ namespace Walkin_Report
             add_data();
         }
 
-        private void backup_btn_Click(object sender, EventArgs e)
+        private async void backup_btn_Click(object sender, EventArgs e)
         {
             try
             {
-                bool res = db.backup();
-                if (res == true)
-                {
-                    db.LogBackupTable("walkins");
-                    MessageBox.Show("Backup Succeded");
-                }
-                else
-                {
-                    MessageBox.Show("Backup Failed");
-                }
+                MessageBox.Show(await HttpService.BackupWalkinsAsync());
             }
             catch (Exception ex)
             {

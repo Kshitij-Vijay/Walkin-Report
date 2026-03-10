@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using YourProject;
 
 namespace Walkin_Report
 {
@@ -49,10 +50,10 @@ namespace Walkin_Report
                 show_btn.Enabled = true;
             }
         }
-        private void parameter_add() // to add data to the combo box
+        private async void parameter_add() // to add data to the combo box
         {
             parameter_combo_box.Items.Clear();
-            List<string> columns = db.GetWalkinColumns();
+            List<string> columns = await HttpService.GetWalkinColumns();
 
             foreach (string col in columns)
             {

@@ -27,7 +27,7 @@ namespace Walkin_Report
 
         }
 
-        private void OK_btn_Click(object sender, EventArgs e)
+        private async void OK_btn_Click(object sender, EventArgs e)
         {
             try
             {
@@ -49,12 +49,9 @@ namespace Walkin_Report
                 );
                 walkin.amount = (float)sf.SafeDecimal(amount_box, 50, 2, true);
 
+                var (message, id) = await HttpService.InsertWalkinAsync(walkin);
 
-
-                DBManager db = new DBManager();
-                db.InsertWalkin(walkin);
-
-                MessageBox.Show("Walk-in saved successfully!");
+                MessageBox.Show(message);
 
                 this.Close();
             }

@@ -146,7 +146,7 @@ namespace Walkin_Report
             status_combo.SelectedIndex = -1;
         }
 
-        private void OK_btn_Click(object sender, EventArgs e)
+        private async void OK_btn_Click(object sender, EventArgs e)
         {
             try
             {
@@ -171,9 +171,9 @@ namespace Walkin_Report
 
                 if (followup == true)
                 {
-                    updated.followup = this.id;
-                    db.InsertWalkin(updated);
-                    MessageBox.Show("Followup Added");
+                    updated.followup = this.id; 
+                    var (message, id) = await HttpService.InsertWalkinAsync(updated);
+                    MessageBox.Show(message);
                     updated_walkin = null;
                     edit_result = "followup";
                     this.DialogResult = DialogResult.OK;
@@ -182,7 +182,7 @@ namespace Walkin_Report
                 else
                 {
                     updated.Id = this.id;
-                    db.UpdateWalkin(updated);
+                    await HttpService.UpdateWalkinAsync(updated);
                     MessageBox.Show("Walk-in updated successfully");
                     edit_result = "editing";
                     updated_walkin = updated;
@@ -241,38 +241,47 @@ namespace Walkin_Report
             }
         }
 
-        private void Delete_btn_Click(object sender, EventArgs e)
-        {
-            DialogResult result = MessageBox.Show("Are you sure you want to delete this walk-in?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+        public Task Completion => _completionSource.Task;
+        private TaskCompletionSource<bool> _completionSource = new TaskCompletionSource<bool>();
 
-            if (result == DialogResult.Yes)
+        private async void Delete_btn_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+                "Are you sure you want to delete this walk-in?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning
+            );
+
+            if (result != DialogResult.Yes) return;
+
+            try
             {
-                db.delete_walkin_by_id(id);
+                // 1️⃣ Delete walkin
+                string message = await HttpService.DeleteWalkinAsync(selectedWalkin.Id);
                 updated_walkin = null;
                 edit_result = "deleted";
+
+                // 2️⃣ Update any child walkin if needed
                 int idm = selectedWalkin.Id;
                 int fidm = selectedWalkin.followup; // parent
-                Walkin parent = null;
-                Walkin child = null;
-                foreach (Walkin walkin in all)
-                {
-                    if (walkin.Id == fidm)
-                    {
-                        parent = walkin;
-                    }
-                    if (walkin.followup == idm)
-                    {
-                        child = walkin;
-                    }
-                }
+                Walkin parent = all.FirstOrDefault(w => w.Id == fidm);
+                Walkin child = all.FirstOrDefault(w => w.followup == idm);
+
                 if (child != null && parent != null)
                 {
                     child.followup = parent.Id;
-                    db.UpdateWalkin(child);
-                    MessageBox.Show("Deleted");
+                    await HttpService.UpdateWalkinAsync(child);
                 }
+
+                // 3️⃣ Only after all async work is complete, close dialog
+                MessageBox.Show(message);
                 this.DialogResult = DialogResult.OK;
                 this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Delete failed: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

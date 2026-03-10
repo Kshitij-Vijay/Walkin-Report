@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -297,5 +298,130 @@ namespace YourProject
 
             return roles;
         }
+
+        public static async Task<List<string>> GetWalkinColumns()
+        {
+            SetToken(token);
+
+            HttpResponseMessage response =
+                await client.GetAsync(base_url + "/GetWalkinColumns");
+
+            if (!response.IsSuccessStatusCode)
+                throw new Exception("Failed to fetch columns");
+
+            string json = await response.Content.ReadAsStringAsync();
+
+            List<string> columns =
+                JsonSerializer.Deserialize<List<string>>(json);
+
+            return columns;
+        }
+
+        public static async Task<string> UpdateWalkinAsync(Walkin walkin)
+        {
+            try
+            {
+                // Send PUT request with Walkin object as JSON
+                HttpResponseMessage response = await client.PutAsJsonAsync(base_url + "/UpdateWalkin", walkin);
+
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    // If the API returned an error, throw exception with the message
+                    throw new Exception(content);
+                }
+
+                // Optionally deserialize the response if you want
+                // Example: {"message":"Walkin updated successfully"}
+                var result = JsonSerializer.Deserialize<Dictionary<string, string>>(content);
+
+                return result != null && result.ContainsKey("message") ? result["message"] : content;
+            }
+            catch (Exception ex)
+            {
+                // Log or rethrow
+                throw new Exception("Error updating walkin: " + ex.Message);
+            }
+        }
+
+        public static async Task<(string message, int id)> InsertWalkinAsync(Walkin walkin)
+        {
+            try
+            {
+                // Send POST request with Walkin object as JSON
+                HttpResponseMessage response = await client.PostAsJsonAsync(base_url + "/InsertWalkin", walkin);
+
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(content);
+                }
+
+                // Deserialize response: {"message": "...", "id": 123}
+                var result = JsonSerializer.Deserialize<Dictionary<string, JsonElement>>(content);
+
+                string message = result != null && result.ContainsKey("message") ? result["message"].GetString() : "";
+                int id = result != null && result.ContainsKey("id") ? result["id"].GetInt32() : 0;
+
+                return (message, id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error inserting walkin: " + ex.Message);
+            }
+        }
+
+        public static async Task<string> DeleteWalkinAsync(int id)
+        {
+            try
+            {
+                // Send DELETE request
+                HttpResponseMessage response = await client.DeleteAsync($"{base_url}/DeleteWalkin/{id}");
+
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(content);
+                }
+
+                // Deserialize JSON response: {"message": "..."}
+                var result = JsonSerializer.Deserialize<Dictionary<string, string>>(content);
+
+                return result != null && result.ContainsKey("message") ? result["message"] : content;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error deleting walkin: " + ex.Message);
+            }
+        }
+
+        public static async Task<string> BackupWalkinsAsync()
+        {
+            try
+            {
+                // Send POST request to backup endpoint
+                HttpResponseMessage response = await client.PostAsync($"{base_url}/backup_walkins", null);
+
+                string content = await response.Content.ReadAsStringAsync();
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception(content);
+                }
+
+                // Deserialize response {"message": "..."}
+                var result = JsonSerializer.Deserialize<Dictionary<string, string>>(content);
+
+                return result != null && result.ContainsKey("message") ? result["message"] : content;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error backing up walkins: " + ex.Message);
+            }
+        }
+
     }
 }
