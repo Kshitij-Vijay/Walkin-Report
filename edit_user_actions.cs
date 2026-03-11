@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Walkin_Report.login;
 using YourProject;
 
 namespace Walkin_Report
@@ -16,6 +17,7 @@ namespace Walkin_Report
     public partial class edit_user_actions : Form
     {
         Userz selecteduser;
+        excel_xml xm = new excel_xml();
         public edit_user_actions(Userz selectedUser)
         {
             InitializeComponent();
@@ -122,7 +124,13 @@ namespace Walkin_Report
 
                 string query = doc.RootElement.GetProperty("query").GetString();
 
-                MessageBox.Show(query);
+                roles = await HttpService.GetRoles(xm.get_xml_tag("netusername"));
+                int[] rolesarr = xm.string_to_arr(roles);
+                if (rolesarr[0] > 0)
+                {
+                    xm.set_xml_tag("netroles", roles);
+                    this.Hide();
+                }
 
                 this.Close();
             }

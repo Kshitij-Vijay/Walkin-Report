@@ -68,7 +68,7 @@
             // 
             username_lbl.AutoSize = true;
             username_lbl.Font = new Font("MV Boli", 18F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            username_lbl.Location = new Point(13, 267);
+            username_lbl.Location = new Point(13, 94);
             username_lbl.Margin = new Padding(2, 0, 2, 0);
             username_lbl.Name = "username_lbl";
             username_lbl.Size = new Size(187, 46);
@@ -91,11 +91,11 @@
             // token_exp_lbl
             // 
             token_exp_lbl.AutoSize = true;
-            token_exp_lbl.Font = new Font("MV Boli", 13.8F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point, 0);
-            token_exp_lbl.Location = new Point(14, 317);
+            token_exp_lbl.Font = new Font("Bahnschrift Condensed", 14F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            token_exp_lbl.Location = new Point(28, 155);
             token_exp_lbl.Margin = new Padding(2, 0, 2, 0);
             token_exp_lbl.Name = "token_exp_lbl";
-            token_exp_lbl.Size = new Size(101, 37);
+            token_exp_lbl.Size = new Size(74, 34);
             token_exp_lbl.TabIndex = 15;
             token_exp_lbl.Text = "expiry";
             // 
@@ -140,7 +140,7 @@
             // test_btn
             // 
             test_btn.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            test_btn.Location = new Point(14, 101);
+            test_btn.Location = new Point(28, 252);
             test_btn.Margin = new Padding(4, 5, 4, 5);
             test_btn.Name = "test_btn";
             test_btn.Size = new Size(250, 69);
@@ -153,7 +153,7 @@
             // 
             connect_lbl.AutoSize = true;
             connect_lbl.Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            connect_lbl.Location = new Point(289, 123);
+            connect_lbl.Location = new Point(303, 274);
             connect_lbl.Name = "connect_lbl";
             connect_lbl.Size = new Size(166, 30);
             connect_lbl.TabIndex = 21;

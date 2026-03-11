@@ -85,6 +85,17 @@ namespace Walkin_Report
                 new_account_btn.Enabled = false;
                 new_account_btn.Visible = false;
             }
+
+            if (rolesarr.Contains(25))
+            {
+                token_exp_lbl.Enabled = true;
+                token_exp_lbl.Visible = true;
+            }
+            else
+            {
+                token_exp_lbl.Enabled = false;
+                token_exp_lbl.Visible = false;
+            }
         }
 
         private void Test_btn_Click(object sender, EventArgs e)

@@ -213,20 +213,22 @@ namespace Walkin_Report
             data_table.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
-
         private void add_data()
         {
             data_table.Rows.Clear();
             int i = 0;
+
             foreach (Walkin w in walkins)
             {
                 i++;
+
                 string type = "New Customer";
                 if (w.followup > 0)
                 {
                     type = "Followup";
                 }
-                data_table.Rows.Add(
+
+                int rowIndex = data_table.Rows.Add(
                     i,
                     w.Store,
                     w.Name,
@@ -243,6 +245,30 @@ namespace Walkin_Report
                     w.Products,
                     w.Remarks
                 );
+
+                // Color the Status cell
+                DataGridViewCell statusCell = data_table.Rows[rowIndex].Cells[11];
+
+                switch (w.Status?.ToLower())
+                {
+                    case "deal":
+                        statusCell.Style.BackColor = Color.FromArgb(210, 245, 210); // pastel green
+                        break;
+
+                    case "progress":
+                        statusCell.Style.BackColor = Color.FromArgb(255, 255, 210); // pastel yellow
+                        break;
+
+                    case "warm":
+                        statusCell.Style.BackColor = Color.FromArgb(255, 230, 200); // pastel orange
+                        break;
+
+                    case "lost":
+                        statusCell.Style.BackColor = Color.FromArgb(255, 210, 210); // pastel red
+                        break;
+                }
+
+                statusCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
 
             if (walkins != null && walkins.Count > 0)
@@ -253,7 +279,6 @@ namespace Walkin_Report
                 from_date.Value = minDate.Date;
                 to_date.Value = maxDate.Date;
             }
-
         }
 
         private async void Add_Walkin_Click(object sender, EventArgs e)
