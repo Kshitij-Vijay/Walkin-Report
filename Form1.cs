@@ -55,24 +55,42 @@ namespace Walkin_Report
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            excel_xml xm = new excel_xml();
+            int[] rolesarr = xm.string_to_arr(xm.get_xml_tag("netroles"));
+            if (rolesarr.Contains(21))
+            {
+                report_grid.Enabled = true;
+                report_grid.Visible = true;
+                warm_grid.Enabled = true;
+                warm_grid.Visible = true;
+                staff_report_grid.Enabled = true;
+                staff_report_grid.Visible = true;
+                dealBarChart.Enabled = true;
+                dealBarChart.Visible = true;
+            }
+            else
+            {
+                report_grid.Enabled = false;
+                report_grid.Visible = false;
+                warm_grid.Enabled = false;
+                warm_grid.Visible = false;
+                staff_report_grid.Enabled = false;
+                staff_report_grid.Visible = false;
+                dealBarChart.Enabled = false;
+                dealBarChart.Visible = false;
+            }
         }
 
         private async void formsetup()
         {
-            MessageBox.Show("Loading data, please wait...");
             stores = await HttpService.GetStores();
             categories = await HttpService.GetCategories();
             walkins = await HttpService.GetWalkins();
-            //DateTime fromDate = from_date.Value.Date;
-            //DateTime toDate = to_date.Value.Date.AddDays(1).AddTicks(-1);
-            //walkins = walkins
-            //            .Where(w => w.CreatedAt >= fromDate && w.CreatedAt <= toDate)
-            //            .ToList();
             from_date.Value = walkins[0].CreatedAt.Date;
             to_date.Value = walkins[walkins.Count - 1].CreatedAt.Date;
             staffList = await HttpService.GetStaff();
             uiload();
+            MessageBox.Show("Loading data, please wait...");
         }
 
         private void uiload()

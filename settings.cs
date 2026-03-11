@@ -112,6 +112,17 @@ namespace Walkin_Report
                 manage_users_btn.Enabled = false;
                 manage_users_btn.Visible = false;
             }
+
+            if (rolesarr.Contains(24))
+            {
+                new_account_btn.Enabled = true;
+                new_account_btn.Visible = true;
+            }
+            else
+            {
+                new_account_btn.Enabled = false;
+                new_account_btn.Visible = false;
+            }
         }
 
         private void Test_btn_Click(object sender, EventArgs e)

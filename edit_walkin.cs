@@ -21,7 +21,9 @@ namespace Walkin_Report
         DBManager db = new DBManager();
         List<Category> categories = new List<Category>();
         List<Walkin> all = new List<Walkin>();
+        List<Staff> staffs = new List<Staff>();
         bool category_lable_list_set = false;
+        bool staff_label_list_set = false;
         bool followup;
         public string edit_result { get; set; }
         public Walkin updated_walkin { get; private set; }
@@ -38,10 +40,12 @@ namespace Walkin_Report
         private async void edit_walkin_Load(object sender, EventArgs e)
         {
             add_category.Enabled = false; // Disable until categories are loaded
+            staff_add_btn.Enabled = false; // Disable until staffs are loaded
             categories = await HttpService.GetCategories();
+            staffs = await HttpService.GetStaff();
             await LoadStores();
             await LoadStatuses();
-            await LoadStaffs();
+            LoadStaffs();
             all = await HttpService.GetWalkins();
             LoadCategories();
             Walkin w = selectedWalkin;
@@ -50,7 +54,7 @@ namespace Walkin_Report
             pin_text.Text = w.Pin ?? "";
             phone_text.Text = w.Phone ?? "";
             Source_text.Text = w.Source ?? "";
-            team_box.Text = w.Team ?? "";
+            staff_lbl.Text = w.Team ?? "";
             status_combo.Text = w.Status ?? "";
             category_text.Text = w.Category ?? "";
             Products_text.Text = w.Products ?? "";
@@ -124,10 +128,10 @@ namespace Walkin_Report
             category_text.Text = ""; // Clear text to show placeholder
         }
 
-        private async Task LoadStaffs()
+        private void LoadStaffs()
         {
             team_box.Items.Clear();
-            List<Staff> arr = await HttpService.GetStaff();
+            List<Staff> arr = staffs;
             foreach (Staff s in arr)
             {
                 team_box.Items.Add(s.Sym);
@@ -190,7 +194,7 @@ namespace Walkin_Report
                     sf.SafeNumber(pin_text, 10),
                     sf.SafeText(phone_text, 55),
                     sf.SafeText(Source_text, 45),
-                    sf.SafeCombo(team_box),
+                    sf.Safestring(staff_lbl.Text),
                     sf.SafeCombo(status_combo, true),
                     sf.Safestring(Category_list_lbl.Text),
                     sf.SafeText(Products_text, 100),
@@ -202,7 +206,7 @@ namespace Walkin_Report
 
                 if (followup == true)
                 {
-                    updated.followup = this.id; 
+                    updated.followup = this.id;
                     var (message, id) = await HttpService.InsertWalkinAsync(updated);
                     MessageBox.Show(message);
                     updated_walkin = null;
@@ -357,5 +361,55 @@ namespace Walkin_Report
             // Block everything else
             e.Handled = true;
         }
+
+        private void staff_add_btn_Click(object sender, EventArgs e)
+        {
+            string cc = team_box.Text.Trim();
+
+            if (staff_label_list_set == false)
+            {
+                staff_lbl.Text = cc;
+                staff_label_list_set = true;
+            }
+            else
+            {
+                staff_lbl.Text += ", " + cc;
+            }
+
+            foreach (Staff c in staffs)
+            {
+                if (c.Sym.Equals(cc, StringComparison.OrdinalIgnoreCase))
+                {
+                    staffs.Remove(c);
+                    break;
+                }
+            }
+
+            LoadStaffs();
+            staff_add_btn.Enabled = false;
+
+            foreach (Staff c in staffs)
+            {
+                if (c.Sym.Equals(cc, StringComparison.OrdinalIgnoreCase))
+                {
+                    team_box.Items.Remove(cc);
+                    break;
+                }
+            }
+
+            LoadStaffs();
+
+            team_box.SelectedItem = null;
+            team_box.SelectedIndex = -1;
+        }
+
+        private void team_box_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (team_box.SelectedItem != null)
+            {
+                staff_add_btn.Enabled = true;
+            }
+        }
+
     }
 }

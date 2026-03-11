@@ -15,6 +15,7 @@ namespace Walkin_Report
     {
         DBManager db = new DBManager();
         List<Category> categories = new List<Category>();
+        List<Staff> staffs = new List<Staff>();
         public Add_walk()
         {
             InitializeComponent();
@@ -39,7 +40,7 @@ namespace Walkin_Report
                     sf.SafeNumber(pin_text, 6),
                     sf.SafeText(phone_text, 55),
                     sf.SafeText(Source_text, 45),
-                    sf.SafeCombo(team_box),
+                    sf.Safestring(staff_lbl.Text),
                     sf.SafeCombo(status_combo, true),
                     sf.Safestring(Category_list_lbl.Text),
                     sf.SafeText(Products_text, 100),
@@ -64,12 +65,13 @@ namespace Walkin_Report
         private async void Add_walk_Load(object sender, EventArgs e)
         {
             add_category.Enabled = false; // Disable until categories are loaded
+            staff_add_btn.Enabled = false;
             categories = await HttpService.GetCategories();
+            staffs = await HttpService.GetStaff();
             await LoadStores();
             await LoadStatuses();
-            await LoadStaffs();
+            LoadStaffs();
             LoadCategories();
-
         }
 
         private void LoadCategories()
@@ -88,10 +90,10 @@ namespace Walkin_Report
             category_text.Text = ""; // Clear text to show placeholder
         }
 
-        private async Task LoadStaffs()
+        private void LoadStaffs()
         {
             team_box.Items.Clear();
-            List<Staff> arr = await HttpService.GetStaff();
+            List<Staff> arr = staffs;
             foreach (Staff s in arr)
             {
                 team_box.Items.Add(s.Sym);
@@ -102,7 +104,7 @@ namespace Walkin_Report
 
             team_box.SelectedItem = null;
             team_box.SelectedIndex = -1;
-
+            team_box.Text = "";
         }
 
         private async Task LoadStores()
@@ -149,6 +151,35 @@ namespace Walkin_Report
             }
         }
 
+        
+        private void category_text_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (category_text.SelectedItem != null)
+            {
+                add_category.Enabled = true;
+            }
+        }
+
+        private void amount_box_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            TextBox tb = (TextBox)sender;
+
+            // Allow control keys (Backspace, Delete, Ctrl+C, etc.)
+            if (char.IsControl(e.KeyChar))
+                return;
+
+            // Allow digits
+            if (char.IsDigit(e.KeyChar))
+                return;
+
+            // Allow ONE decimal point
+            if (e.KeyChar == '.' && !tb.Text.Contains('.'))
+                return;
+
+            // Block everything else
+            e.Handled = true;
+        }
+
         private void add_category_Click(object sender, EventArgs e)
         {
             string cc = category_text.Text.Trim();
@@ -184,32 +215,52 @@ namespace Walkin_Report
             category_text.SelectedIndex = -1;
         }
 
-        private void category_text_SelectedIndexChanged(object sender, EventArgs e)
+        private void staff_add_btn_Click(object sender, EventArgs e)
         {
-            if (category_text.SelectedItem != null)
+            string cc = team_box.Text.Trim();
+
+            if (staff_lbl.Text.Length == 0)
             {
-                add_category.Enabled = true;
+                staff_lbl.Text = cc;
             }
+            else
+            {
+                staff_lbl.Text += ", " + cc;
+            }
+
+            foreach (Staff c in staffs)
+            {
+                if (c.Sym.Equals(cc, StringComparison.OrdinalIgnoreCase))
+                {
+                    staffs.Remove(c);
+                    break;
+                }
+            }
+
+            LoadStaffs();
+            staff_add_btn.Enabled = false;
+
+            foreach (Staff c in staffs)
+            {
+                if (c.Sym.Equals(cc, StringComparison.OrdinalIgnoreCase))
+                {
+                    team_box.Items.Remove(cc);
+                    break;
+                }
+            }
+
+            LoadStaffs();
+
+            team_box.SelectedItem = null;
+            team_box.SelectedIndex = -1;
         }
 
-        private void amount_box_KeyPress(object sender, KeyPressEventArgs e)
+        private void team_box_SelectedIndexChanged(object sender, EventArgs e)
         {
-            TextBox tb = (TextBox)sender;
-
-            // Allow control keys (Backspace, Delete, Ctrl+C, etc.)
-            if (char.IsControl(e.KeyChar))
-                return;
-
-            // Allow digits
-            if (char.IsDigit(e.KeyChar))
-                return;
-
-            // Allow ONE decimal point
-            if (e.KeyChar == '.' && !tb.Text.Contains('.'))
-                return;
-
-            // Block everything else
-            e.Handled = true;
+            if (team_box.SelectedItem != null)
+            {
+                staff_add_btn.Enabled = true;
+            }
         }
     }
 }
