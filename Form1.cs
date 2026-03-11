@@ -26,14 +26,14 @@ namespace Walkin_Report
             this.MaximizeBox = false;
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private async void button2_Click(object sender, EventArgs e)
         {
-            Test_conn();
+            await Test_conn();
         }
 
-        private bool Test_conn()
+        private async Task<bool> Test_conn()
         {
-            bool connect = db.test_connection();
+            bool connect = await HttpService.TestConnection();
             if (connect)
             {
                 connect_lbl.Text = "TRUE";
@@ -57,7 +57,7 @@ namespace Walkin_Report
         {
             excel_xml xm = new excel_xml();
             int[] rolesarr = xm.string_to_arr(xm.get_xml_tag("netroles"));
-            if (rolesarr.Contains(21))
+            if (rolesarr.Contains(23))
             {
                 report_grid.Enabled = true;
                 report_grid.Visible = true;
@@ -319,13 +319,13 @@ namespace Walkin_Report
             }
         }
 
-        private void settings_btn_Click(object sender, EventArgs e)
+        private async void settings_btn_Click(object sender, EventArgs e)
         {
             settings set = new settings();
             DialogResult res =  set.ShowDialog();
             try
             {
-                bool b = Test_conn();
+                bool b = await Test_conn();
                 if (b == true)
                 {
                     formsetup();
@@ -372,11 +372,11 @@ namespace Walkin_Report
             uiload();
         }
 
-        private void Form1_Shown(object sender, EventArgs e)
+        private async void Form1_Shown(object sender, EventArgs e)
         {
             try
             {
-                bool b = Test_conn();
+                bool b = await Test_conn();
                 if (b == true)
                 {
                     formsetup();

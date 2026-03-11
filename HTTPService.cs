@@ -423,5 +423,19 @@ namespace YourProject
             }
         }
 
+        public static async Task<bool> TestConnection()
+        {
+            try
+            {
+                HttpResponseMessage response =
+                    await client.GetAsync(base_url + "/health");
+
+                return response.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

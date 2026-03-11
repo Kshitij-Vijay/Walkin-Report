@@ -25,8 +25,9 @@ namespace Walkin_Report
             InitializeComponent();
         }
 
-        private void settings_Load(object sender, EventArgs e)
+        private async void settings_Load(object sender, EventArgs e)
         {
+            await Test_conn();
             username_lbl.Text = xm.get_xml_tag("netusername");
             token_exp_lbl.Text = xm.get_xml_tag("expiry");
             acitons();
@@ -109,6 +110,27 @@ namespace Walkin_Report
         private async void excel_full_btn_Click(object sender, EventArgs e)
         {
             await excel_xml.excel_data_full();
+        }
+
+        private async void test_btn_Click_1(object sender, EventArgs e)
+        {
+            await Test_conn();
+        }
+
+        private async Task<bool> Test_conn()
+        {
+            bool connect = await HttpService.TestConnection();
+            if (connect)
+            {
+                connect_lbl.Text = "Server Running";
+                connect_lbl.ForeColor = Color.Green;
+            }
+            else
+            {
+                connect_lbl.Text = "Server Stopped";
+                connect_lbl.ForeColor = Color.Red;
+            }
+            return connect;
         }
     }
 }
