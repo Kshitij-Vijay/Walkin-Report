@@ -328,7 +328,7 @@ namespace Walkin_Report
                 bool b = await Test_conn();
                 if (b == true)
                 {
-                    formsetup();
+                    //formsetup();
                 }
                 else
                 {

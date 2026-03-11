@@ -58,26 +58,35 @@ namespace Walkin_Report.login
                             bool b = await HttpService.Login(xm.get_xml_tag("netusername"), xm.get_xml_tag("netpassword"));
                             if (b == true)
                             {
-                                try
+                                response = await HttpService.token_validity(xm.get_xml_tag("netjwt"));
+                                if(response.valid == true)
                                 {
-                                    string roles = await HttpService.GetRoles(xm.get_xml_tag("netusername"));
-                                    int[] rolesarr = xm.string_to_arr(roles);
-                                    if (rolesarr[0] > 0)
+                                    try
                                     {
-                                        xm.set_xml_tag("netroles", roles);
-                                        xm.set_xml_tag("expiry", response.expires_at);
-                                        this.Hide();
-                                        Form1 form1 = new Form1();
-                                        form1.Show();
+                                        string roles = await HttpService.GetRoles(xm.get_xml_tag("netusername"));
+                                        int[] rolesarr = xm.string_to_arr(roles);
+                                        if (rolesarr[0] > 0)
+                                        {
+                                            xm.set_xml_tag("netroles", roles);
+                                            xm.set_xml_tag("expiry", response.expires_at);
+                                            this.Hide();
+                                            Form1 form1 = new Form1();
+                                            form1.Show();
+                                        }
+                                        else
+                                        {
+                                        }
                                     }
-                                    else
+                                    catch (Exception ex)
                                     {
+                                        MessageBox.Show("fist men catch" + ex.Message);
                                     }
                                 }
-                                catch (Exception ex)
+                                else
                                 {
-                                    MessageBox.Show("fist men catch"+ex.Message);
+
                                 }
+                                
                             }
                         }
                         catch (Exception ex)
