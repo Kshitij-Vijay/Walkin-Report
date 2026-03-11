@@ -51,10 +51,44 @@ namespace Walkin_Report.login
                             MessageBox.Show(ex.Message);
                         }
                     }
+                    else
+                    {
+                        try
+                        {
+                            bool b = await HttpService.Login(xm.get_xml_tag("netusername"), xm.get_xml_tag("netpassword"));
+                            if (b == true)
+                            {
+                                try
+                                {
+                                    string roles = await HttpService.GetRoles(xm.get_xml_tag("netusername"));
+                                    int[] rolesarr = xm.string_to_arr(roles);
+                                    if (rolesarr[0] > 0)
+                                    {
+                                        xm.set_xml_tag("netroles", roles);
+                                        xm.set_xml_tag("expiry", response.expires_at);
+                                        this.Hide();
+                                        Form1 form1 = new Form1();
+                                        form1.Show();
+                                    }
+                                    else
+                                    {
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    MessageBox.Show("fist men catch"+ex.Message);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
+                    }
                 }
                 else
                 {
-                    
+                    // do nothing just load
                 }
             }
             catch (Exception ex)
