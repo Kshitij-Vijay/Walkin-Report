@@ -25,10 +25,10 @@ namespace Walkin_Report.login
         {
             try
             {
-                if(v == 0)
+                if(v == 0) // form called not from register page
                 {
-                    Token response = await HttpService.token_validity(xm.get_xml_tag("netjwt"));
-                    if (response.valid == true)
+                    Token response = await HttpService.token_validity(xm.get_xml_tag("netjwt"));// check if exsisting token is valid
+                    if (response.valid == true)// if valid set credentials and log in 
                     {
                         try
                         {
@@ -51,15 +51,15 @@ namespace Walkin_Report.login
                             MessageBox.Show(ex.Message);
                         }
                     }
-                    else
+                    else // if not valid... auto login using exsisting password and username
                     {
                         try
                         {
-                            bool b = await HttpService.Login(xm.get_xml_tag("netusername"), xm.get_xml_tag("netpassword"));
+                            bool b = await HttpService.Login(xm.get_xml_tag("netusername"), xm.get_xml_tag("netpassword"));// get login token
                             if (b == true)
                             {
                                 response = await HttpService.token_validity(xm.get_xml_tag("netjwt"));
-                                if(response.valid == true)
+                                if(response.valid == true)// recheck token to get response parameters
                                 {
                                     try
                                     {
@@ -75,6 +75,7 @@ namespace Walkin_Report.login
                                         }
                                         else
                                         {
+                                            MessageBox.Show("Contact admin to fully register");
                                         }
                                     }
                                     catch (Exception ex)
@@ -84,9 +85,16 @@ namespace Walkin_Report.login
                                 }
                                 else
                                 {
-
+                                    login_btn.Enabled = true;
+                                    login_btn.Visible = true;
+                                    register_btn.Enabled = true;
+                                    register_btn.Visible = true;
                                 }
                                 
+                            }
+                            else
+                            {
+                                MessageBox.Show("False token");
                             }
                         }
                         catch (Exception ex)
@@ -97,7 +105,10 @@ namespace Walkin_Report.login
                 }
                 else
                 {
-                    // do nothing just load
+                    login_btn.Enabled = true;
+                    login_btn.Visible = true;
+                    register_btn.Enabled = true;
+                    register_btn.Visible= true;
                 }
             }
             catch (Exception ex)

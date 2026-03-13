@@ -60,7 +60,7 @@ namespace Walkin_Report
                     }
                     else
                     {
-                        MessageBox.Show("No roles assigned. Contact administrator.");
+                        MessageBox.Show("Contact Admin to fully register");
                     }
                 }
                 catch (Exception ex)

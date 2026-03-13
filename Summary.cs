@@ -22,20 +22,58 @@ namespace Walkin_Report
         List<Walkin> all_walkins = new List<Walkin>();
         List<KeyValuePair<string, string>> search_query = new List<KeyValuePair<string, string>>();
         Walkin selectedWalkin;
-        public Summary()
+        public Summary(List<Walkin> allwalkins)
         {
             InitializeComponent();
             this.WindowState = FormWindowState.Maximized;
+            this.all_walkins = allwalkins;
+            data_table.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
         }
 
-        private async void Summary_Load(object sender, EventArgs e)
+        private void Summary_Load(object sender, EventArgs e)
         {
-            stores.Clear();
-            stores = await HttpService.GetStores();
-            statuses.Clear();
-            statuses = await HttpService.GetStatus();
-            store_group_box.Controls.Clear();
             SetupDataGridView();
+        }
+
+        private void BuildStatusButtons()
+        {
+            status_group_box.Controls.Clear();
+
+            int x = 10;
+            int y = 20;
+            int btnWidth = 100;
+            int btnHeight = 35;
+            int margin = 10;
+
+            foreach (Status status in statuses)
+            {
+                Button btn = new Button();
+                btn.Text = status.Name;
+                btn.Width = btnWidth;
+                btn.Height = btnHeight;
+                btn.Left = x;
+                btn.Top = y;
+
+                btn.Tag = status.Name;
+
+                btn.Click += StatusButton_Click;
+
+                status_group_box.Controls.Add(btn);
+
+                x += btnWidth + margin;
+
+                // auto-wrap
+                if (x + btnWidth > status_group_box.Width)
+                {
+                    x = 10;
+                    y += btnHeight + margin;
+                }
+            }
+        }
+
+        private void BuildStoreButtons()
+        {
+            store_group_box.Controls.Clear();
 
             int x = 10;
             int y = 20;
@@ -74,49 +112,6 @@ namespace Walkin_Report
                 }
 
             }
-
-            status_group_box.Controls.Clear();
-
-            x = 10;
-            y = 20;
-            btnWidth = 100;
-            btnHeight = 35;
-            margin = 10;
-
-            foreach (Status status in statuses)
-            {
-                Button btn = new Button();
-                btn.Text = status.Name;
-                btn.Width = btnWidth;
-                btn.Height = btnHeight;
-                btn.Left = x;
-                btn.Top = y;
-
-                btn.Tag = status.Name;
-
-                btn.Click += StatusButton_Click;
-
-                status_group_box.Controls.Add(btn);
-
-                x += btnWidth + margin;
-
-                // auto-wrap
-                if (x + btnWidth > status_group_box.Width)
-                {
-                    x = 10;
-                    y += btnHeight + margin;
-                }
-            }
-
-            walkins = await HttpService.GetWalkins();
-            walkins.Reverse();
-            walkins = walkins
-    .OrderByDescending(w => w.CreatedAt)
-    .ToList();
-            all_walkins = walkins;
-            add_data();
-
-            roles();
         }
 
         private void roles()
@@ -211,67 +206,74 @@ namespace Walkin_Report
             data_table.AllowUserToAddRows = false;
             data_table.ReadOnly = true;
             data_table.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+
+            data_table.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            data_table.RowHeadersVisible = false;
         }
 
         private void add_data()
         {
+
+            data_table.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+            data_table.SuspendLayout();
+
             data_table.Rows.Clear();
-            int i = 0;
 
-            foreach (Walkin w in walkins)
+            int count = walkins.Count;
+            data_table.Rows.Add(count);
+
+            for (int i = 0; i < count; i++)
             {
-                i++;
+                Walkin w = walkins[i];
 
-                string type = "New Customer";
-                if (w.followup > 0)
-                {
-                    type = "Followup";
-                }
+                DataGridViewRow row = data_table.Rows[i];
 
-                int rowIndex = data_table.Rows.Add(
-                    i,
-                    w.Store,
-                    w.Name,
-                    w.CreatedAt.Date.ToShortDateString(),
-                    type,
-                    w.amount.ToString(),
-                    w.Area,
-                    w.Pin,
-                    w.Phone,
-                    w.Source,
-                    w.Team,
-                    w.Status,
-                    w.Category,
-                    w.Products,
-                    w.Remarks
-                );
+                string type = w.followup > 0 ? "Followup" : "New Customer";
 
-                // Color the Status cell
-                DataGridViewCell statusCell = data_table.Rows[rowIndex].Cells[11];
+                row.Cells[0].Value = i + 1;
+                row.Cells[1].Value = w.Store;
+                row.Cells[2].Value = w.Name;
+                row.Cells[3].Value = w.CreatedAt.Date.ToShortDateString();
+                row.Cells[4].Value = type;
+                row.Cells[5].Value = w.amount;
+                row.Cells[6].Value = w.Area;
+                row.Cells[7].Value = w.Pin;
+                row.Cells[8].Value = w.Phone;
+                row.Cells[9].Value = w.Source;
+                row.Cells[10].Value = w.Team;
+                row.Cells[11].Value = w.Status;
+                row.Cells[12].Value = w.Category;
+                row.Cells[13].Value = w.Products;
+                row.Cells[14].Value = w.Remarks;
+
+                var statusCell = row.Cells[11];
 
                 switch (w.Status?.ToLower())
                 {
                     case "deal":
-                        statusCell.Style.BackColor = Color.FromArgb(210, 245, 210); // pastel green
+                        statusCell.Style.BackColor = Color.FromArgb(210, 245, 210);
                         break;
 
                     case "progress":
-                        statusCell.Style.BackColor = Color.FromArgb(255, 255, 210); // pastel yellow
+                        statusCell.Style.BackColor = Color.FromArgb(255, 255, 210);
                         break;
 
                     case "warm":
-                        statusCell.Style.BackColor = Color.FromArgb(255, 230, 200); // pastel orange
+                        statusCell.Style.BackColor = Color.FromArgb(255, 230, 200);
                         break;
 
                     case "lost":
-                        statusCell.Style.BackColor = Color.FromArgb(255, 210, 210); // pastel red
+                        statusCell.Style.BackColor = Color.FromArgb(255, 210, 210);
                         break;
                 }
 
                 statusCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
             }
 
-            if (walkins != null && walkins.Count > 0)
+
+            data_table.ResumeLayout();
+
+            if (walkins.Count > 0)
             {
                 DateTime minDate = walkins.Min(w => w.CreatedAt);
                 DateTime maxDate = walkins.Max(w => w.CreatedAt);
@@ -290,7 +292,6 @@ namespace Walkin_Report
                 // Reload data
                 walkins = await HttpService
                     .GetWalkins();
-                walkins.Reverse();
                 walkins = walkins
     .OrderByDescending(w => w.CreatedAt)
     .ToList();
@@ -321,7 +322,6 @@ namespace Walkin_Report
             // 🔹 Save selection + scroll
             int selectedRowIndex = e.RowIndex;
             int firstDisplayedRow = data_table.FirstDisplayedScrollingRowIndex;
-
             Walkin w = walkins[e.RowIndex];
 
             edit_walkin edw = new edit_walkin(w, false);
@@ -338,9 +338,12 @@ namespace Walkin_Report
                         if (index != -1)
                         {
                             walkins[index] = w;
+                            MessageBox.Show("Updated");
                         }
 
                         add_data();
+                        data_table.Refresh();
+                        data_table.Update();
 
 
                         // 🔁 Restore scroll
@@ -359,7 +362,6 @@ namespace Walkin_Report
                 else if (edw.edit_result == "followup")
                 {
                     walkins = await HttpService.GetWalkins();
-                    walkins.Reverse();
                     walkins = walkins
     .OrderByDescending(w => w.CreatedAt)
     .ToList();
@@ -369,7 +371,6 @@ namespace Walkin_Report
                 else if (edw.edit_result == "deleted")
                 {
                     walkins = await HttpService.GetWalkins();
-                    walkins.Reverse();
                     walkins = walkins
     .OrderByDescending(w => w.CreatedAt)
     .ToList();
@@ -421,7 +422,6 @@ namespace Walkin_Report
         private async void button1_Click(object sender, EventArgs e)
         {  // full list
             walkins = await HttpService.GetWalkins();
-            walkins.Reverse();
             walkins = walkins
     .OrderByDescending(w => w.CreatedAt)
     .ToList();
@@ -432,7 +432,6 @@ namespace Walkin_Report
 
         private void group_follow_up_btns_Click(object sender, EventArgs e)
         {
-            // Sort by date first
             walkins = walkins
                 .OrderByDescending(w => w.CreatedAt)
                 .ToList();
@@ -517,6 +516,26 @@ namespace Walkin_Report
         private void Status_rad_btn_CheckedChanged(object sender, EventArgs e)
         {
             add_data();
+        }
+
+        private async void Summary_Shown(object sender, EventArgs e)
+        {
+            walkins = all_walkins;
+
+            add_data();
+
+            stores = await HttpService.GetStores();
+            statuses = await HttpService.GetStatus();
+
+            BuildStoreButtons();
+            BuildStatusButtons();
+
+            roles();
+        }
+
+        private void autosizebtn_Click(object sender, EventArgs e)
+        {
+            data_table.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells;
         }
     }
 }

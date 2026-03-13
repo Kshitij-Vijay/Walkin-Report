@@ -17,6 +17,7 @@ namespace Walkin_Report
         List<Category> categories = new List<Category>();
         List<Walkin> walkins = new List<Walkin>();
         List<Staff> staffList = new List<Staff>();
+        List<Walkin> allwalkins = new List<Walkin>();
         public Form1()
         {
             InitializeComponent();
@@ -24,6 +25,14 @@ namespace Walkin_Report
             connect_lbl.ForeColor = Color.Red;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+
+
+            button1.Visible = false;
+            button1.Enabled = false;
+            button2.Enabled = false;
+            button2.Visible = false;
+            settings_btn.Visible = false;
+            settings_btn.Enabled = false;
         }
 
         private async void button2_Click(object sender, EventArgs e)
@@ -49,7 +58,10 @@ namespace Walkin_Report
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Summary sm = new Summary();
+            allwalkins = walkins
+                .OrderByDescending(w => w.CreatedAt)
+                .ToList();
+            Summary sm = new Summary(allwalkins);
             sm.Show();
         }
 
@@ -79,18 +91,46 @@ namespace Walkin_Report
                 dealBarChart.Enabled = false;
                 dealBarChart.Visible = false;
             }
+            if (rolesarr.Contains(26))
+            {
+                fromdate_lbl.Enabled = true;
+                fromdate_lbl.Visible = true;
+                todate_lbl.Enabled = true;
+                todate_lbl.Visible = true;
+                from_date.Visible = true;
+                from_date.Enabled = true;
+                to_date.Visible = true;
+                to_date.Enabled = true;
+            }
+            else
+            {
+                fromdate_lbl.Enabled = false;
+                fromdate_lbl.Visible = false;
+                todate_lbl.Enabled = false;
+                todate_lbl.Visible = false;
+                from_date.Visible = false;
+                from_date.Enabled = false;
+                to_date.Visible = false;
+                to_date.Enabled = false;
+            }
         }
 
         private async void formsetup()
         {
+            staffList = await HttpService.GetStaff();
             stores = await HttpService.GetStores();
             categories = await HttpService.GetCategories();
             walkins = await HttpService.GetWalkins();
+            MessageBox.Show("Loading data, please wait...");
             from_date.Value = walkins[0].CreatedAt.Date;
             to_date.Value = walkins[walkins.Count - 1].CreatedAt.Date;
-            staffList = await HttpService.GetStaff();
             uiload();
-            MessageBox.Show("Loading data, please wait...");
+            button1.Visible = true;
+            button1.Enabled = true;
+            button2.Enabled = true;
+            button2.Visible = true;
+            settings_btn.Visible = true;
+            settings_btn.Enabled = true;
         }
 
         private void uiload()
