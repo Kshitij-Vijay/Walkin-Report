@@ -277,6 +277,7 @@
             // 
             // add_category
             // 
+            add_category.Enabled = false;
             add_category.Font = new Font("Impact", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             add_category.Location = new Point(208, 283);
             add_category.Margin = new Padding(2);
@@ -354,6 +355,7 @@
             // 
             // staff_add_btn
             // 
+            staff_add_btn.Enabled = false;
             staff_add_btn.Font = new Font("Impact", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
             staff_add_btn.Location = new Point(425, 513);
             staff_add_btn.Margin = new Padding(2);
@@ -415,7 +417,6 @@
             Name = "edit_walkin";
             Text = "Edit";
             Load += edit_walkin_Load;
-            Shown += edit_walkin_Shown;
             ResumeLayout(false);
             PerformLayout();
         }

@@ -39,21 +39,35 @@ namespace Walkin_Report
 
         private async void edit_walkin_Load(object sender, EventArgs e)
         {
+            add_category.Enabled = false; // Disable until categories are loaded
+            staff_add_btn.Enabled = false; // Disable until staffs are loaded
             Walkin w = selectedWalkin;
             name_text.Text = w.Name ?? "";
             area_text.Text = w.Area ?? "";
             pin_text.Text = w.Pin ?? "";
             phone_text.Text = w.Phone ?? "";
             Source_text.Text = w.Source ?? "";
+
+            staffs = await HttpService.GetStaff();
+            LoadStaffs();
             staff_lbl.Text = w.Team ?? "";
+
+            await LoadStatuses();
             status_combo.Text = w.Status ?? "";
+
+            categories = await HttpService.GetCategories();
+            LoadCategories();
+
             category_text.Text = w.Category ?? "";
             Products_text.Text = w.Products ?? "";
+
+            await LoadStores();
             store_combo.Text = w.Store ?? "";
             remarks_text.Text = w.Remarks ?? "";
             dateTimePicker1.Text = w.CreatedAt.ToString() ?? "";
             Category_list_lbl.Text = w.Category ?? "";
             amount_box.Text = w.amount.ToString() ?? "0";
+
             if (followup == false)
             {
                 f_or_w_lbl.Text = "Edit Walkin";
@@ -71,17 +85,7 @@ namespace Walkin_Report
                 Delete_btn.Visible = false;
                 dateTimePicker1.Value = DateTime.Today;
             }
-
-
-            add_category.Enabled = false; // Disable until categories are loaded
-            staff_add_btn.Enabled = false; // Disable until staffs are loaded
-            categories = await HttpService.GetCategories();
-            staffs = await HttpService.GetStaff();
-            await LoadStores();
-            await LoadStatuses();
-            LoadStaffs();
             all = await HttpService.GetWalkins();
-            LoadCategories();
             add_category.Enabled = false; // Disable until categories are loaded
             staff_add_btn.Enabled = false; // Disable until staffs are loaded
 
@@ -414,8 +418,5 @@ namespace Walkin_Report
             }
         }
 
-        private async void edit_walkin_Shown(object sender, EventArgs e)
-        {
-        }
     }
 }
