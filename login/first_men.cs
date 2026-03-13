@@ -95,6 +95,10 @@ namespace Walkin_Report.login
                             else
                             {
                                 MessageBox.Show("False token");
+                                login_btn.Enabled = true;
+                                login_btn.Visible = true;
+                                register_btn.Enabled = true;
+                                register_btn.Visible = true;
                             }
                         }
                         catch (Exception ex)
@@ -108,7 +112,7 @@ namespace Walkin_Report.login
                     login_btn.Enabled = true;
                     login_btn.Visible = true;
                     register_btn.Enabled = true;
-                    register_btn.Visible= true;
+                    register_btn.Visible = true;
                 }
             }
             catch (Exception ex)

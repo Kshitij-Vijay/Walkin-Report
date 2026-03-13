@@ -120,8 +120,8 @@ namespace Walkin_Report
             staffList = await HttpService.GetStaff();
             stores = await HttpService.GetStores();
             categories = await HttpService.GetCategories();
-            walkins = await HttpService.GetWalkins();
             MessageBox.Show("Loading data, please wait...");
+            walkins = await HttpService.GetWalkins();
             from_date.Value = walkins[0].CreatedAt.Date;
             to_date.Value = walkins[walkins.Count - 1].CreatedAt.Date;
             uiload();

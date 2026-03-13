@@ -10,7 +10,7 @@ namespace Walkin_Report
         private string connStr;
         public DBManager()
         {
-            LoadConfig();
+            
         }
 
         private void LoadConfig()
