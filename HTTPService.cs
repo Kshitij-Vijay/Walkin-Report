@@ -14,7 +14,7 @@ namespace YourProject
 
     public static class HttpService
     {
-        private static readonly string base_url = "http://127.0.0.1:8000";
+        private static readonly string base_url = "https://walkin.furni-mart.com";
         private static HttpClient client = new HttpClient();
 
         private static string token;
